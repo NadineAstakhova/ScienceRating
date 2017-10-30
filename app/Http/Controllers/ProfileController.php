@@ -26,8 +26,12 @@ class ProfileController extends Controller
         $model = new CreateResult();
         $model->name = $request->get('name');
         $model->type = $request->get('type');
-        $model->file = $request->get('file');
+
+        //$request->file->store('file');
+        $model->file = $request->file('file');
+
         $model->date = $request->get('date');
+
 
         if ($model->createRes()){
            // return redirect('subjects/'.$idProf)->with('save', 'Дисциплина успешно добавлена/изменена');

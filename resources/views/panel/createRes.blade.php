@@ -15,7 +15,7 @@
                 </ul>
             </div>
         @endif
-        {!! Form::open(['url' => ['createResult'], 'class'=>'form-inline']) !!}
+        {!! Form::open(['url' => ['createResult'], 'class'=>'form-inline', 'files'=>'true']) !!}
 
         {!! Form::label('file', 'Загрузить документ:') !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}

@@ -24,7 +24,10 @@ class CreateResultFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'file' => 'required',
+            'date' => 'required',
+
         ];
     }
 
@@ -32,6 +35,8 @@ class CreateResultFormRequest extends FormRequest
     {
         return [
             'name.required' => 'A title is required',
+            'file.required' => 'A file is required',
+            'date.required' => 'A date is required',
         ];
     }
 }
