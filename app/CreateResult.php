@@ -14,8 +14,10 @@ class CreateResult extends Model
     public function createRes(){
 
         echo $this->name;
-        echo $this->file;
-        return true;
+        echo $this->type;
+        $res = new ScientificResult();
+
+        return $res->insertResult($this->name, $this->date, $this->type, $this->file);
 
     }
 
