@@ -22,4 +22,8 @@ Route::get('auth/logout', 'Controller@logout');
 
 Route::get('/profile','ProfileController@index');
 
+Route::get('/createres','ProfileController@createResultPage');
+
+Route::post('/createResult', 'ProfileController@createResultForm');
+
 Auth::routes();
