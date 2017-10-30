@@ -19,11 +19,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href={{url("prof")}}>DonNU</a>
+            <a class="navbar-brand" href={{url("auth/login")}}>DonNU</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href={{url("")}}>Login</a></li>
+                <li><a href="{{Auth::check() ? url('auth/logout') : url('auth/login')}}">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        {{Auth::check() ? 'Logout' : 'Login'}}</a>
+                </li>
 
 
             </ul>

@@ -11,6 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+Route::get('/', 'Controller@login');
+
+Route::get('auth/login', 'Controller@login');
+Route::post('auth/login', 'Controller@authenticate');
+Route::get('auth/logout', 'Controller@logout');
+
+Route::get('/profile','ProfileController@index');
+
+Route::get('/createres','ProfileController@createResultPage');
+
+Route::post('/createResult', 'ProfileController@createResultForm');
+
+Auth::routes();

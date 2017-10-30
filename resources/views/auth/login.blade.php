@@ -1,8 +1,12 @@
 @extends('layouts.main')
 @section('title', 'Login')
 @section('content')
-
+    @php
+        if(Session::has('message'))
+            echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("message")."</div>";
+    @endphp
     <div class="row">
+    {{Auth::check() }}
         <h3>Введите данные для входа</h3>
         {!! Form::open(['url' => ['auth/login']]) !!}
         <div class="form-group">
