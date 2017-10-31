@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\CreateResult;
 use App\Http\Requests\CreateResultFormRequest;
 use App\TypeOfRes;
+use App\UsersOwners;
 use Illuminate\Http\Request;
+use DB;
 
 class ProfileController extends Controller
 {
@@ -34,11 +36,17 @@ class ProfileController extends Controller
 
 
         if ($model->createRes()){
-           // return redirect('subjects/'.$idProf)->with('save', 'Дисциплина успешно добавлена/изменена');
-            return "ura";
+            return redirect('createres/'.DB::getPdo()->lastInsertId());
+            //return "ura";
         }
         else
             return 0;
             //return redirect('subjects/'.$idProf)->with('error', 'Ошибка записи');
+    }
+
+    public function createResultOwner(){
+        return view('panel\createResSetOwners',
+            array('title' => 'createResSetOwners','description' => '',
+                'page' => 'createResSetOwners', 'arrUsers' => UsersOwners::getAllUsersForTable()));
     }
 }
