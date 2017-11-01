@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\AddOwnersForm;
 use App\CreateResult;
+use App\Http\Requests\AddOwnersFormRequest;
 use App\Http\Requests\CreateResultFormRequest;
 use App\TypeOfRes;
+use App\UsersOwners;
 use Illuminate\Http\Request;
+use DB;
 
 class ProfileController extends Controller
 {
@@ -34,11 +38,31 @@ class ProfileController extends Controller
 
 
         if ($model->createRes()){
-           // return redirect('subjects/'.$idProf)->with('save', 'Дисциплина успешно добавлена/изменена');
-            return "ura";
+            return redirect('createres/'.DB::getPdo()->lastInsertId());
+            //return "ura";
         }
         else
             return 0;
             //return redirect('subjects/'.$idProf)->with('error', 'Ошибка записи');
+    }
+
+    public function createResultOwner($idRes){
+        return view('panel\createResSetOwners',
+            array('title' => 'createResSetOwners','description' => '',
+                'page' => 'createResSetOwners',
+                'idResult' => $idRes,
+                'arrUsers' => UsersOwners::getAllUsersForTable()));
+    }
+
+    public function createResultOwnerForm($idResult, AddOwnersFormRequest $request){
+        $model = new AddOwnersForm();
+        $model->arrOwners = $request->get('arrOwners');
+        $model->arrRole = $request->get('arrRole');
+        $model->idResult = $idResult;
+        if($model->addOwners()){
+            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
     }
 }
