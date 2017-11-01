@@ -38,14 +38,10 @@ class UsersOwners extends BaseModel
     public function setOwnersForResult($idRes, $arrUsers, $arrRoles){
         $insert = false;
         foreach ($arrUsers as $key=>$value){
-           // $arr[$key] = $value;
             $insert = DB::table('scient_res_owner')->insert([
                 ['fkRes' => $idRes, 'fkOwner' => $arrUsers[$key], 'role' => $arrRoles[$key]]
             ]);
         }
-       /* $insert = DB::table('scient_res_owner')->insert([
-            ['fkRes' => $idRes, 'fkOwner' => $arrUsers, 'role' => $arrRoles]
-        ]);*/
         if ($insert)
             return true;
         else

@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('title', 'Add Owners')
 @section('content')
+
     <div class="row">
         <h3>Выберите участника/ов</h3>
         <h4>Можете воспользоваться фильтрами в заголовках таблицы</h4>
@@ -13,14 +14,27 @@
                 </ul>
             </div>
         @endif
+        {!! Form::open(['url' => ['addResultOwner/'.$idResult], 'class'=>'form-inline', 'files'=>'true']) !!}
+
+        {!! Form::submit('Save', ['class' => 'btn btn-default', 'id' => 'btn']) !!}
+
+        <a class="btn btn-default btn-close" href="{{ url()->to('profile') }}">Cancel</a>
+        <br>
         <table class="table">
             <thead>
                 <tr>
                     <th>
-                        ФИО
+                        <input type="text" id="search" placeholder="Поиск по ФИО..." class='form-control'/>
                     </th>
                     <th>
-                        Роль
+                        <select id="selectFilter" class='form-control'>
+                            <option id="all">Все пользователи</option>
+                            <option id="student">Student</option>
+                            <option id="professor">Professor</option>
+                        </select>
+                    </th>
+                    <th>
+                        Email
                     </th>
                     <th>
                         Участие в результате
@@ -30,13 +44,14 @@
                     </th>
                 </tr>
             </thead>
-            {!! Form::open(['url' => ['addResultOwner/'.$idResult], 'class'=>'form-inline', 'files'=>'true']) !!}
+
             @php $i=0; @endphp
             <tbody>
             @foreach($arrUsers as $user)
-                <tr>
-                    <td>{{$user->surname}} {{$user->name}} {{$user->patronymic}}</td>
-                    <td>{{$user->type}}</td>
+                <tr class="all">
+                    <td class="name">{{$user->surname}} {{$user->name}} {{$user->patronymic}}</td>
+                    <td class="type">{{$user->type}}</td>
+                    <td class="email">{{$user->email}}</td>
                     <td>{!! Form::select('arrRole['.$i.']', \App\UsersOwners::ARRAY_ROLES,  null, ['class' => 'form-control']) !!}</td>
                     <td>{!! Form::checkbox('arrOwners['.$i.']', $user->idUsers) !!}</td>
                 </tr>
@@ -49,9 +64,11 @@
         </table>
         {!! Form::submit('Save', ['class' => 'btn btn-default', 'id' => 'btn']) !!}
 
-        <a class="btn btn-default btn-close" href="{{ url()->previous() }}">Cancel</a>
+        <a class="btn btn-default btn-close" href="{{ url()->to('profile') }}">Cancel</a>
 
         {!! Form::close() !!}
+        <br>
     </div>
+
 
 @endsection

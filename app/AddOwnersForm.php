@@ -17,9 +17,6 @@ class AddOwnersForm extends Model
                 $arrR[$key] = $value;
         }
         $insertOwners = new UsersOwners();
-      //  print_r($this->arrOwners);
-        //print_r($arr);
-        //echo $this->idResult;
         return $insertOwners->setOwnersForResult($this->idResult, $this->arrOwners, $arrR);
     }
 
