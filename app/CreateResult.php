@@ -10,6 +10,9 @@ class CreateResult extends Model
     public $type;
     public $date;
     public $file;
+    public $article;
+    public $publishing;
+    public $pages;
 
 
     public function createRes(){
@@ -21,6 +24,11 @@ class CreateResult extends Model
 
         return $res->insertResult($this->name, $this->date, $this->type, '/public/uploads/'. $fileName);
 
+    }
+
+    public function createArticle($idRes){
+        $res = new ScientificResult();
+        return $res->insertArticle($idRes, $this->article, $this->publishing, $this->pages);
     }
 
 

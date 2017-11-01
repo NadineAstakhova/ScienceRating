@@ -38,6 +38,18 @@
         {!! Form::text('date', null, ['class' => 'form-control']) !!}
         <br> <br>
 
+        <div id="articleFields">
+            {!! Form::label('article', 'Название статьи:') !!}
+            {!! Form::text('article', null, ['class' => 'form-control']) !!}
+            <br> <br>
+            {!! Form::label('publishing', 'Издательство:') !!}
+            {!! Form::text('publishing', null, ['class' => 'form-control']) !!}
+            <br> <br>
+            {!! Form::label('pages', 'Количество страниц:') !!}
+            {!! Form::number('pages', null, ['class' => 'form-control']) !!}
+            <br> <br>
+        </div>
+
         {!! Form::submit('Save', ['class' => 'btn btn-default', 'id' => 'btn']) !!}
 
         <a class="btn btn-default btn-close" href="{{ url()->previous() }}">Cancel</a>
@@ -46,5 +58,20 @@
 
         <p id="error"></p>
     </div>
+    <script>
+        $('#type').change(function () {
+            let resType = $(this).find(":selected").val();
+            console.log(resType);
+            let arrArticles = ['8', '9', '10', '11', '12', '13', '14'];
+            console.log(arrArticles);
+            console.log(jQuery.inArray(resType, arrArticles));
+            if(jQuery.inArray(resType, arrArticles) != -1){
+                $('#articleFields').slideDown('slow');
+            }
+            else
+                $('#articleFields').slideUp('slow');
+
+        });
+    </script>
 
 @endsection

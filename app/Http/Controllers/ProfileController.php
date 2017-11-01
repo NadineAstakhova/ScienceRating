@@ -36,8 +36,14 @@ class ProfileController extends Controller
 
         $model->date = $request->get('date');
 
+        $model->article = $request->get('article');
+        $model->publishing = $request->get('publishing');
+        $model->pages = $request->get('pages');
+
 
         if ($model->createRes()){
+            if(!is_null($model->article))
+                $model->createArticle(DB::getPdo()->lastInsertId());
             return redirect('createres/'.DB::getPdo()->lastInsertId());
             //return "ura";
         }
