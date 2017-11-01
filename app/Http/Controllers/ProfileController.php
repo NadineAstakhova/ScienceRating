@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AddOwnersForm;
 use App\CreateResult;
 use App\Http\Requests\AddOwnersFormRequest;
 use App\Http\Requests\CreateResultFormRequest;
@@ -45,21 +46,23 @@ class ProfileController extends Controller
             //return redirect('subjects/'.$idProf)->with('error', 'Ошибка записи');
     }
 
-    public function createResultOwner(){
+    public function createResultOwner($idRes){
         return view('panel\createResSetOwners',
             array('title' => 'createResSetOwners','description' => '',
-                'page' => 'createResSetOwners', 'arrUsers' => UsersOwners::getAllUsersForTable()));
+                'page' => 'createResSetOwners',
+                'idResult' => $idRes,
+                'arrUsers' => UsersOwners::getAllUsersForTable()));
     }
 
-    public function createResultOwnerForm(AddOwnersFormRequest $request){
-        print_r( $request->get('arrOwners'));
-        $arrRole = $request->get('arrRole');
-        $arr = array();
-        foreach ($arrRole as $key=>$value){
-            if(array_key_exists($key, $request->get('arrOwners')))
-                $arr[$key] = $value;
+    public function createResultOwnerForm($idResult, AddOwnersFormRequest $request){
+        $model = new AddOwnersForm();
+        $model->arrOwners = $request->get('arrOwners');
+        $model->arrRole = $request->get('arrRole');
+        $model->idResult = $idResult;
+        if($model->addOwners()){
+            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
         }
-        print_r($arr);
-        return 1;
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
     }
 }

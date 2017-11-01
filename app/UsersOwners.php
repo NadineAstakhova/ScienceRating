@@ -35,11 +35,24 @@ class UsersOwners extends BaseModel
         return $arrUsersStudents->merge($arrUsersProf);
     }
 
-    public static function getRoleAtResult(){
-        $arr = array(
-            'участник',
-            'призёр', 'победитель', 'тренер', '30%', '40%', '50%', '60%', '70%');
-        return $arr;
+    public function setOwnersForResult($idRes, $arrUsers, $arrRoles){
+        $insert = false;
+        foreach ($arrUsers as $key=>$value){
+           // $arr[$key] = $value;
+            $insert = DB::table('scient_res_owner')->insert([
+                ['fkRes' => $idRes, 'fkOwner' => $arrUsers[$key], 'role' => $arrRoles[$key]]
+            ]);
+        }
+       /* $insert = DB::table('scient_res_owner')->insert([
+            ['fkRes' => $idRes, 'fkOwner' => $arrUsers, 'role' => $arrRoles]
+        ]);*/
+        if ($insert)
+            return true;
+        else
+            return false;
     }
+
+
+
 
 }

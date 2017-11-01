@@ -30,7 +30,7 @@
                     </th>
                 </tr>
             </thead>
-            {!! Form::open(['url' => ['addResultOwner'], 'class'=>'form-inline', 'files'=>'true']) !!}
+            {!! Form::open(['url' => ['addResultOwner/'.$idResult], 'class'=>'form-inline', 'files'=>'true']) !!}
             @php $i=0; @endphp
             <tbody>
             @foreach($arrUsers as $user)

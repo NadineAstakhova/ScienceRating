@@ -28,6 +28,6 @@ Route::post('/createResult', 'ProfileController@createResultForm');
 
 Route::get('/createres/{idRes}','ProfileController@createResultOwner');
 
-Route::post('/addResultOwner', 'ProfileController@createResultOwnerForm');
+Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm');
 
 Auth::routes();
