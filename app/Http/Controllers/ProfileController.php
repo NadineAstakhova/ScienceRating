@@ -71,4 +71,10 @@ class ProfileController extends Controller
         else
             return redirect('profile')->with('error', 'Ошибка записи');
     }
+
+    public function createRatingPage(){
+        return view('panel\createrating',
+            array('title' => 'createrating','description' => '',
+                'page' => 'createrating'));
+    }
 }

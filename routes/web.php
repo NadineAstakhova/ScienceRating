@@ -30,4 +30,6 @@ Route::get('/createres/{idRes}','ProfileController@createResultOwner');
 
 Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm');
 
+Route::get('/createrating','ProfileController@createRatingPage');
+
 Auth::routes();
