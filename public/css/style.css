@@ -26,3 +26,7 @@ footer {
 #articleFields{
     display: none;
 }
+
+.theadTemp{
+    font-weight: bold;
+}

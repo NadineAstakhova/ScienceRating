@@ -12,6 +12,7 @@
 */
 
 
+use Anouar\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 Route::get('/', 'Controller@login');
@@ -31,5 +32,17 @@ Route::get('/createres/{idRes}','ProfileController@createResultOwner');
 Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm');
 
 Route::get('/createrating','ProfileController@createRatingPage');
+
+Route::get('/pdfMaster/{idOwner}', 'ProfileController@createPdfReport');
+
+/*Route::get('pdfMaster', function(){
+    $fpdf = new Fpdf();
+    $fpdf->AddPage();
+    $fpdf->SetFont('Arial','B',16);
+    $fpdf->Cell(40,10,'Hello World!');
+    $fpdf->Output();
+    exit;
+
+});*/
 
 Auth::routes();

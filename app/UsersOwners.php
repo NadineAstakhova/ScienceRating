@@ -48,6 +48,28 @@ class UsersOwners extends BaseModel
             return false;
     }
 
+    public static function getUserById($id){
+        $access = self::getAccess($id);
+        $user ='';
+        if($access == '1')
+            $user = DB::table('professors')
+                ->where('type_user', '=', $id)
+                ->first();
+        if($access == '2')
+            $user = DB::table('student')
+                ->where('type_user', '=', $id)
+                ->first();
+        return $user->name;
+    }
+
+    private static function getAccess($idUser){
+        $access = DB::table('users')
+            ->where('idUsers', '=', $idUser)
+            ->first();
+        return $access->type;
+
+    }
+
 
 
 

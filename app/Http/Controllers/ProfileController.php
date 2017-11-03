@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AddOwnersForm;
+use App\CreatePdfReport;
 use App\CreateResult;
 use App\Http\Requests\AddOwnersFormRequest;
 use App\Http\Requests\CreateResultFormRequest;
@@ -76,5 +77,11 @@ class ProfileController extends Controller
         return view('panel\createrating',
             array('title' => 'createrating','description' => '',
                 'page' => 'createrating'));
+    }
+
+    public function createPdfReport($idOwner){
+       $model = new CreatePdfReport();
+      //return $model->createPdf('test', 'need', '1', '2');
+       return $model->t($idOwner);
     }
 }
