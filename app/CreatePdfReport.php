@@ -11,7 +11,7 @@ class CreatePdfReport extends Model
 {
     //
 
-    public function createPdf($f_name, $l_name, $email, $gender){
+   /* public function createPdf($f_name, $l_name, $email, $gender){
 
         $fpdf = new FPDF();
 
@@ -32,16 +32,19 @@ class CreatePdfReport extends Model
         $fpdf->Cell(95,10,"Gender:",1,0,"C");
         $fpdf->Cell(95,10,$gender,1,1,"C");
         $fpdf->Output();
-    }
+    }*/
 
     /**
      *
      */
-    public function t($idOwner){
+    public function createPdf($idTemp, $idOwner){
 
-        $html = 'Науковий рейтинг до аспірантури';
+
         $header = array("Навчальні та наукові досягнення", "Код", "Кількість балів");
         $owner = UsersOwners::getUserById($idOwner);
+        //get types at template ranking
+        $contentsToTemp = new DataInRanking($idTemp);
+
 
 
         CustomPDF::SetTitle('Науковий рейтинг до аспірантури');
@@ -52,8 +55,8 @@ class CreatePdfReport extends Model
         CustomPDF::SetFontSize('10px');
         CustomPDF::SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         CustomPDF::AddPage('L', 'A4');
-        CustomPDF::writeHTML($owner, true, false, true, false, '');
-        CustomPDF::createTable($header);
+        CustomPDF::createStartAsp($owner);
+        CustomPDF::createTable($header, $contentsToTemp->getTypesAtTemp(), $idOwner);
         CustomPDF::lastPage();
         CustomPDF::Output();
 

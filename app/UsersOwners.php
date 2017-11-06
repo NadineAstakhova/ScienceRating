@@ -52,14 +52,14 @@ class UsersOwners extends BaseModel
         $access = self::getAccess($id);
         $user ='';
         if($access == '1')
-            $user = DB::table('professors')
+            $user = DB::table('professor')
                 ->where('type_user', '=', $id)
                 ->first();
         if($access == '2')
             $user = DB::table('student')
                 ->where('type_user', '=', $id)
                 ->first();
-        return $user->name;
+        return $user->surname.' '.$user->name.' '.$user->patronymic;
     }
 
     private static function getAccess($idUser){
@@ -68,6 +68,15 @@ class UsersOwners extends BaseModel
             ->first();
         return $access->type;
 
+    }
+
+    public static function getCountOfUserRes($idUser, $idType){
+        $sum = DB::table('scient_res_owner')
+            ->join('scientific_result', 'scientific_result.idRes', '=', 'scient_res_owner.fkRes')
+            ->where([['scientific_result.fkType', '=', $idType], ['scient_res_owner.fkOwner', '=', $idUser]])
+            ->count('scient_res_owner.idOwner');
+
+        return $sum;
     }
 
 

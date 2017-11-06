@@ -79,9 +79,9 @@ class ProfileController extends Controller
                 'page' => 'createrating'));
     }
 
-    public function createPdfReport($idOwner){
+    public function createPdfReport($idTemp, $idOwner){
        $model = new CreatePdfReport();
       //return $model->createPdf('test', 'need', '1', '2');
-       return $model->t($idOwner);
+       return $model->createPdf($idTemp, $idOwner);
     }
 }

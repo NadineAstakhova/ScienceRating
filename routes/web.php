@@ -33,7 +33,7 @@ Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm'
 
 Route::get('/createrating','ProfileController@createRatingPage');
 
-Route::get('/pdfMaster/{idOwner}', 'ProfileController@createPdfReport');
+Route::get('/pdfMaster/{idTemp}/{idOwner}', 'ProfileController@createPdfReport');
 
 /*Route::get('pdfMaster', function(){
     $fpdf = new Fpdf();

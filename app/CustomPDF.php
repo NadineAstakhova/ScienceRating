@@ -26,7 +26,13 @@ class CustomPDF extends TCPdf {
         $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
 
-    public static function createTable($header){
+    public static function createStartAsp($owner){
+        $html = '<h1>Науковий рейтинг до аспірантури</h1>Студента '.$owner.'<p>Групи </p><br>';
+
+        CustomPDF::writeHTML($html, true, false, true, false, '');
+    }
+
+    public static function createTable($header, $content, $idOwner){
         $num_headers = count($header);
         // Header
         /*$w = array(95,20, 40, 45);
@@ -34,7 +40,7 @@ class CustomPDF extends TCPdf {
             self::Cell($w[$i], 10, $header[$i], 1, 0, 'C');
         }
         self::Ln();*/
-        $arrTypes = TypeOfRes::getAll();
+    //    $arrTypes = TypeOfRes::getAll();
         self::SetFont('dejavusans','N',10);
       /*  foreach($arrTypes as $row)
         {
@@ -53,20 +59,24 @@ EOD;
         }
         $t="</tr></thead><tbody>";
         $rows = "";
+        $sum = 0;
 
-       foreach($arrTypes as $row)
+
+
+       foreach($content as $row)
        {
-            $rows .= "<tr><td>". $row ."</td><td>h</td><td>hhh</td></tr>";
+           $mark = UsersOwners::getCountOfUserRes( $idOwner, $row->idType_certificates) * $row->mark;
+           $sum += $mark;
+           $rows .= "<tr><td>$row->type $row->type_of_participation</td><td>$row->mark</td><td>$mark</td></tr>";
        }
 
         $endTable = <<<EOD
             </tbody>
             </table>
 EOD;
+       $sumText="<p>Сума наукових балiв: $sum</p>";
 
-        self::writeHTML($tbl.$headers.$t.$rows.$endTable, true, false, false, false, '');
-
-
+        self::writeHTML($tbl.$headers.$t.$rows.$endTable.$sumText, true, false, false, false, '');
 
     }
 }
