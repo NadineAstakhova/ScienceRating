@@ -30,3 +30,12 @@ footer {
 .theadTemp{
     font-weight: bold;
 }
+
+#1-content{
+    display: none;
+}
+
+.header-active{
+    color: #000;
+}
+
