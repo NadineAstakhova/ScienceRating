@@ -95,6 +95,17 @@ class UsersOwners extends BaseModel
         return $arrUsersStudents;
     }
 
+    public static function getProf(){
+        $arrUsersProf = DB::table('professor')
+            ->join('users', 'users.idUsers', '=', 'professor.type_user')
+            ->join('access', 'access.idAccess',  '=', 'users.type')
+            ->get();
+        return $arrUsersProf;
+    }
+
+
+
+
 
 
 

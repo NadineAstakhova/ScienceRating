@@ -9,7 +9,8 @@
             <ul>
                 <li><a id="0" onclick="showTabs(0)">Научный рейтинг. Магистратура</a></li>
                 <li><a id="1" onclick="showTabs(1)">Научный рейтинг. Аспирантура</a></li>
-                <li><a id="2" onclick="showTabs(2)">Сортировка по параметрам</a></li>
+                <li><a id="2" onclick="showTabs(2)">Текущий рейтинг преподавателя</a></li>
+                <li><a id="3" onclick="showTabs(3)">Сортировка по параметрам</a></li>
             </ul>
 
         </div>
@@ -75,6 +76,48 @@
             </div>
 
             <div class="ranking" id="2-content" style="display: none">
+                <p>Выберите преподавателя</p>
+                {!! Form::open(['url' => ['pdfMaster/3'], 'class'=>'form-inline',  'method' => 'GET']) !!}
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            <input type="text" id="searchOne" placeholder="Поиск по ФИО..." class='form-control'/>
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Добавить
+                        </th>
+                    </tr>
+                    </thead>
+
+                    @php $i=0;
+                    $arrUsers = \App\UsersOwners::getProf();
+                    @endphp
+                    <tbody>
+                    @foreach($arrUsers as $user)
+                        <tr class="all">
+                            <td class="name">{{$user->surname}} {{$user->name}} {{$user->patronymic}}</td>
+                            <td class="email">{{$user->email}}</td>
+                            <td>{!! Form::radio('arrOwners', $user->idUsers) !!}</td>
+                        </tr>
+                        @php
+                            $i++;
+                        @endphp
+                    @endforeach
+
+                    </tbody>
+                </table>
+
+                {!! Form::submit('Сформировать отчёт', ['class' => 'btn btn-primary', 'id' => 'btn']) !!}
+                {!! Form::close() !!}
+
+            </div>
+
+            <div class="ranking" id="3-content" style="display: none">
                 sort
 
             </div>
