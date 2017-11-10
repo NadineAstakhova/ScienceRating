@@ -15,8 +15,31 @@
         </div>
         <div class="col-sm-8">
             <div class="ranking" id="0-content">
+                <p>Курс                </p>
+                <div class="form-group">
+                    <select name="year" id="year" class="form-control">
+                        <option value="" disabled selected>Выберите курс</option>
+
+                        @for($i=1; $i < 5; $i++)
+                            <option value="{{$i}}"> {{ $i}} </option>
+                        @endfor
+                    </select>
+
+                </div>
                 <p>Выберите группу</p>
+                <div class="form-group">
+                        <select id="groups" class="form-control input" name="groups_id">
+                            <option value="" disabled selected>Выберите группу</option>
+                        </select>
+                </div>
+
                 <p>Выберите студента</p>
+                <div class="form-group">
+                        <select id="students" class="form-control input" name="students_id">
+                            <option value="" disabled selected>Выберите студента</option>
+                        </select>
+                </div>
+
                 <a href="pdfMaster/1/1" class="btn btn-primary"> Сформировать отчёт</a>
             </div>
             <div class="ranking" id="1-content" style="display: none">
@@ -32,22 +55,15 @@
         </div>
     </div>
     <script>
-        function showTabs(id){
-            //$(id).slideDown('slow');
-            let numItems = $('.ranking').length;
-            console.log($('.ranking')[id].id);
-            for (let i = 0; i < numItems; i++) {
-                if (i == id) {
-                    $('#'+id).addClass('header-active');
-                    $('#' + i + '-content').slideDown('slow');
 
-                }
-                else {
-                    $('#' + i + '-content').slideUp('slow');
-                    $('#'+i).removeClass('header-active');
-                }
-            }
-        }
+
+        $('#year').on('change', function(e){
+            fillFields(e, '#groups', '{{ url('information') }}/create/ajax-year?year_id', "Выберите группу");
+        });
+
+        $('#groups').on('change', function(e){
+            fillFields(e, '#students', '{{ url('information') }}/create/ajax-group?group_id', "Выберите студента");
+        });
     </script>
 
 @endsection

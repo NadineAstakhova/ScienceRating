@@ -75,9 +75,27 @@ class UsersOwners extends BaseModel
             ->join('scientific_result', 'scientific_result.idRes', '=', 'scient_res_owner.fkRes')
             ->where([['scientific_result.fkType', '=', $idType], ['scient_res_owner.fkOwner', '=', $idUser]])
             ->count('scient_res_owner.idOwner');
-
         return $sum;
     }
+
+
+
+    public static function getGroups($year){
+        $groups = DB::table('group')
+            ->where('year', '=', $year)
+            ->get();
+        return $groups;
+    }
+
+    public static function getStudentsInGroup($idGroup){
+        $arrUsersStudents = DB::table('student')
+            ->join('users', 'users.idUsers', '=', 'student.type_user')
+            ->where('student.FK_Group', '=', $idGroup)
+            ->get();
+        return $arrUsersStudents;
+    }
+
+
 
 
 

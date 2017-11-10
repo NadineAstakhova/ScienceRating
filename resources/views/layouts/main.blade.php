@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{asset('js/filter.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/ratingTabs.js')}}"></script>
 
 
 </head>

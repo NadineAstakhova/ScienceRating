@@ -14,6 +14,7 @@
 
 use Anouar\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Route;
 Route::get('/', 'Controller@login');
 
@@ -44,5 +45,19 @@ Route::get('/pdfMaster/{idTemp}/{idOwner}', 'ProfileController@createPdfReport')
     exit;
 
 });*/
+
+Route::get('/information/create/ajax-year',function()
+{
+    $year_id = Input::get('year_id');
+    $subcategories = \App\UsersOwners::getGroups($year_id);
+    return $subcategories;
+});
+
+Route::get('/information/create/ajax-group',function()
+{
+    $group_id = Input::get('group_id');
+    $subcategories = \App\UsersOwners::getStudentsInGroup($group_id);
+    return $subcategories;
+});
 
 Auth::routes();
