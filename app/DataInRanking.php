@@ -27,5 +27,12 @@ class DataInRanking extends BaseModel
         return $types;
     }
 
+    public function getTitle(){
+        $title = DB::table('res_template')
+            ->where('idTemplate', '=', $this->idTemp)
+            ->first();
+        return $title->title;
+    }
+
 
 }

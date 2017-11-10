@@ -44,10 +44,11 @@ class CreatePdfReport extends Model
         $owner = UsersOwners::getUserById($idOwner);
         //get types at template ranking
         $contentsToTemp = new DataInRanking($idTemp);
+        $title = $contentsToTemp->getTitle();
 
 
 
-        CustomPDF::SetTitle('Науковий рейтинг до аспірантури');
+        CustomPDF::SetTitle($title);
         CustomPDF::SetSubject('Report of System');
         CustomPDF::SetMargins(7, 18, 7);
         CustomPDF::SetFont('dejavusans','B',16);
@@ -55,7 +56,7 @@ class CreatePdfReport extends Model
         CustomPDF::SetFontSize('10px');
         CustomPDF::SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         CustomPDF::AddPage('L', 'A4');
-        CustomPDF::createStartAsp($owner);
+        CustomPDF::createStartAsp($title, $owner);
         CustomPDF::createTable($header, $contentsToTemp->getTypesAtTemp(), $idOwner);
         CustomPDF::lastPage();
         CustomPDF::Output();

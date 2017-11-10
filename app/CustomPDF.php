@@ -26,8 +26,8 @@ class CustomPDF extends TCPdf {
         $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
 
-    public static function createStartAsp($owner){
-        $html = '<h1>Науковий рейтинг до аспірантури</h1>Студента '.$owner.'<p>Групи </p><br>';
+    public static function createStartAsp($temp, $owner){
+        $html = '<h1>'.$temp.'</h1>Студента '.$owner.'<p>Групи </p><br>';
 
         CustomPDF::writeHTML($html, true, false, true, false, '');
     }
