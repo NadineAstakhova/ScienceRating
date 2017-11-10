@@ -14,11 +14,11 @@ function fillFields(e, el, url, text){
                 $('<option disabled selected></option>').val("").html(text)
             );
             $.each(data, function (index, subCatObj) {
-                if(el == "#students")
+                if(el == "#students" || el == "#students1")
                     $(el).append(
-                        $('<option></option>').val(subCatObj.id).html(subCatObj.name + ' ' + subCatObj.surname)
+                        $('<option></option>').val(subCatObj.idUsers).html(subCatObj.name + ' ' + subCatObj.surname)
                     );
-                if(el == "#groups")
+                if(el == "#groups" || el == "#groups1")
                     $(el).append(
                         $('<option></option>').val(subCatObj.idgroup).html(subCatObj.name)
                     );

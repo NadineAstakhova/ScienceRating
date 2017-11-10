@@ -11,6 +11,7 @@ use App\TypeOfRes;
 use App\UsersOwners;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Input;
 
 class ProfileController extends Controller
 {
@@ -79,8 +80,10 @@ class ProfileController extends Controller
                 'page' => 'createrating'));
     }
 
-    public function createPdfReport($idTemp, $idOwner){
+    public function createPdfReport($idTemp){
        $model = new CreatePdfReport();
+       $idOwner = Input::get('owner_id');
+
       //return $model->createPdf('test', 'need', '1', '2');
        return $model->createPdf($idTemp, $idOwner);
     }
