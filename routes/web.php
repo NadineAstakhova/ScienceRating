@@ -22,19 +22,19 @@ Route::get('auth/login', 'Controller@login');
 Route::post('auth/login', 'Controller@authenticate');
 Route::get('auth/logout', 'Controller@logout');
 
-Route::get('/profile','ProfileController@index');
+Route::get('/profile','ProfileController@index')->middleware('auth');
 
-Route::get('/createres','ProfileController@createResultPage');
+Route::get('/createres','ProfileController@createResultPage')->middleware('auth');
 
-Route::post('/createResult', 'ProfileController@createResultForm');
+Route::post('/createResult', 'ProfileController@createResultForm')->middleware('auth');
 
-Route::get('/createres/{idRes}','ProfileController@createResultOwner');
+Route::get('/createres/{idRes}','ProfileController@createResultOwner')->middleware('auth');
 
-Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm');
+Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm')->middleware('auth');
 
-Route::get('/createrating','ProfileController@createRatingPage');
+Route::get('/createrating','ProfileController@createRatingPage')->middleware('auth');
 
-Route::get('/pdfMaster/{idTemp}', 'ProfileController@createPdfReport');
+Route::get('/pdfMaster/{idTemp}', 'ProfileController@createPdfReport')->middleware('auth');
 //Route::get('/pdfMaster', ['as' => 'search', 'uses' => 'ProfileController@createPdfReport']);
 
 /*Route::get('pdfMaster', function(){

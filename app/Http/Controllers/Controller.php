@@ -18,8 +18,8 @@ class Controller extends BaseController
     }
 
     public function authenticate(Request $request) {
-        //if (Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password')])) {
-        if ($this->getUser($request->get('email'),$request->get('password'))) {
+        if (Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password')])) {
+       // if ($this->getUser($request->get('email'),$request->get('password'))) {
             return redirect()->intended('profile');
         } else {
             return redirect()->back()->withInput()->with('message', 'Ошибка входа! Возможно email и/или пароль не верны');
