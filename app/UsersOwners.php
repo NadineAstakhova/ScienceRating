@@ -48,6 +48,66 @@ class UsersOwners extends BaseModel
             return false;
     }
 
+    public static function getUserById($id){
+        $access = self::getAccess($id);
+        $user ='';
+        if($access == '1')
+            $user = DB::table('professor')
+                ->where('type_user', '=', $id)
+                ->first();
+        if($access == '2')
+            $user = DB::table('student')
+                ->where('type_user', '=', $id)
+                ->first();
+        return $user->surname.' '.$user->name.' '.$user->patronymic;
+    }
+
+    private static function getAccess($idUser){
+        $access = DB::table('users')
+            ->where('idUsers', '=', $idUser)
+            ->first();
+        return $access->type;
+
+    }
+
+    public static function getCountOfUserRes($idUser, $idType){
+        $sum = DB::table('scient_res_owner')
+            ->join('scientific_result', 'scientific_result.idRes', '=', 'scient_res_owner.fkRes')
+            ->where([['scientific_result.fkType', '=', $idType], ['scient_res_owner.fkOwner', '=', $idUser]])
+            ->count('scient_res_owner.idOwner');
+        return $sum;
+    }
+
+
+
+    public static function getGroups($year){
+        $groups = DB::table('group')
+            ->where('year', '=', $year)
+            ->get();
+        return $groups;
+    }
+
+    public static function getStudentsInGroup($idGroup){
+        $arrUsersStudents = DB::table('student')
+            ->join('users', 'users.idUsers', '=', 'student.type_user')
+            ->where('student.FK_Group', '=', $idGroup)
+            ->get();
+        return $arrUsersStudents;
+    }
+
+    public static function getProf(){
+        $arrUsersProf = DB::table('professor')
+            ->join('users', 'users.idUsers', '=', 'professor.type_user')
+            ->join('access', 'access.idAccess',  '=', 'users.type')
+            ->get();
+        return $arrUsersProf;
+    }
+
+
+
+
+
+
 
 
 

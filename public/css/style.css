@@ -22,3 +22,20 @@ footer {
     height: 100%;
     padding: 0;;
 }
+
+#articleFields{
+    display: none;
+}
+
+.theadTemp{
+    font-weight: bold;
+}
+
+#1-content{
+    display: none;
+}
+
+.header-active{
+    color: #000;
+}
+

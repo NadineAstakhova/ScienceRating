@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8efffca013c0d3674de8f1380236746a",
+    "content-hash": "e8fd99954da6806926f0128ae2589986",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -105,6 +105,48 @@
                 "string"
             ],
             "time": "2015-11-06T14:35:42+00:00"
+        },
+        {
+            "name": "elibyy/tcpdf-laravel",
+            "version": "5.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elibyy/tcpdf-laravel.git",
+                "reference": "534cb08d1d40fabffa851c2564cd3d45fbea0e58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elibyy/tcpdf-laravel/zipball/534cb08d1d40fabffa851c2564cd3d45fbea0e58",
+                "reference": "534cb08d1d40fabffa851c2564cd3d45fbea0e58",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.4.*",
+                "tecnickcom/tcpdf": "6.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Elibyy\\TCPDF\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "eli y",
+                    "email": "elibyy@gmail.com"
+                }
+            ],
+            "description": "tcpdf support for laravel 5",
+            "keywords": [
+                "TCPDF",
+                "laravel",
+                "pdf"
+            ],
+            "time": "2017-07-03T16:50:55+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -644,7 +686,7 @@
         },
         {
             "name": "mtdowling/cron-expression",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mtdowling/cron-expression.git",
@@ -2051,6 +2093,43 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "anouar/fpdf",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:xroot/laravel-fpdf.git",
+                "reference": "master"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xroot/laravel-fpdf/zipball/master",
+                "reference": "master",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Anouar\\Fpdf": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Anouar",
+                    "email": "dtekind@gmail.com"
+                }
+            ],
+            "description": "Fpdf allows to generate PDF files",
+            "time": "2015-03-30T12:59:05+00:00"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",

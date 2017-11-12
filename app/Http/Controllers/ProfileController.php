@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AddOwnersForm;
+use App\CreatePdfReport;
 use App\CreateResult;
 use App\Http\Requests\AddOwnersFormRequest;
 use App\Http\Requests\CreateResultFormRequest;
@@ -10,6 +11,7 @@ use App\TypeOfRes;
 use App\UsersOwners;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Input;
 
 class ProfileController extends Controller
 {
@@ -36,8 +38,14 @@ class ProfileController extends Controller
 
         $model->date = $request->get('date');
 
+        $model->article = $request->get('article');
+        $model->publishing = $request->get('publishing');
+        $model->pages = $request->get('pages');
+
 
         if ($model->createRes()){
+            if(!is_null($model->article))
+                $model->createArticle(DB::getPdo()->lastInsertId());
             return redirect('createres/'.DB::getPdo()->lastInsertId());
             //return "ura";
         }
@@ -64,5 +72,19 @@ class ProfileController extends Controller
         }
         else
             return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function createRatingPage(){
+        return view('panel\createrating',
+            array('title' => 'createrating','description' => '',
+                'page' => 'createrating'));
+    }
+
+    public function createPdfReport($idTemp){
+       $model = new CreatePdfReport();
+       $idOwner = Input::get('owner_id');
+
+      //return $model->createPdf('test', 'need', '1', '2');
+       return $model->createPdf($idTemp, $idOwner);
     }
 }

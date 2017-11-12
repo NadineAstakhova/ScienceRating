@@ -16,6 +16,18 @@ $(document).ready(function(){
         filtTable(searchName, userType);
     });
 
+    $("#searchOne").keyup(function(){
+        let searchName = $("#searchOne").val().toLowerCase();
+        let seachNameRegex = '.*'+searchName+".*";
+        $.each($('table tbody tr'), function() {
+            if(    ($(this).find('td.name').text().toLowerCase().search(seachNameRegex) === -1)
+            )
+                $(this).hide();
+            else
+                $(this).show();
+        });
+    });
+
     function filtTable(searchName,userType) {
         if (userType.toLowerCase() == "all") userType="";
         let seachNameRegex = '.*'+searchName+".*";
