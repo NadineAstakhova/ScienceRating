@@ -2,12 +2,16 @@
 @section('title', 'Create Ranking')
 @section('content')
     <div class="row">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
+            <li class="breadcrumb-item active">Создание научного рейтинга</li>
+        </ol>
         <h3>Выберите тип рейтинга:</h3>
     </div>
     <div class="row">
         <div class="col-sm-3">
             <ul>
-                <li><a id="0" onclick="showTabs(0)">Научный рейтинг. Магистратура</a></li>
+                <li><a id="0" onclick="showTabs(0)" class="header-active">Научный рейтинг. Магистратура</a></li>
                 <li><a id="1" onclick="showTabs(1)">Научный рейтинг. Аспирантура</a></li>
                 <li><a id="2" onclick="showTabs(2)">Текущий рейтинг преподавателя</a></li>
                 <li><a id="3" onclick="showTabs(3)">Сортировка по параметрам</a></li>
@@ -114,11 +118,12 @@
 
                 {!! Form::submit('Сформировать отчёт', ['class' => 'btn btn-primary', 'id' => 'btn']) !!}
                 {!! Form::close() !!}
+                <br>
 
             </div>
 
             <div class="ranking" id="3-content" style="display: none">
-                sort
+                В разработке
 
             </div>
 
