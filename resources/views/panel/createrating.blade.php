@@ -102,7 +102,7 @@
                         <tr class="all">
                             <td class="name">{{$user->surname}} {{$user->name}} {{$user->patronymic}}</td>
                             <td class="email">{{$user->email}}</td>
-                            <td>{!! Form::radio('arrOwners', $user->idUsers) !!}</td>
+                            <td>{!! Form::radio('owner_id', $user->idUsers) !!}</td>
                         </tr>
                         @php
                             $i++;

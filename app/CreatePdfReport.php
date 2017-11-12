@@ -56,7 +56,7 @@ class CreatePdfReport extends Model
         CustomPDF::SetFontSize('10px');
         CustomPDF::SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         CustomPDF::AddPage('L', 'A4');
-        CustomPDF::createStartAsp($title, $owner);
+        CustomPDF::createStartAsp($title, $owner, $idTemp);
         CustomPDF::createTable($header, $contentsToTemp->getTypesAtTemp(), $idOwner);
         CustomPDF::lastPage();
         CustomPDF::Output();

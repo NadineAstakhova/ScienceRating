@@ -26,8 +26,11 @@ class CustomPDF extends TCPdf {
         $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
 
-    public static function createStartAsp($temp, $owner){
-        $html = '<h1>'.$temp.'</h1>Студента '.$owner.'<p>Групи </p><br>';
+    public static function createStartAsp($temp, $owner, $idTemp){
+        if($idTemp == 3)
+            $html = '<h1>'.$temp.'</h1>Викладача '.$owner.'<br>';
+        else
+            $html = '<h1>'.$temp.'</h1>Студента '.$owner.'<br>';
 
         CustomPDF::writeHTML($html, true, false, true, false, '');
     }
@@ -67,7 +70,7 @@ EOD;
        {
            $mark = UsersOwners::getCountOfUserRes( $idOwner, $row->idType_certificates) * $row->mark;
            $sum += $mark;
-           $rows .= "<tr><td>$row->type $row->type_of_participation</td><td>$row->mark</td><td>$mark</td></tr>";
+           $rows .= "<tr><td>$row->type $row->type_of_participation</td><td> $row->mark</td><td> $mark</td></tr>";
        }
 
         $endTable = <<<EOD
