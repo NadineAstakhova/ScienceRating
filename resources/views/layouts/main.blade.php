@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="{{Auth::check() ? url('profile') : url('auth/login')}}" class="navbar-brand">
-                DonNU</a>
+                Научный рейтинг кафеды КТ</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">

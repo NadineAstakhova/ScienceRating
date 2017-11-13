@@ -4,7 +4,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
-            <li class="breadcrumb-item active">Создание научного результата</li>
+            <li class="breadcrumb-item active">Ввод данных рейтинга</li>
         </ol>
         @if ($errors->any())
             <div class="alert alert-danger">

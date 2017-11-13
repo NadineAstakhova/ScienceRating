@@ -18,12 +18,12 @@ class ProfileController extends Controller
 
 
     public function index() {
-        return view('panel\profile');
+        return view('panel/profile');
     }
 
 
     public function createResultPage(){
-        return view('panel\createRes',
+        return view('panel/createRes',
             array('title' => 'createRes','description' => '',
                 'page' => 'createRes', 'arrType' => TypeOfRes::getAll()));
     }
@@ -55,7 +55,7 @@ class ProfileController extends Controller
     }
 
     public function createResultOwner($idRes){
-        return view('panel\createResSetOwners',
+        return view('panel/createResSetOwners',
             array('title' => 'createResSetOwners','description' => '',
                 'page' => 'createResSetOwners',
                 'idResult' => $idRes,
@@ -75,7 +75,7 @@ class ProfileController extends Controller
     }
 
     public function createRatingPage(){
-        return view('panel\createrating',
+        return view('panel/createrating',
             array('title' => 'createrating','description' => '',
                 'page' => 'createrating'));
     }
