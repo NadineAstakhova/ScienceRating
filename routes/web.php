@@ -26,6 +26,8 @@ Route::get('/profile','ProfileController@index')->middleware('auth');
 
 Route::get('/createres','ProfileController@createResultPage')->middleware('auth');
 
+//Route::get('/createResPdf','ProfileController@createResultPage')->middleware('auth');
+
 Route::post('/createResult', 'ProfileController@createResultForm')->middleware('auth');
 
 Route::get('/createres/{idRes}','ProfileController@createResultOwner')->middleware('auth');

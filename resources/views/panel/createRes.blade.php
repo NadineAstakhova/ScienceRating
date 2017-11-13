@@ -6,6 +6,7 @@
             <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
             <li class="breadcrumb-item active">Ввод данных рейтинга</li>
         </ol>
+
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -21,7 +22,7 @@
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
         <br>
         <label class="form-check-label">
-            <input type="checkbox" id="allField" class="form-check-input" name=" Автоматически" value="allField">
+            <input type="checkbox" id="allField" class="form-check-input" name="allField" value="allField">
             Заполнить автоматически
         </label>
         <br> <br>
@@ -36,6 +37,13 @@
 
         {!! Form::label('date', 'Дата:') !!}
         {!! Form::text('date', null, ['class' => 'form-control']) !!}
+        <br> <br>
+        @if(isset($pdfText))
+            {!! Form::label('pdfText', 'Text:') !!}
+            {!! Form::textArea('pdfText', $pdfText, ['class' => 'form-control']) !!}
+            <br> <br>
+            {{$pdfText}}
+        @endif
         <br> <br>
 
         <div id="articleFields">

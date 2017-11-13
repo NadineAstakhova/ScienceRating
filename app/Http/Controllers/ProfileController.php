@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AddOwnersForm;
+use App\CertificatPdfParse;
 use App\CreatePdfReport;
 use App\CreateResult;
 use App\Http\Requests\AddOwnersFormRequest;
@@ -12,6 +13,7 @@ use App\UsersOwners;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 
 class ProfileController extends Controller
 {
@@ -42,15 +44,27 @@ class ProfileController extends Controller
         $model->publishing = $request->get('publishing');
         $model->pages = $request->get('pages');
 
+        $model->parsePDF = $request->get('allField');
 
-        if ($model->createRes()){
+        if(!is_null($model->parsePDF)){
+           $parseFile = new CertificatPdfParse($model->file);
+           $content = $parseFile->getContent();
+            return view('panel/createRes',
+                array('title' => 'createRes','description' => '',
+                    'page' => 'createRes', 'arrType' => TypeOfRes::getAll(),
+                    'pdfText' => $content));
+        }
+
+
+
+        /*if ($model->createRes()){
             if(!is_null($model->article))
                 $model->createArticle(DB::getPdo()->lastInsertId());
             return redirect('createres/'.DB::getPdo()->lastInsertId());
             //return "ura";
         }
         else
-            return 0;
+            return 0;*/
             //return redirect('subjects/'.$idProf)->with('error', 'Ошибка записи');
     }
 
