@@ -65,16 +65,15 @@ class ProfileController extends Controller
                 ));
         }
 
-
-
-        /*if ($model->createRes()){
+        if ($model->createRes()){
+           // $model->owners = $request->get('owners');
             if(!is_null($model->article))
                 $model->createArticle(DB::getPdo()->lastInsertId());
-            return redirect('createres/'.DB::getPdo()->lastInsertId());
+            return redirect('createres/'.DB::getPdo()->lastInsertId())->with('owners', $request->get('owners'));
             //return "ura";
         }
         else
-            return 0;*/
+            return 0;
             //return redirect('subjects/'.$idProf)->with('error', 'Ошибка записи');
     }
 

@@ -5,6 +5,7 @@
     <div class="row">
         <h3>Выберите участника/ов</h3>
         <h4>Можете воспользоваться фильтрами в заголовках таблицы</h4>
+
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -14,6 +15,7 @@
                 </ul>
             </div>
         @endif
+
         {!! Form::open(['url' => ['addResultOwner/'.$idResult], 'class'=>'form-inline', 'files'=>'true']) !!}
 
         {!! Form::submit('Save', ['class' => 'btn btn-default', 'id' => 'btn']) !!}
@@ -44,7 +46,19 @@
                     </th>
                 </tr>
             </thead>
+            @php
+                if(Session::has('owners')){
+                   $arr = Session::get("owners");
 
+
+
+                   foreach ($arr as $a){
+                   echo $a;
+                   echo "<br>";
+                   }
+            }
+
+            @endphp
             @php $i=0; @endphp
             <tbody>
             @foreach($arrUsers as $user)
@@ -53,7 +67,7 @@
                     <td class="type">{{$user->type}}</td>
                     <td class="email">{{$user->email}}</td>
                     <td>{!! Form::select('arrRole['.$i.']', \App\UsersOwners::ARRAY_ROLES,  null, ['class' => 'form-control']) !!}</td>
-                    <td>{!! Form::checkbox('arrOwners['.$i.']', $user->idUsers) !!}</td>
+                    <td>{!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ? true : false) !!}</td>
                 </tr>
                 @php
                     $i++;

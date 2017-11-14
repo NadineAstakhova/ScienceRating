@@ -56,7 +56,8 @@ class CertificatPdfParse extends Parser
         $i = 0;
         foreach ($users as $user) {
             if (strpos($this->content, $user->surname)) {
-                $arrUser[$i] = $user->surname;
+                $arrUser[$i]['surname'] = $user->surname;
+                $arrUser[$i]['id'] = $user->idUsers;
                 $i++;
             }
         }
