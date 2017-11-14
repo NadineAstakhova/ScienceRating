@@ -17,8 +17,13 @@ class CertificatPdfParse extends Parser
     public function __construct($file, $attributes = [])
     {
         $this->parser = new \Smalot\PdfParser\Parser();
-        $this->pdf    = $this->parser->parseFile($file);
-        $this->content =  $this->pdf->getText();
+        try {
+            $this->pdf = $this->parser->parseFile($file);
+            $this->content = $this->pdf->getText();
+        }
+        catch (\Exception $e) {
+            $this->content = '0';
+        }
 
         parent::__construct();
     }
@@ -43,5 +48,33 @@ class CertificatPdfParse extends Parser
             }
             echo $property . ' => ' . $value . "\n";
         }
+    }
+
+    public function searchUserAtPdf(){
+        $users = UsersOwners::getAllUsersForTable();
+        $arrUser = array();
+        $i = 0;
+        foreach ($users as $user) {
+            if (strpos($this->content, $user->surname)) {
+                $arrUser[$i] = $user->surname;
+                $i++;
+            }
+        }
+        if (count($arrUser) > 0 )
+            return $arrUser;
+        else
+            return 0;
+    }
+
+    public function searchDate(){
+       if(preg_match_all( '([0-9]{4})',$this->content,  $matches, PREG_PATTERN_ORDER))
+            return $matches[0];
+       else
+           return 0;
+    }
+
+    public function serachTitle(){
+        $arr = explode("\n", $this->content, -1);
+        return $arr[0];
     }
 }

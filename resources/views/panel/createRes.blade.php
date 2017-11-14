@@ -42,7 +42,15 @@
             {!! Form::label('pdfText', 'Text:') !!}
             {!! Form::textArea('pdfText', $pdfText, ['class' => 'form-control']) !!}
             <br> <br>
-            {{$pdfText}}
+            @if($users != 0)
+                @foreach ($users as $user)
+                    <li>{{ $user }}</li>
+                @endforeach
+            @else
+                No data
+            @endif
+            {{$date[0]}}
+            {{$searchTitle}}
         @endif
         <br> <br>
 

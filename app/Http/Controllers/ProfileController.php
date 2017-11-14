@@ -49,10 +49,20 @@ class ProfileController extends Controller
         if(!is_null($model->parsePDF)){
            $parseFile = new CertificatPdfParse($model->file);
            $content = $parseFile->getContent();
+           if ($content == '0')
+               return redirect('createres')->with('error', 'Error');
+
+           $users = $parseFile->searchUserAtPdf();
+           $searchDate = $parseFile->searchDate();
+           $searchTitle = $parseFile->serachTitle();
             return view('panel/createRes',
                 array('title' => 'createRes','description' => '',
                     'page' => 'createRes', 'arrType' => TypeOfRes::getAll(),
-                    'pdfText' => $content));
+                    'pdfText' => $content,
+                    'users' => $users,
+                    'date' => $searchDate,
+                    'searchTitle' => $searchTitle,
+                ));
         }
 
 
