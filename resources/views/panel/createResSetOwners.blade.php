@@ -49,14 +49,7 @@
             @php
                 if(Session::has('owners')){
                    $arr = Session::get("owners");
-
-
-
-                   foreach ($arr as $a){
-                   echo $a;
-                   echo "<br>";
-                   }
-            }
+                }
 
             @endphp
             @php $i=0; @endphp

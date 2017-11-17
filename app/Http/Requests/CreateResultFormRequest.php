@@ -24,9 +24,10 @@ class CreateResultFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required_without:allField',
             'file' => 'required',
-            'date' => 'required',
+            'date' => 'required_without:allField',
+
 
         ];
     }

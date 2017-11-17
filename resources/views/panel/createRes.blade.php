@@ -16,6 +16,12 @@
                 </ul>
             </div>
         @endif
+        @php
+            if(Session::has('errorParse')){
+               echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("errorParse")."</div>";
+            }
+
+        @endphp
         {!! Form::open(['url' => ['createResult'], 'class'=>'form-inline', 'files'=>'true']) !!}
 
         {!! Form::label('file', 'Загрузить документ:') !!}
@@ -42,8 +48,8 @@
 
         <br> <br>
         @if(isset($pdfText))
-            {!! Form::label('pdfText', 'Text:') !!}
-            {!! Form::textArea('pdfText', $pdfText, ['class' => 'form-control']) !!}
+            {!! Form::label('pdfText', 'Содержание файла:') !!}
+            {!! Form::textArea('pdfText', $pdfText, ['class' => 'form-control', 'style' => 'width:100%']) !!}
             <br> <br>
             @if($users != 0)
              @php $i=0; @endphp

@@ -50,7 +50,7 @@ class ProfileController extends Controller
            $parseFile = new CertificatPdfParse($model->file);
            $content = $parseFile->getContent();
            if ($content == '0')
-               return redirect('createres')->with('error', 'Error');
+               return redirect('createres')->with('errorParse', 'Error');
 
            $users = $parseFile->searchUserAtPdf();
            $searchDate = $parseFile->searchDate();

@@ -2,9 +2,7 @@
 @section('title', 'Profile')
 @section('content')
     <script>
-        $(document).ready(function(){
-            setTimeout(function(){$('#mesSuccessAdd').slideUp('slow')},5000);
-        });
+
     </script>
     <div class="row">
         <h3>Hello, {{Auth::user()->username}}</h3>
