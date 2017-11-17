@@ -39,3 +39,14 @@ footer {
     color: #000;
 }
 
+#nameT, #dateT{
+    color: #3A5FCD;
+}
+
+#typeT{
+    color: #363636;
+}
+
+#error{
+    color: red;
+}

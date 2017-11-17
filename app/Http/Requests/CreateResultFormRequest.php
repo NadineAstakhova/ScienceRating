@@ -35,9 +35,9 @@ class CreateResultFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'A title is required',
+            'name.required_without' => 'Поле Название обязательное',
             'file.required' => 'A file is required',
-            'date.required' => 'A date is required',
+            'date.required_without' => 'Поле Дата обязательное',
         ];
     }
 }

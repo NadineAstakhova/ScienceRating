@@ -26,6 +26,7 @@
 
         {!! Form::label('file', 'Загрузить документ:') !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
+        <p id="error"></p>
         <br>
         <label class="form-check-label">
             <input type="checkbox" id="allField" class="form-check-input" name="allField" value="allField">
@@ -36,14 +37,17 @@
         {!! Form::label('name', 'Название результата:') !!}
 
         <input type="text" id="name" class="form-control" name="name" value="{{isset($pdfText) && $searchTitle ? $searchTitle : ''}}">
+        <span id="nameT"></span>
         <br> <br>
 
         {!! Form::label('type', 'Тип:') !!}
         {!! Form::select('type', $arrType,  null, ['class' => 'form-control', 'style' => 'width:100%']) !!}
+        <span id="typeT"></span>
         <br> <br>
 
         {!! Form::label('date', 'Дата:') !!}
         <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}">
+        <span id="dateT"></span>
 
 
         <br> <br>
@@ -51,6 +55,8 @@
             {!! Form::label('pdfText', 'Содержание файла:') !!}
             {!! Form::textArea('pdfText', $pdfText, ['class' => 'form-control', 'style' => 'width:100%']) !!}
             <br> <br>
+            <div class="alert alert-info" role="alert">
+                <p>Удалось определить таких студентов/преподавателей. На следующей странице вы можете изменить эту информацию</p>
             @if($users != 0)
              @php $i=0; @endphp
                 @foreach ($users as $user)
@@ -59,10 +65,9 @@
                     @php $i++; @endphp
                 @endforeach
             @else
-                No data
+                Совпадений не найдено.
             @endif
-            {{$date[0]}}
-            {{$searchTitle}}
+            </div>
         @endif
         <br> <br>
 
@@ -81,12 +86,14 @@
         {!! Form::submit('Save', ['class' => 'btn btn-default', 'id' => 'btn']) !!}
 
         <a class="btn btn-default btn-close" href="{{ url()->previous() }}">Cancel</a>
+        <br><br>
 
         {!! Form::close() !!}
 
-        <p id="error"></p>
+
     </div>
     <script>
+        $(document).ready(function() {
         $('#type').change(function () {
             let resType = $(this).find(":selected").val();
             console.log(resType);
@@ -100,6 +107,54 @@
                 $('#articleFields').slideUp('slow');
 
         });
+
+        $('#allField').change(
+            function(){
+                if ($(this).is(':checked')) {
+                    $("#nameT").html("Поле будет заполнено автоматически");
+                    $("#dateT").html("Поле будет заполнено автоматически");
+                    $("#typeT").html("Поле нужно будет заполнить самостоятельно");
+                    $("#name").css("border-color", "#3A5FCD");
+                    $("#date").css("border-color", "#3A5FCD");
+
+                }
+                else {
+                    $("#nameT").html("");
+                    $("#dateT").html("");
+                    $("#typeT").html("");
+                    $("#name").css("border-color", "#ccc");
+                    $("#date").css("border-color", "#ccc");
+                }
+            });
+        
+            $("#date").keyup(function () {
+                let reg = /^(\d{1,2})?-?(\d{1,2})?-?(\d{2,4})?$/;
+                //checking if these strings are dates
+                let m = $("#date").val().match(reg);
+
+
+                if (m === null)
+                    $("#dateT").html("Заполните поле в соответствии с шаблоном и без букв: 12-12-12, 11-10-2012, 2012").
+                    css("color", "red");
+                else
+                    $("#dateT").html("");
+            });
+
+
+
+            $('#btn').bind("click",function()
+            {
+                let imgVal = $('#file').val();
+                if(imgVal=='')
+                {
+                    $("#error").html("Загрузите файл");
+
+                    return false;
+                }
+
+            });
+        });
+
     </script>
 
 @endsection
