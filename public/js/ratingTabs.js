@@ -26,7 +26,7 @@ function fillFields(e, el, url, text){
         }
         else {
             $(el).append(
-                $('<option disabled selected></option>').val("").html("Нет данных")
+                $('<option disabled selected></option>').val("").html("No data")
             );
         }
     });

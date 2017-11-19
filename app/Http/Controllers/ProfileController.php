@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AddOwnersForm;
+use App\CertificatPdfParse;
 use App\CreatePdfReport;
 use App\CreateResult;
 use App\Http\Requests\AddOwnersFormRequest;
@@ -12,18 +13,20 @@ use App\UsersOwners;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
 
 
     public function index() {
-        return view('panel\profile');
+        return view('panel/profile');
     }
 
 
     public function createResultPage(){
-        return view('panel\createRes',
+        return view('panel/createRes',
             array('title' => 'createRes','description' => '',
                 'page' => 'createRes', 'arrType' => TypeOfRes::getAll()));
     }
@@ -42,11 +45,33 @@ class ProfileController extends Controller
         $model->publishing = $request->get('publishing');
         $model->pages = $request->get('pages');
 
+        $model->parsePDF = $request->get('allField');
+
+        if(!is_null($model->parsePDF)){
+           $parseFile = new CertificatPdfParse($model->file);
+           $content = $parseFile->getContent();
+           if ($content == '0')
+               return redirect('createres')->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
+
+           $users = $parseFile->searchUserAtPdf();
+           $searchDate = $parseFile->searchDate();
+           $searchTitle = $parseFile->serachTitle();
+
+            return view('panel/createRes',
+                array('title' => 'createRes','description' => '',
+                    'page' => 'createRes', 'arrType' => TypeOfRes::getAll(),
+                    'pdfText' => $content,
+                    'users' => $users,
+                    'date' => $searchDate,
+                    'searchTitle' => $searchTitle,
+                ));
+        }
 
         if ($model->createRes()){
+           // $model->owners = $request->get('owners');
             if(!is_null($model->article))
                 $model->createArticle(DB::getPdo()->lastInsertId());
-            return redirect('createres/'.DB::getPdo()->lastInsertId());
+            return redirect('createres/'.DB::getPdo()->lastInsertId())->with('owners', $request->get('owners'));
             //return "ura";
         }
         else
@@ -55,11 +80,12 @@ class ProfileController extends Controller
     }
 
     public function createResultOwner($idRes){
-        return view('panel\createResSetOwners',
+        return view('panel/createResSetOwners',
             array('title' => 'createResSetOwners','description' => '',
                 'page' => 'createResSetOwners',
                 'idResult' => $idRes,
-                'arrUsers' => UsersOwners::getAllUsersForTable()));
+                'arrUsers' => Session::has('owners') ?
+                    UsersOwners::getAllUsersForTable(Session::get("owners")) : UsersOwners::getAllUsersForTable()));
     }
 
     public function createResultOwnerForm($idResult, AddOwnersFormRequest $request){
@@ -75,7 +101,7 @@ class ProfileController extends Controller
     }
 
     public function createRatingPage(){
-        return view('panel\createrating',
+        return view('panel/createrating',
             array('title' => 'createrating','description' => '',
                 'page' => 'createrating'));
     }

@@ -21,7 +21,7 @@ class UsersOwners extends BaseModel
         '60%' => '60%',
         '70%' => '70%');
 
-    public static function getAllUsersForTable(){
+    public static function getAllUsersForTable($owners = null){
         $arrUsersStudents = DB::table('student')
             //->join('group', 'group.idgroup', '=', 'student.FK_Group')
             ->join('users', 'users.idUsers', '=', 'student.type_user')
@@ -31,8 +31,20 @@ class UsersOwners extends BaseModel
             ->join('users', 'users.idUsers', '=', 'professor.type_user')
             ->join('access', 'access.idAccess',  '=', 'users.type')
             ->get();
+        $arrUser =  $arrUsersStudents->merge($arrUsersProf);
+        if (!is_null($owners)){
 
-        return $arrUsersStudents->merge($arrUsersProf);
+            foreach($arrUser as $user) {
+                if (in_array($user->idUsers, $owners))
+                    $user->check = '0';
+                else {
+                    $user->check = '1';
+                }
+            }
+           return  $arrUser->sortBy('check');
+        }
+
+        return $arrUser;
     }
 
     public function setOwnersForResult($idRes, $arrUsers, $arrRoles){

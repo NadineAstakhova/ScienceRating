@@ -24,9 +24,10 @@ class CreateResultFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required_without:allField',
             'file' => 'required',
-            'date' => 'required',
+            'date' => 'required_without:allField',
+
 
         ];
     }
@@ -34,9 +35,9 @@ class CreateResultFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'A title is required',
+            'name.required_without' => 'Поле Название обязательное',
             'file.required' => 'A file is required',
-            'date.required' => 'A date is required',
+            'date.required_without' => 'Поле Дата обязательное',
         ];
     }
 }

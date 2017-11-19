@@ -4,7 +4,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
-            <li class="breadcrumb-item active">Создание научного рейтинга</li>
+            <li class="breadcrumb-item active">Построение рейтинга</li>
         </ol>
         <h3>Выберите тип рейтинга:</h3>
     </div>
