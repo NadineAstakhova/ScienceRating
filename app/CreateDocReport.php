@@ -11,6 +11,12 @@ class CreateDocReport extends Model
 
     public function createDoc($idTemp, $idOwner)
     {
+        $owner = UsersOwners::getUserById($idOwner);
+
+        $contentsToTemp = new DataInRanking($idTemp);
+        $contents = $contentsToTemp->getTypesAtTemp();
+        $title = $contentsToTemp->getTitle();
+
         $word = new PHPWord();
         $meta = $word->getDocInfo();
         $meta->setCreator('Имя создателя документа');
@@ -37,7 +43,7 @@ class CreateDocReport extends Model
 
         );
         $section = $word->addSection($sectionStyle);
-        $text = "Научный рейтинг";
+        $text = "Научный рейтинг. Cтудент ".$owner;
         $fontStyle = array('name'=>'Arial', 'size'=>14, 'color'=>'000000', 'bold'=>FALSE);
         $parStyle = array('align'=>'both','spaceBefore'=>10);
 
@@ -51,15 +57,27 @@ class CreateDocReport extends Model
         $styleCell = array('valign'=>'center','borderBottomSize'=>6,  'borderTopSize' => 6,
             'borderRightSize' => 6, 'borderLeftSize' => 6);
 
-        $contentsToTemp = new DataInRanking($idTemp);
-        $contents = $contentsToTemp->getTypesAtTemp();
+        $sum = 0;
+        
+        $table->addRow(900);
+        $table->addCell(7000, $styleCell)->addText("Навчальні та наукові досягнення", $fontStyle);
+        $table->addCell(2000, $styleCell)->addText("Код", $fontStyle);
+        $table->addCell(2000, $styleCell)->addText("Кількість балів", $fontStyle);
+
         foreach($contents as $row)
         {
+            $mark = UsersOwners::getCountOfUserRes( $idOwner, $row->idType_certificates) * $row->mark;
+            $sum += $mark;
+
             $table->addRow(900);
             $table->addCell(7000, $styleCell)->addText($row->type. $row->type_of_participation, $fontStyle);
+            $table->addCell(2000, $styleCell)->addText($row->code, $fontStyle);
+            $table->addCell(2000, $styleCell)->addText($mark, $fontStyle);
 
         }
 
+        $sumText="Сума наукових балiв: $sum";
+        $section->addText(htmlspecialchars($sumText), $fontStyle,$parStyle);
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($word,'Word2007');
         $temp_file = tempnam(sys_get_temp_dir(), 'PHPWord');
