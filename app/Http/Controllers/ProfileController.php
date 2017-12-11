@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AddOwnersForm;
 use App\CertificatPdfParse;
+use App\CreateDocReport;
 use App\CreatePdfReport;
 use App\CreateResult;
 use App\Http\Requests\AddOwnersFormRequest;
@@ -15,6 +16,7 @@ use DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+
 
 class ProfileController extends Controller
 {
@@ -105,11 +107,17 @@ class ProfileController extends Controller
                 'page' => 'createrating'));
     }
 
-    public function createPdfReport($idTemp){
+    public function createPdfReport($idTemp, $idOwner){
        $model = new CreatePdfReport();
-       $idOwner = Input::get('owner_id');
+     //  $idOwner = Input::get('owner_id');
 
       //return $model->createPdf('test', 'need', '1', '2');
        return $model->createPdf($idTemp, $idOwner);
     }
+
+    public function createDocReport($idTemp, $idOwner){
+        $model = new CreateDocReport();
+        $model->createDoc($idTemp, $idOwner);
+    }
+
 }
