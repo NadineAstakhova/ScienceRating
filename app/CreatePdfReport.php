@@ -37,16 +37,13 @@ class CreatePdfReport extends Model
     /**
      *
      */
-    public function createPdf($idTemp, $idOwner){
-
-
+    public function createPdf($idTemp, $idOwner)
+    {
         $header = array("Навчальні та наукові досягнення", "Код", "Кількість балів");
         $owner = UsersOwners::getUserById($idOwner);
         //get types at template ranking
         $contentsToTemp = new DataInRanking($idTemp);
         $title = $contentsToTemp->getTitle();
-
-
 
         CustomPDF::SetTitle($title);
         CustomPDF::SetSubject('Report of System');
@@ -60,8 +57,6 @@ class CreatePdfReport extends Model
         CustomPDF::createTable($header, $contentsToTemp->getTypesAtTemp(), $idOwner);
         CustomPDF::lastPage();
         CustomPDF::Output();
-
-
     }
 }
 

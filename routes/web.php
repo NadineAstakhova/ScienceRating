@@ -63,4 +63,11 @@ Route::get('/information/create/ajax-group',function()
     return $subcategories;
 });
 
+
+Route::get('/information/res/{id}',function()
+{
+    $year_id = Route::get('id');
+    return $year_id;
+});
+
 Auth::routes();

@@ -32,11 +32,10 @@ class ProfileController extends Controller
     }
 
     public function createResultForm(CreateResultFormRequest $request){
+        //get data from request
         $model = new CreateResult();
         $model->name = $request->get('name');
         $model->type = $request->get('type');
-
-        //$request->file->store('file');
         $model->file = $request->file('file');
 
         $model->date = $request->get('date');
@@ -47,12 +46,15 @@ class ProfileController extends Controller
 
         $model->parsePDF = $request->get('allField');
 
+        //if automatic document parsing is selected
         if(!is_null($model->parsePDF)){
+           //parse file
            $parseFile = new CertificatPdfParse($model->file);
            $content = $parseFile->getContent();
            if ($content == '0')
                return redirect('createres')->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
 
+           //searching our users in text
            $users = $parseFile->searchUserAtPdf();
            $searchDate = $parseFile->searchDate();
            $searchTitle = $parseFile->serachTitle();
@@ -68,15 +70,12 @@ class ProfileController extends Controller
         }
 
         if ($model->createRes()){
-           // $model->owners = $request->get('owners');
             if(!is_null($model->article))
                 $model->createArticle(DB::getPdo()->lastInsertId());
             return redirect('createres/'.DB::getPdo()->lastInsertId())->with('owners', $request->get('owners'));
-            //return "ura";
         }
         else
             return 0;
-            //return redirect('subjects/'.$idProf)->with('error', 'Ошибка записи');
     }
 
     public function createResultOwner($idRes){
