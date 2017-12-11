@@ -10,6 +10,8 @@ class User extends Authenticatable
     use Notifiable;
     protected $table = 'users';
 
+    const METHODIST = '3';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -35,4 +37,6 @@ class User extends Authenticatable
     {
         return 'username';
     }
+
+
 }
