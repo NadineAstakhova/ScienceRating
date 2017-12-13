@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -18,7 +19,7 @@ class Controller extends BaseController
     }
 
     public function authenticate(Request $request) {
-        if (Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password')])) {
+        if (Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::METHODIST])) {
        // if ($this->getUser($request->get('email'),$request->get('password'))) {
             return redirect()->intended('profile');
         } else {

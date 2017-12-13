@@ -13,6 +13,7 @@
 
 
 use Anouar\Fpdf\Fpdf;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,16 @@ Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm'
 
 Route::get('/createrating','ProfileController@createRatingPage')->middleware('auth');
 
-Route::get('/pdfMaster/{idTemp}', 'ProfileController@createPdfReport')->middleware('auth');
+//Route::get('/pdfMaster/{idTemp}', 'ProfileController@createPdfReport')->middleware('auth');
+
+Route::get('/pdfMaster/{idTemp}', function($idTemp) {
+    $action = "";
+    if(Input::get('pdf'))
+        $action = 'createPdfReport';
+    elseif(Input::get('doc'))
+        $action = 'createDocReport';
+    return App::make('App\Http\Controllers\ProfileController')->$action($idTemp, Input::get('owner_id'));
+});
 //Route::get('/pdfMaster', ['as' => 'search', 'uses' => 'ProfileController@createPdfReport']);
 
 /*Route::get('pdfMaster', function(){
@@ -61,6 +71,13 @@ Route::get('/information/create/ajax-group',function()
     $group_id = Input::get('group_id');
     $subcategories = \App\UsersOwners::getStudentsInGroup($group_id);
     return $subcategories;
+});
+
+
+Route::get('/information/res/{id}',function()
+{
+    $year_id = Route::get('id');
+    return $year_id;
 });
 
 Auth::routes();

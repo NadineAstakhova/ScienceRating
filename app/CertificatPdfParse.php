@@ -54,8 +54,9 @@ class CertificatPdfParse extends Parser
         $users = UsersOwners::getAllUsersForTable();
         $arrUser = array();
         $i = 0;
+        $str =  str_replace(' ', '', $this->content);
         foreach ($users as $user) {
-            if (strpos($this->content, $user->surname)) {
+            if (strpos($str, $user->surname)) {
                 $arrUser[$i]['surname'] = $user->surname;
                 $arrUser[$i]['id'] = $user->idUsers;
                 $i++;

@@ -45,7 +45,10 @@
                         </select>
                 </div>
                 <br><br>
-                {!! Form::submit('Сформировать отчёт', ['class' => 'btn btn-primary', 'id' => 'btn']) !!}
+                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn', 'name' => 'pdf']) !!}
+                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc', 'name' => 'doc']) !!}
+
+
                 {!! Form::close() !!}
             </div>
 
@@ -75,7 +78,8 @@
                     </select>
                 </div>
                 <br><br>
-                {!! Form::submit('Сформировать отчёт', ['class' => 'btn btn-primary', 'id' => 'btn']) !!}
+                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn', 'name' => 'pdf']) !!}
+                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc', 'name' => 'doc']) !!}
                 {!! Form::close() !!}
             </div>
 
@@ -116,7 +120,8 @@
                     </tbody>
                 </table>
 
-                {!! Form::submit('Сформировать отчёт', ['class' => 'btn btn-primary', 'id' => 'btn']) !!}
+                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn', 'name' => 'pdf']) !!}
+                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc', 'name' => 'doc']) !!}
                 {!! Form::close() !!}
                 <br>
 

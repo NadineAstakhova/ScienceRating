@@ -71,7 +71,10 @@ class UsersOwners extends BaseModel
             $user = DB::table('student')
                 ->where('type_user', '=', $id)
                 ->first();
-        return $user->surname.' '.$user->name.' '.$user->patronymic;
+        if(!is_null($user->patronymic))
+            return $user->surname.' '.$user->name.' '.$user->patronymic;
+        else
+            return $user->surname.' '.$user->name;
     }
 
     private static function getAccess($idUser){

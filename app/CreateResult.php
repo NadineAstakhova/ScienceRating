@@ -23,7 +23,6 @@ class CreateResult extends Model
         $this->file->move($path , $fileName);
 
         return $res->insertResult($this->name, $this->date, $this->type, '/public/uploads/'. $fileName);
-
     }
 
     public function createArticle($idRes){
