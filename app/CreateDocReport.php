@@ -43,10 +43,18 @@ class CreateDocReport extends Model
 
         );
         $section = $word->addSection($sectionStyle);
-        $text = "Научный рейтинг. Cтудент ".$owner;
+        $text = "";
+
+
+        if($idTemp == 3)
+            $text = "Викладача ".$owner;
+        else
+            $text = "Студента ".$owner;
+
         $fontStyle = array('name'=>'Arial', 'size'=>14, 'color'=>'000000', 'bold'=>FALSE);
         $parStyle = array('align'=>'both','spaceBefore'=>10);
 
+        $section->addText(htmlspecialchars($title), $fontStyle,$parStyle);
         $section->addText(htmlspecialchars($text), $fontStyle,$parStyle);
 
         $styleTable = array('borderSize'=>14, 'borderColor'=>'006699', 'cellMargin'=>10);
@@ -58,7 +66,7 @@ class CreateDocReport extends Model
             'borderRightSize' => 6, 'borderLeftSize' => 6);
 
         $sum = 0;
-        
+
         $table->addRow(900);
         $table->addCell(7000, $styleCell)->addText("Навчальні та наукові досягнення", $fontStyle);
         $table->addCell(2000, $styleCell)->addText("Код", $fontStyle);
@@ -84,7 +92,8 @@ class CreateDocReport extends Model
         $objWriter->save($temp_file);
         // Your browser will name the file "myFile.docx"
         // regardless of what it's named on the server
-        header("Content-Disposition: attachment; filename='myFile.docx'");
+        $fileName = str_replace(' ', '_', $title) . '_' . str_replace(' ', '_', $owner);
+        header("Content-Disposition: attachment; filename='$fileName.docx'");
         readfile($temp_file); // or echo file_get_contents($temp_file);
         unlink($temp_file);  // remove temp file
         // return $word;
