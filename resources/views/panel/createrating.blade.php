@@ -44,6 +44,7 @@
                             <option value="" disabled selected>Выберите студента</option>
                         </select>
                 </div>
+                <p id="error"></p>
                 <br><br>
                 {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn', 'name' => 'pdf']) !!}
                 {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc', 'name' => 'doc']) !!}
@@ -77,15 +78,17 @@
                         <option value="" disabled selected>Выберите студента</option>
                     </select>
                 </div>
+                <p id="error1"></p>
                 <br><br>
-                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn', 'name' => 'pdf']) !!}
-                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc', 'name' => 'doc']) !!}
+                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn1', 'name' => 'pdf']) !!}
+                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc1', 'name' => 'doc']) !!}
                 {!! Form::close() !!}
             </div>
 
             <div class="ranking" id="2-content" style="display: none">
                 <p>Выберите преподавателя</p>
                 {!! Form::open(['url' => ['pdfMaster/3'], 'class'=>'form-inline',  'method' => 'GET']) !!}
+                <p id="error2"></p>
 
                 <table class="table">
                     <thead>
@@ -110,7 +113,7 @@
                         <tr class="all">
                             <td class="name">{{$user->surname}} {{$user->name}} {{$user->patronymic}}</td>
                             <td class="email">{{$user->email}}</td>
-                            <td>{!! Form::radio('owner_id', $user->idUsers) !!}</td>
+                            <td>{!! Form::radio('owner_id', $user->idUsers, false, ['class' => 'owners']) !!}</td>
                         </tr>
                         @php
                             $i++;
@@ -120,8 +123,8 @@
                     </tbody>
                 </table>
 
-                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn', 'name' => 'pdf']) !!}
-                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc', 'name' => 'doc']) !!}
+                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn2', 'name' => 'pdf']) !!}
+                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc2', 'name' => 'doc']) !!}
                 {!! Form::close() !!}
                 <br>
 
@@ -135,6 +138,34 @@
         </div>
     </div>
     <script>
+        $('#btn, #btn-doc').bind("click",function()
+        {
+            let imgVal = $("select#students option:checked").val();
+            if(imgVal == '')
+            {
+                $("#error").html("Выберите пользователя");
+                return false;
+            }
+        });
+        $('#btn1, #btn-doc1').bind("click",function()
+        {
+            let imgVal = $("select#students1 option:checked").val();
+            if(imgVal == '')
+            {
+                $("#error1").html("Выберите пользователя");
+                return false;
+            }
+        });
+        $('#btn2, #btn-doc2').bind("click",function()
+        {
+            let imgVal = $('.owners:checked').val();
+            if(imgVal === undefined)
+            {
+                $("#error2").html("Выберите пользователя");
+                return false;
+            }
+        });
+
 
         $('#year').on('change', function(e){
             fillFields(e, '#groups', '{{ url('information') }}/create/ajax-year?year_id', "Выберите группу");
