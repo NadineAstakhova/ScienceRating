@@ -71,9 +71,11 @@ class CreateDocReport extends Model
         $table->addCell(7000, $styleCell)->addText("Навчальні та наукові досягнення", $fontStyle);
         $table->addCell(2000, $styleCell)->addText("Код", $fontStyle);
         $table->addCell(2000, $styleCell)->addText("Кількість балів", $fontStyle);
+        
 
         foreach($contents as $row)
         {
+
             $mark = UsersOwners::getCountOfUserRes( $idOwner, $row->idType_certificates) * $row->mark;
             $sum += $mark;
 
