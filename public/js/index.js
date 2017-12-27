@@ -17,3 +17,38 @@ $(document).ready(function(){
         }
     });
 });
+
+/**
+ * For Create Rating page
+ */
+$(document).ready(function(){
+    $('#btn, #btn-doc').bind("click",function()
+    {
+        let imgVal = $("select#students option:checked").val();
+        if(imgVal == '')
+        {
+            $("#error").html("Выберите пользователя");
+            return false;
+        }
+    });
+    $('#btn1, #btn-doc1').bind("click",function()
+    {
+        let imgVal = $("select#students1 option:checked").val();
+        if(imgVal == '')
+        {
+            $("#error1").html("Выберите пользователя");
+            return false;
+        }
+    });
+    $('#btn2, #btn-doc2').bind("click",function()
+    {
+        let imgVal = $('.owners:checked').val();
+        if(imgVal === undefined)
+        {
+            $("#error2").html("Выберите пользователя");
+            return false;
+        }
+    });
+
+
+});

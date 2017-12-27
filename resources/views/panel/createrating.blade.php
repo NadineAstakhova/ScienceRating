@@ -138,35 +138,6 @@
         </div>
     </div>
     <script>
-        $('#btn, #btn-doc').bind("click",function()
-        {
-            let imgVal = $("select#students option:checked").val();
-            if(imgVal == '')
-            {
-                $("#error").html("Выберите пользователя");
-                return false;
-            }
-        });
-        $('#btn1, #btn-doc1').bind("click",function()
-        {
-            let imgVal = $("select#students1 option:checked").val();
-            if(imgVal == '')
-            {
-                $("#error1").html("Выберите пользователя");
-                return false;
-            }
-        });
-        $('#btn2, #btn-doc2').bind("click",function()
-        {
-            let imgVal = $('.owners:checked').val();
-            if(imgVal === undefined)
-            {
-                $("#error2").html("Выберите пользователя");
-                return false;
-            }
-        });
-
-
         $('#year').on('change', function(e){
             fillFields(e, '#groups', '{{ url('information') }}/create/ajax-year?year_id', "Выберите группу");
         });
