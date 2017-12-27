@@ -10,6 +10,7 @@ use App\CreateResult;
 use App\Http\Requests\AddOwnersFormRequest;
 use App\Http\Requests\CreateResultFormRequest;
 use App\TypeOfRes;
+use App\User;
 use App\UsersOwners;
 use Illuminate\Http\Request;
 use DB;
@@ -119,5 +120,21 @@ class ProfileController extends Controller
         $model = new CreateDocReport();
         $model->createDoc($idTemp, $idOwner);
     }
+
+    public function showUsers(){
+        return view('panel/users',
+            array('title' => 'users','description' => '',
+                'page' => 'users',
+                'arrUsers' => UsersOwners::getAllUsersForTable()));
+    }
+
+    public function showUserResult($idUser){
+        return view('panel/showUserResult',
+            array('title' => 'showUserResult','description' => '',
+                'page' => 'showUserResult',
+                'user' => UsersOwners::getUserById($idUser),
+                'arrResults' => UsersOwners::userResults($idUser)));
+    }
+
 
 }

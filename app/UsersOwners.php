@@ -118,6 +118,17 @@ class UsersOwners extends BaseModel
         return $arrUsersProf;
     }
 
+    public static function userResults($idUser){
+        $arrResults = DB::table('scient_res_owner')
+            ->join('scientific_result', 'scient_res_owner.fkRes', '=', 'scientific_result.idRes')
+            ->join('type_of_scient_res', 'scientific_result.fkType',  '=', 'type_of_scient_res.idType_certificates')
+            ->where('scient_res_owner.fkOwner', '=', $idUser)
+            ->orderBy('scientific_result.date', 'ASC')
+            ->orderBy('type_of_scient_res.type', 'ASC')
+            ->get();
+        return $arrResults;
+    }
+
 
 
 

@@ -37,6 +37,14 @@ Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm'
 
 Route::get('/createrating','ProfileController@createRatingPage')->middleware('auth');
 
+Route::get('/results','ProfileController@showUsers')->middleware('auth');
+
+Route::get('/showUserResult', function() {
+
+    $action = "showUserResult";
+    return App::make('App\Http\Controllers\ProfileController')->$action(Input::get('owner_id'));
+});
+
 //Route::get('/pdfMaster/{idTemp}', 'ProfileController@createPdfReport')->middleware('auth');
 
 Route::get('/pdfMaster/{idTemp}', function($idTemp) {
