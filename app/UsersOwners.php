@@ -130,6 +130,25 @@ class UsersOwners extends BaseModel
     }
 
 
+    public static function countOfArticles($arrUsers){
+        foreach($arrUsers as $user) {
+            $user->countA = self::countOfArticlesByID($user->idUsers);
+        }
+        return $arrUsers->sortByDesc('countA');
+    }
+
+    public static function countOfArticlesByID($idUser){
+        $count = DB::table('article_in_res')
+            ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
+            ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
+            ->where('scient_res_owner.fkOwner', '=', $idUser)
+            ->count();
+        return $count;
+    }
+
+
+
+
 
 
 

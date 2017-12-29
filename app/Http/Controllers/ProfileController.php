@@ -105,7 +105,10 @@ class ProfileController extends Controller
     public function createRatingPage(){
         return view('panel/createrating',
             array('title' => 'createrating','description' => '',
-                'page' => 'createrating'));
+                'page' => 'createrating',
+                'arrArticles' => UsersOwners::countOfArticles(UsersOwners::getAllUsersForTable()),
+            )
+        );
     }
 
     public function createPdfReport($idTemp, $idOwner){

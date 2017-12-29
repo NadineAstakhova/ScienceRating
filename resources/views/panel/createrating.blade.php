@@ -14,7 +14,7 @@
                 <li><a id="0" onclick="showTabs(0)" class="header-active">Научный рейтинг. Магистратура</a></li>
                 <li><a id="1" onclick="showTabs(1)">Научный рейтинг. Аспирантура</a></li>
                 <li><a id="2" onclick="showTabs(2)">Текущий рейтинг преподавателя</a></li>
-                <li><a id="3" onclick="showTabs(3)">Сортировка по параметрам</a></li>
+                <li><a id="3" onclick="showTabs(3)">Сортировка по публикациям</a></li>
             </ul>
 
         </div>
@@ -131,8 +131,7 @@
             </div>
 
             <div class="ranking" id="3-content" style="display: none">
-                В разработке
-
+                @include('panel/articlesranking')
             </div>
 
         </div>
