@@ -17,6 +17,7 @@ use DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
 
 
 class ProfileController extends Controller
@@ -137,6 +138,13 @@ class ProfileController extends Controller
                 'page' => 'showUserResult',
                 'user' => UsersOwners::getUserById($idUser),
                 'arrResults' => UsersOwners::userResults($idUser)));
+    }
+
+    public function showArticles($id)
+    {
+        $articles = UsersOwners::articlesByID($id);
+        $user = UsersOwners::getUserById($id);
+        return view('panel/articles', compact('articles', 'user'));
     }
 
 

@@ -41,7 +41,9 @@
             <td class="type">{{$user->type}}</td>
             <td class="email">{{$user->email}}</td>
             <td>{{$user->countA}}</td>
-            <td></td>
+            <td>
+                <a href="{{ url('articles', $user->idUsers) }}" data-toggle="modal" data-target="#modalArt" class="btn btn-default btn-xs">Просмотреть публикации</a>
+            </td>
         </tr>
         @php
             $i++;
@@ -50,3 +52,26 @@
 
     </tbody>
 </table>
+
+<div class="modal fade" id="modalArt" tabindex="-1" role="dialog" aria-labelledby="modalArt">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"> </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('hidden.bs.modal', '.modal', function () {
+            var modalData = $(this).data('bs.modal');
+
+            // Destroy modal if has remote source – don't want to destroy modals with static content.
+            if (modalData && modalData.options.remote) {
+                // Destroy component. Next time new component is created and loads fresh content
+                $(this).removeData('bs.modal');
+                // Also clear loaded content, otherwise it would flash before new one is loaded.
+                $(this).find(".modal-content").empty();
+            }
+        });
+
+    });
+</script>

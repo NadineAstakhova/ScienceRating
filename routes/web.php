@@ -88,4 +88,8 @@ Route::get('/information/res/{id}',function()
     return $year_id;
 });
 
+
+Route::get('/articles/{id}', 'ProfileController@showArticles')->name('articles');
+Route::resource('/articles', 'ProfileController@showArticles');
+
 Auth::routes();

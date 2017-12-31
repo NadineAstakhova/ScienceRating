@@ -146,6 +146,16 @@ class UsersOwners extends BaseModel
         return $count;
     }
 
+    public static function articlesByID($idUser){
+        $articles =  DB::table('article_in_res')
+            ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
+            ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
+            ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
+            ->where('scient_res_owner.fkOwner', '=', $idUser)
+            ->get();
+        return $articles;
+    }
+
 
 
 
