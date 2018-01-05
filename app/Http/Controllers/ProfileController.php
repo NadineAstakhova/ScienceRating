@@ -74,9 +74,11 @@ class ProfileController extends Controller
         }
 
         if ($model->createRes()){
-            if(!is_null($model->article))
-                $model->createArticle(DB::getPdo()->lastInsertId());
-            return redirect('createres/'.DB::getPdo()->lastInsertId())->with('owners', $request->get('owners'));
+            $last_id = DB::getPdo()->lastInsertId();
+            if(!is_null($model->article)) {
+                $model->createArticle($last_id);
+            }
+            return redirect('createres/'.$last_id)->with('owners', $request->get('owners'));
         }
         else
             return 0;
