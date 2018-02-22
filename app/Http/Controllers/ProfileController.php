@@ -10,12 +10,14 @@ use App\CreateResult;
 use App\Http\Requests\AddOwnersFormRequest;
 use App\Http\Requests\CreateResultFormRequest;
 use App\TypeOfRes;
+use App\User;
 use App\UsersOwners;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
 
 
 class ProfileController extends Controller
@@ -72,9 +74,11 @@ class ProfileController extends Controller
         }
 
         if ($model->createRes()){
-            if(!is_null($model->article))
-                $model->createArticle(DB::getPdo()->lastInsertId());
-            return redirect('createres/'.DB::getPdo()->lastInsertId())->with('owners', $request->get('owners'));
+            $last_id = DB::getPdo()->lastInsertId();
+            if(!is_null($model->article)) {
+                $model->createArticle($last_id);
+            }
+            return redirect('createres/'.$last_id)->with('owners', $request->get('owners'));
         }
         else
             return 0;
@@ -104,7 +108,10 @@ class ProfileController extends Controller
     public function createRatingPage(){
         return view('panel/createrating',
             array('title' => 'createrating','description' => '',
-                'page' => 'createrating'));
+                'page' => 'createrating',
+                'arrArticles' => UsersOwners::countOfArticles(UsersOwners::getAllUsersForTable()),
+            )
+        );
     }
 
     public function createPdfReport($idTemp, $idOwner){
@@ -119,5 +126,28 @@ class ProfileController extends Controller
         $model = new CreateDocReport();
         $model->createDoc($idTemp, $idOwner);
     }
+
+    public function showUsers(){
+        return view('panel/users',
+            array('title' => 'users','description' => '',
+                'page' => 'users',
+                'arrUsers' => UsersOwners::getAllUsersForTable()));
+    }
+
+    public function showUserResult($idUser){
+        return view('panel/showUserResult',
+            array('title' => 'showUserResult','description' => '',
+                'page' => 'showUserResult',
+                'user' => UsersOwners::getUserById($idUser),
+                'arrResults' => UsersOwners::userResults($idUser)));
+    }
+
+    public function showArticles($id)
+    {
+        $articles = UsersOwners::articlesByID($id);
+        $user = UsersOwners::getUserById($id);
+        return view('panel/articles', compact('articles', 'user'));
+    }
+
 
 }

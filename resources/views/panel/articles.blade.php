@@ -1,0 +1,83 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Nadine
+ * Date: 30.12.2017
+ * Time: 20:43
+ */
+?>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="modalArt">Просмотр публикаций</h4>
+</div>
+<div class="modal-body" id='to_print'>
+    Публикации {{$user}}
+    <table class="table table-hover" id="articlesTable">
+        <thead>
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Издательство
+            </th>
+            <th>
+                Дата
+            </th>
+            <th>
+                Кол-во страниц
+            </th>
+        </tr>
+        </thead>
+
+        @php $i=0;
+        @endphp
+        <tbody>
+        @if(count($articles) > 0)
+            @foreach($articles as $article)
+                <tr class="all">
+                    <td class="name">{{$article->atitle}} </td>
+                    <td class="pub">{{$article->publishing}} </td>
+                    <td class="date">{{$article->date}} </td>
+                    <td class="pages">{{$article->pages}} </td>
+                </tr>
+                @php
+                    $i++;
+                @endphp
+            @endforeach
+
+        @else
+            <tr class="all">
+                <td>Нет публикаций</td>
+            </tr>
+        @endif
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+    <button type="button" class="btn btn-success" data-slug="" id="print">Распечатать</button>
+</div>
+
+
+<script>
+    //TODO::Красивости
+    $(document).ready(function(){
+        $('#print').click(function(){
+            var printing_css = "<style media=print>" +
+                "#print, .breadcrumb, .delete_btn, #update_btn{display: none;}" +
+                "table{text-align: left} </style>";
+            var html_to_print=printing_css+$('#to_print').html();
+            var iframe=$('<iframe id="print_frame">');
+            $('body').append(iframe);
+            var doc = $('#print_frame')[0].contentDocument || $('#print_frame')[0].contentWindow.document;
+            var win = $('#print_frame')[0].contentWindow || $('#print_frame')[0];
+            doc.getElementsByTagName('body')[0].innerHTML=html_to_print;
+            win.print();
+            $('iframe').remove();
+        }); });
+</script>
