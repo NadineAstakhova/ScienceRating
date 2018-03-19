@@ -11,6 +11,7 @@ class User extends Authenticatable
     protected $table = 'users';
 
     const METHODIST = '3';
+    const PROFESSOR = '1';
 
     /**
      * The attributes that are mass assignable.

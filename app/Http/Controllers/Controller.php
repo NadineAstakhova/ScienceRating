@@ -22,7 +22,13 @@ class Controller extends BaseController
         if (Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::METHODIST])) {
        // if ($this->getUser($request->get('email'),$request->get('password'))) {
             return redirect()->intended('profile');
-        } else {
+        }
+        elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::PROFESSOR])) {
+            // if ($this->getUser($request->get('email'),$request->get('password'))) {
+            return redirect()->intended('professorProfile');
+        }
+
+        else {
             return redirect()->back()->withInput()->with('message', 'Ошибка входа! Возможно email и/или пароль не верны');
         }
     }

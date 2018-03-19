@@ -27,8 +27,8 @@ class UsersOwners extends BaseModel
             ->join('users', 'users.idUsers', '=', 'student.type_user')
             ->join('access', 'access.idAccess',  '=', 'users.type')
             ->get();
-        $arrUsersProf = DB::table('professor')
-            ->join('users', 'users.idUsers', '=', 'professor.type_user')
+        $arrUsersProf = DB::table('usersPanel')
+            ->join('users', 'users.idUsers', '=', 'usersPanel.type_user')
             ->join('access', 'access.idAccess',  '=', 'users.type')
             ->get();
         $arrUser =  $arrUsersStudents->merge($arrUsersProf);
@@ -64,7 +64,7 @@ class UsersOwners extends BaseModel
         $access = self::getAccess($id);
         $user ='';
         if($access == '1')
-            $user = DB::table('professor')
+            $user = DB::table('usersPanel')
                 ->where('type_user', '=', $id)
                 ->first();
         if($access == '2')
@@ -111,8 +111,8 @@ class UsersOwners extends BaseModel
     }
 
     public static function getProf(){
-        $arrUsersProf = DB::table('professor')
-            ->join('users', 'users.idUsers', '=', 'professor.type_user')
+        $arrUsersProf = DB::table('usersPanel')
+            ->join('users', 'users.idUsers', '=', 'usersPanel.type_user')
             ->join('access', 'access.idAccess',  '=', 'users.type')
             ->get();
         return $arrUsersProf;

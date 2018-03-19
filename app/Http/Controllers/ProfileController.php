@@ -28,6 +28,10 @@ class ProfileController extends Controller
         return view('panel/profile');
     }
 
+    public function professorProfile() {
+        return view('usersPanel/professorProfile');
+    }
+
 
     public function createResultPage(){
         return view('panel/createRes',

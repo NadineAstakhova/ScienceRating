@@ -92,4 +92,6 @@ Route::get('/information/res/{id}',function()
 Route::get('/articles/{id}', 'ProfileController@showArticles')->name('articles');
 Route::resource('/articles', 'ProfileController@showArticles');
 
+Route::get('/professorProfile','ProfileController@professorProfile')->middleware('auth');
+
 Auth::routes();
