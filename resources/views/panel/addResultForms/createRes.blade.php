@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
+            <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
             <li class="breadcrumb-item active">Ввод данных рейтинга</li>
         </ol>
 

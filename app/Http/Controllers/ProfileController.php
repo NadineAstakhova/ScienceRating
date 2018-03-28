@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\AddOwnersForm;
-use App\CertificatPdfParse;
-use App\CreateDocReport;
-use App\CreatePdfReport;
-use App\CreateResult;
+use App\Models\RankingModels\AddOwnersForm;
+use App\Models\RankingModels\CertificatPdfParse;
+use App\Models\RankingModels\CreateResult;
+use App\Models\RankingModels\TypeOfRes;
+use App\Models\ReportModels\CreateDocReport;
+
 use App\Http\Requests\AddOwnersFormRequest;
 use App\Http\Requests\CreateResultFormRequest;
-use App\TypeOfRes;
-use App\User;
-use App\UsersOwners;
+
+use App\Models\ReportModels\CreatePdfReport;
+use App\Models\UsersOwners;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
@@ -34,7 +35,7 @@ class ProfileController extends Controller
 
 
     public function createResultPage(){
-        return view('panel/createRes',
+        return view('panel/addResultForms/createRes',
             array('title' => 'createRes','description' => '',
                 'page' => 'createRes', 'arrType' => TypeOfRes::getAll()));
     }
@@ -67,7 +68,7 @@ class ProfileController extends Controller
            $searchDate = $parseFile->searchDate();
            $searchTitle = $parseFile->serachTitle();
 
-            return view('panel/createRes',
+            return view('panel/addResultForms/createRes',
                 array('title' => 'createRes','description' => '',
                     'page' => 'createRes', 'arrType' => TypeOfRes::getAll(),
                     'pdfText' => $content,
@@ -89,7 +90,7 @@ class ProfileController extends Controller
     }
 
     public function createResultOwner($idRes){
-        return view('panel/createResSetOwners',
+        return view('panel/addResultForms/createResSetOwners',
             array('title' => 'createResSetOwners','description' => '',
                 'page' => 'createResSetOwners',
                 'idResult' => $idRes,
@@ -110,7 +111,7 @@ class ProfileController extends Controller
     }
 
     public function createRatingPage(){
-        return view('panel/createrating',
+        return view('panel/showRankigs/createrating',
             array('title' => 'createrating','description' => '',
                 'page' => 'createrating',
                 'arrArticles' => UsersOwners::countOfArticles(UsersOwners::getAllUsersForTable()),
@@ -132,14 +133,14 @@ class ProfileController extends Controller
     }
 
     public function showUsers(){
-        return view('panel/users',
+        return view('panel/userRating/users',
             array('title' => 'users','description' => '',
                 'page' => 'users',
                 'arrUsers' => UsersOwners::getAllUsersForTable()));
     }
 
     public function showUserResult($idUser){
-        return view('panel/showUserResult',
+        return view('panel/userRating/showUserResult',
             array('title' => 'showUserResult','description' => '',
                 'page' => 'showUserResult',
                 'user' => UsersOwners::getUserById($idUser),
@@ -150,7 +151,7 @@ class ProfileController extends Controller
     {
         $articles = UsersOwners::articlesByID($id);
         $user = UsersOwners::getUserById($id);
-        return view('panel/articles', compact('articles', 'user'));
+        return view('panel/showRankigs/articles', compact('articles', 'user'));
     }
 
 

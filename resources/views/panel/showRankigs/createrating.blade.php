@@ -106,7 +106,7 @@
                     </thead>
 
                     @php $i=0;
-                    $arrUsers = \App\UsersOwners::getProf();
+                    $arrUsers = \App\Models\UsersOwners::getProf();
                     @endphp
                     <tbody>
                     @foreach($arrUsers as $user)
@@ -131,7 +131,7 @@
             </div>
 
             <div class="ranking" id="3-content" style="display: none">
-                @include('panel/articlesranking')
+                @include('panel.showRankigs.articlesranking')
             </div>
 
         </div>

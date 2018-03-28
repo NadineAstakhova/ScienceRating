@@ -64,7 +64,7 @@
 
                    // $id = ($i % 2 == 0) ? '0': '1';
                     @endphp
-                    <td>{!! Form::select('arrRole['.$i.']', \App\UsersOwners::ARRAY_ROLES,  null, ['class' => 'form-control']) !!}</td>
+                    <td>{!! Form::select('arrRole['.$i.']', \App\Models\UsersOwners::ARRAY_ROLES,  null, ['class' => 'form-control']) !!}</td>
                     <td>{!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
                     true : false, ['class' => 'form-control']) !!}
 

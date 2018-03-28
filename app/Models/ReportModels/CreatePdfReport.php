@@ -1,8 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models\ReportModels;
 
 use Anouar\Fpdf\Fpdf;
+use App\Models\RankingModels\DataInRanking;
+use App\Models\UsersOwners;
 use Illuminate\Database\Eloquent\Model;
 use Elibyy\TCPDF\Facades\TCPDF;
 use PDF;

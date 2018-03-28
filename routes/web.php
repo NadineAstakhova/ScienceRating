@@ -13,6 +13,7 @@
 
 
 use Anouar\Fpdf\Fpdf;
+use App\Models\UsersOwners;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -70,14 +71,14 @@ Route::get('/pdfMaster/{idTemp}', function($idTemp) {
 Route::get('/information/create/ajax-year',function()
 {
     $year_id = Input::get('year_id');
-    $subcategories = \App\UsersOwners::getGroups($year_id);
+    $subcategories = UsersOwners::getGroups($year_id);
     return $subcategories;
 });
 
 Route::get('/information/create/ajax-group',function()
 {
     $group_id = Input::get('group_id');
-    $subcategories = \App\UsersOwners::getStudentsInGroup($group_id);
+    $subcategories = UsersOwners::getStudentsInGroup($group_id);
     return $subcategories;
 });
 
