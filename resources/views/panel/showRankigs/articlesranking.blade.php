@@ -7,14 +7,14 @@
  */
 
 ?>
-<table class="table table-hover" id="ownerTable">
+<table class="table table-hover table-sm" id="ownerTable">
     <thead>
     <tr>
         <th>
-            <input type="text" id="search" placeholder="Поиск по ФИО..." class='form-control'/>
+            <input type="text" id="search" placeholder="Поиск по ФИО..." class='form-control form-control-sm'/>
         </th>
         <th>
-            <select id="selectFilter" class='form-control'>
+            <select id="selectFilter" class='form-control form-control-sm'>
                 <option id="all">Все пользователи</option>
                 <option id="student">Student</option>
                 <option id="professor">Professor</option>
@@ -42,7 +42,7 @@
             <td class="email">{{$user->email}}</td>
             <td>{{$user->countA}}</td>
             <td>
-                <a href="{{ url('articles', $user->idUsers) }}" data-toggle="modal" data-target="#modalArt" class="btn btn-default btn-xs">Просмотреть публикации</a>
+                <a href="{{ url('articles', $user->idUsers) }}" data-toggle="modal" data-target="#modalArt" class="btn btn-outline-dark btn-sm">Просмотреть публикации</a>
             </td>
         </tr>
         @php
@@ -53,25 +53,26 @@
     </tbody>
 </table>
 
-<div class="modal fade" id="modalArt" tabindex="-1" role="dialog" aria-labelledby="modalArt">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content"> </div>
+
+<div class="modal fade bd-example-modal-lg" id="modalArt" tabindex="-1" role="dialog" aria-labelledby="modalArt" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+        </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
-        $(document).on('hidden.bs.modal', '.modal', function () {
-            var modalData = $(this).data('bs.modal');
-
-            // Destroy modal if has remote source – don't want to destroy modals with static content.
-            if (modalData && modalData.options.remote) {
-                // Destroy component. Next time new component is created and loads fresh content
-                $(this).removeData('bs.modal');
-                // Also clear loaded content, otherwise it would flash before new one is loaded.
-                $(this).find(".modal-content").empty();
+        // Vary modal content based on trigger button
+        $("#modalArt").on('shown.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            console.log( button.attr('href'));
+            var target = button.attr('href');
+            if (target) {
+                $(this).load(target, function () {
+                    $(this).find('input:visible:first').focus();
+                });
             }
         });
-
     });
 </script>

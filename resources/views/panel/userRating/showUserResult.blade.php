@@ -10,20 +10,22 @@
 @section('title', 'User Results')
 @section('content')
     <div class="row">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
-            <li class="breadcrumb-item active">Научные результаты {{$user}}</li>
-        </ol>
+        <nav aria-label="breadcrumb" style="width: 100%;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
+                <li class="breadcrumb-item active">Научные результаты </li>
+            </ol>
+        </nav>
     </div>
     <div class="row" id='to_print'>
         <div class="col-xs-6 col-sm-8 col-lg-8">
             <h3>Научные результаты {{$user}} </h3>
         </div>
         <div class="col-xs-8 col-sm-4 col-lg-4" id="listBtn">
-            <button class="btn btn-default" id="print">Печать</button>
+            <button class="btn btn-outline-dark" id="print">Печать</button>
         </div>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered" style="margin-top: 5px;">
             <thead>
             <tr>
                 <th>
