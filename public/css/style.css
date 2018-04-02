@@ -1,7 +1,9 @@
 body {
     padding-top: 5rem;
 }
-
+@media (max-width: 576px) {
+    body {padding-top: 7rem;}
+}
 
 .navbar {
     margin-bottom: 0;
@@ -133,4 +135,12 @@ label{
 
 .table thead th{
     border-top: none;
+}
+
+.panel-cards{
+    margin-bottom: 10px;
+}
+
+.disabled-card{
+    color: #bababa;
 }

@@ -44,7 +44,7 @@
             @endif
             <li class="nav-item"><a class="nav-link" href="{{Auth::check() ? url('auth/logout') : url('auth/login')}}">
                     <span class="glyphicon glyphicon-log-in"></span>
-                    {{Auth::check() ? 'Logout' : 'Login'}}</a>
+                    {{Auth::check() ? 'Logout ('.Auth::user()->username.')' : 'Login'}}</a>
             </li>
         </ul>
     </div>
