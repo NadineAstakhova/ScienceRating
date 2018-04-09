@@ -37,12 +37,12 @@
         <ul class="navbar-nav ml-auto">
             @if (Auth::check())
                 @if(Auth::user()->type == \App\User::METHODIST)
-                    <li class="nav-item"><a class="nav-link" href={{url("profile")}}>Profile</a></li>
+                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("profile")}}>Profile</a></li>
                 @elseif(Auth::user()->type == \App\User::PROFESSOR)
-                    <li class="nav-item"><a class="nav-link" href={{url("professorProfile")}}>Profile</a></li>
+                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("professorProfile")}}>Profile</a></li>
                 @endif
             @endif
-            <li class="nav-item"><a class="nav-link" href="{{Auth::check() ? url('auth/logout') : url('auth/login')}}">
+            <li class="nav-item"><a class="nav-header-link nav-link" href="{{Auth::check() ? url('auth/logout') : url('auth/login')}}">
                     <span class="glyphicon glyphicon-log-in"></span>
                     {{Auth::check() ? 'Logout ('.Auth::user()->username.')' : 'Login'}}</a>
             </li>

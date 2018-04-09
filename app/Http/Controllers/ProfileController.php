@@ -12,9 +12,11 @@ use App\Http\Requests\AddOwnersFormRequest;
 use App\Http\Requests\CreateResultFormRequest;
 
 use App\Models\ReportModels\CreatePdfReport;
+use App\Models\UsersModels\Professor;
 use App\Models\UsersOwners;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -30,7 +32,11 @@ class ProfileController extends Controller
     }
 
     public function professorProfile() {
-        return view('usersPanel/professorProfile');
+       $professor = Professor::findIdentity( Auth::user()->idUsers);
+       session()->put('professor', $professor);
+       return view('usersPanel/professorProfile',
+            array('title' => 'professorProfile','description' => '',
+                'page' => 'professorProfile', 'professor' =>   $professor));
     }
 
 
@@ -147,11 +153,50 @@ class ProfileController extends Controller
                 'arrResults' => UsersOwners::userResults($idUser)));
     }
 
-    public function showArticles($id)
-    {
+    public function showArticles($id){
         $articles = UsersOwners::articlesByID($id);
         $user = UsersOwners::getUserById($id);
         return view('panel/showRankigs/articles', compact('articles', 'user'));
+    }
+
+    public function infoProfile(){
+        return view('usersPanel/infoProfile',
+            array('title' => 'infoProfile','description' => '',
+                'page' => 'infoProfile', 'professor' =>   session()->get('professor')));
+    }
+
+    /**
+     * Function for updating professor info at two tables Users and Professor
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateUserInfoForm(Request $request){
+        $updateInfo = new Professor();
+        try {
+            //TODO add ukr and en
+            $updateInfoProf = $updateInfo->updateProfInfo(
+                session()->get('professor')->id,
+                $request->get('name'),
+                $request->get('surname'),
+                $request->get('patronymic')
+            );
+            $updateInfoUser =  $updateInfo->updateUserInfo(
+                session()->get('professor')->idUsers,
+                $request->get('email')
+            );
+            if(($updateInfoProf && $updateInfoUser) || ($updateInfoProf || $updateInfoUser)){
+                 return redirect('professorProfile')->with('save', 'Данные успешно изменены');
+            }
+            else
+                 return redirect('professorProfile')->with('error', 'Ошибка при измении данных');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect('professorProfile')->with('error', 'Ошибка при измении данных');
+        } catch (\Exception $e) {
+            return redirect('professorProfile')->with('error', 'Ошибка при измении данных');
+        }
+
+
+
     }
 
 

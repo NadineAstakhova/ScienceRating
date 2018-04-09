@@ -94,5 +94,7 @@ Route::get('/articles/{id}', 'ProfileController@showArticles')->name('articles')
 Route::resource('/articles', 'ProfileController@showArticles');
 
 Route::get('/professorProfile','ProfileController@professorProfile')->middleware('auth');
+Route::get('/infoProfile','ProfileController@infoProfile')->middleware('auth');
+Route::post('/editUserInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
 
 Auth::routes();

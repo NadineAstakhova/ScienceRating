@@ -10,11 +10,11 @@ body {
     border-radius: 0;
 }
 
-.nav-link{
+.nav-header-link{
     color: white !important;
 }
 
-.nav-link:focus,.nav-link:hover{
+.nav-header-link:focus,.nav-header-link:hover{
     color:rgba(255,255,255,.75) !important;
 }
 
