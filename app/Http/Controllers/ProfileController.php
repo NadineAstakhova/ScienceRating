@@ -175,10 +175,16 @@ class ProfileController extends Controller
             return view('usersPanel/infoProfile',
                 array('title' => 'infoProfile','description' => '',
                     'page' => 'infoProfile', 'user' =>   session()->get('professor')));
-        } if(Auth::user()->type == '2'){
+        }
+        if(Auth::user()->type == '2'){
             return view('usersPanel/infoProfile',
                 array('title' => 'infoProfile','description' => '',
                     'page' => 'infoProfile', 'user' =>   session()->get('student')));
+        }
+        if(Auth::user()->type == '3'){
+            return view('panel/infoProfileMethodist',
+                array('title' => 'infoProfileMethodist','description' => '',
+                    'page' => 'infoProfileMethodist', 'user' =>   Auth::user()));
         }
 
     }
@@ -223,6 +229,11 @@ class ProfileController extends Controller
     }
 
 
+    /**
+     * Function for updating student info at two tables Users and Student
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateStudentInfoForm(Request $request){
         $updateInfo = new Student();
         try {
@@ -255,6 +266,29 @@ class ProfileController extends Controller
         } catch (\Exception $e) {
             return redirect('studentProfile')->with('error', 'Ошибка при измении данных');
         }
+    }
+
+    public function updateMethodistInfoForm(Request $request){
+        try {
+            $updateInfoUser =  User::updateUserInfo(
+                Auth::user()->idUsers,
+                $request->get('email')
+            );
+            if (strlen($request->get('new_password')) != 0)
+                $updatePass = User::updatePass(Auth::user()->idUsers, Hash::make($request->get('new_password')));
+            else
+                $updatePass = 0;
+            if(($updatePass && $updateInfoUser) ||  ($updateInfoUser || $updatePass)){
+                return redirect('profile')->with('save', 'Данные успешно изменены');
+            }
+            else
+                return redirect('profile')->with('error', 'Ошибка при измении данных');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect('profile')->with('error', 'Ошибка при измении данных');
+        } catch (\Exception $e) {
+            return redirect('profile')->with('error', 'Ошибка при измении данных');
+        }
+
     }
 
 

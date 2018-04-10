@@ -100,4 +100,7 @@ Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware
 Route::get('/studentProfile','ProfileController@studentProfile')->middleware('auth');
 Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
 
+Route::get('/infoProfileMethodist','ProfileController@infoProfile')->middleware('auth');
+Route::post('/editMethodistInfo', 'ProfileController@updateMethodistInfoForm')->middleware('auth');
+
 Auth::routes();

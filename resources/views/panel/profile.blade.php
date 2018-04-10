@@ -5,9 +5,25 @@
     <div class="row">
         <div class="col-lg-9 panel-cards">
             <h3>Hello, {{Auth::user()->username}}</h3>
+            @php
+                if(Session::has('save'))
+                   echo "<div class='alert alert-success' id='mesSuccessAdd'>".Session::get("save")."</div>";
+               if(Session::has('error'))
+                   echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("error")."</div>";
+            @endphp
         </div>
     </div>
     <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
+                <div class="card">
+                    <h5 class="card-header">Анкета</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Данные профайла</h5>
+                        <p class="card-text">Просмотр личных данных и их редактирование</p>
+                        <a href="{{url("infoProfileMethodist")}}" class="btn btn-info" id="listSub">Посмотреть анкету</a>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
                     <h5 class="card-header">Ввод данных результата</h5>
@@ -53,23 +69,11 @@
                     <h5 class="card-header">Шаблоны рейтингов</h5>
                     <div class="card-body">
                         <h5 class="card-title">Создание шаблонов рейтингов</h5>
-                        <p class="card-text">Определение новых научных рейтингов с весовыми коэффициентами и типами результатов.</p>
+                        <p class="card-text">Создание научных рейтингов с весовыми коэффициентами и типами результатов.</p>
                         <button type="button" class="btn btn-light" disabled="">Создать шаблон рейтинга</button>
                     </div>
                 </div>
             </div>
-
-
-
-
-
         <br><br>
-        @php
-            if(Session::has('save'))
-               echo "<div class='alert alert-success' id='mesSuccessAdd'>".Session::get("save")."</div>";
-           if(Session::has('error'))
-               echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("error")."</div>";
-        @endphp
     </div>
-
 @endsection
