@@ -25,7 +25,7 @@ class CreateResultFormRequest extends FormRequest
     {
         return [
             'name' => 'required_without:allField',
-            'file' => 'required',
+            'file' => 'required|mimes:pdf,doc,docx,rar,zip',
             'date' => 'required_without:allField',
 
 
@@ -37,6 +37,7 @@ class CreateResultFormRequest extends FormRequest
         return [
             'name.required_without' => 'При ручном вводе данных поле Название обязательное',
             'file.required' => 'A file is required',
+            'file.mimes' => 'Не верный тип файла',
             'date.required_without' => 'При ручном вводе данных поле Дата обязательное',
         ];
     }
