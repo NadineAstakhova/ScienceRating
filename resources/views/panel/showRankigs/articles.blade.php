@@ -6,13 +6,14 @@
  * Time: 20:43
  */
 ?>
-
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <h4 class="modal-title" id="modalArt">Просмотр публикаций</h4>
-</div>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Просмотр публикаций</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
 <div class="modal-body" id='to_print'>
     Публикации {{$user}}
     <table class="table table-hover" id="articlesTable">
@@ -63,7 +64,8 @@
     <button type="button" class="btn btn-success" data-slug="" id="print">Распечатать</button>
 </div>
 
-
+    </div>
+</div>
 <script>
     //TODO::Красивости
     $(document).ready(function(){

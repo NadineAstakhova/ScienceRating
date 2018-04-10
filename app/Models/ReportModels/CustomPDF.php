@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models\ReportModels;
 
+use App\Models\UsersOwners;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Database\Eloquent\Model;
 

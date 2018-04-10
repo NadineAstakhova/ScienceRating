@@ -10,12 +10,13 @@
 @section('title', 'Show Users')
 @section('content')
     <div class="row">
-        <h3>Выберите пользователя</h3>
-        <h4>Можете воспользоваться фильтрами в заголовках таблицы</h4>
+        {!! Form::open(['url' => ['showUserResult'], 'class'=>'form',  'method' => 'GET', 'style' => 'width:100%; padding-bottom:20px;']) !!}
+        <h3 class="font-weight-normal">Выберите пользователя</h3>
+        <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
 
-        {!! Form::open(['url' => ['showUserResult'], 'class'=>'form-inline',  'method' => 'GET']) !!}
-        {!! Form::submit('Просмотреть научный результат', ['class' => 'btn btn-default', 'id' => 'btn-u1']) !!}
-        <a class="btn btn-default btn-close" href="{{ url()->to('profile') }}">Cancel</a>
+
+        {!! Form::submit('Просмотреть научный результат', ['class' => 'btn btn-outline-secondary', 'id' => 'btn-u1']) !!}
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to('profile') }}">Cancel</a>
         <p id="error-u"></p>
         <table class="table" id="ownerTable">
             <thead>
@@ -47,7 +48,12 @@
                     <td class="name">{{$user->surname}} {{$user->name}} {{$user->patronymic}}</td>
                     <td class="type">{{$user->type}}</td>
                     <td class="email">{{$user->email}}</td>
-                    <td>{!! Form::radio('owner_id', $user->idUsers, false, ['class' => 'owners']) !!}</td>
+                    <td>
+                        <div class="custom-control custom-radio">
+                            {!! Form::radio('owner_id', $user->idUsers, false, ['class' => 'owners custom-control-input', 'id' =>  'customRadio'.$user->idUsers]) !!}
+                            <label class="custom-control-label" for='customRadio{{$user->idUsers}}'></label>
+                        </div>
+                    </td>
                 </tr>
                 @php
                     $i++;
@@ -56,9 +62,9 @@
 
             </tbody>
         </table>
-        {!! Form::submit('Просмотреть научный результат', ['class' => 'btn btn-default', 'id' => 'btn-u']) !!}
-        <a class="btn btn-default btn-close" href="{{ url()->to('profile') }}">Cancel</a>
+        {!! Form::submit('Просмотреть научный результат', ['class' => 'btn btn-outline-secondary', 'id' => 'btn-u']) !!}
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to('profile') }}">Cancel</a>
         {!! Form::close() !!}
-        <br><br>
+
     </div>
 @endsection

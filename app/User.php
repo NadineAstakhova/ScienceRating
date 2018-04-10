@@ -4,13 +4,18 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DB;
 
 class User extends Authenticatable
 {
     use Notifiable;
     protected $table = 'users';
 
+    const PROFESSOR = '1';
+    const STUDENT = '2';
     const METHODIST = '3';
+
+
 
     /**
      * The attributes that are mass assignable.
@@ -38,5 +43,24 @@ class User extends Authenticatable
         return 'username';
     }
 
+    public static function updatePass($id,  $pass){
+        $update = DB::table('users')
+            ->where('idUsers', $id)
+            ->update(['password' =>$pass]);
+        if($update)
+            return true;
+        else
+            return false;
+    }
+
+    public static function updateUserInfo($id, $email){
+        $update = DB::table('users')
+            ->where('idUsers', $id)
+            ->update(['email' => $email]);
+        if($update)
+            return true;
+        else
+            return false;
+    }
 
 }

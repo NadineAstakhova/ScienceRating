@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models\RankingModels;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 

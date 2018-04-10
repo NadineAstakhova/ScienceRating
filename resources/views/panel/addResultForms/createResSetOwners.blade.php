@@ -1,10 +1,12 @@
 @extends('layouts.main')
 @section('title', 'Add Owners')
+
 @section('content')
 
     <div class="row">
-        <h3>Выберите участника/ов</h3>
-        <h4>Можете воспользоваться фильтрами в заголовках таблицы</h4>
+        {!! Form::open(['url' => ['addResultOwner/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+        <h3 class="font-weight-normal">Выберите участника/ов</h3>
+        <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -16,13 +18,13 @@
             </div>
         @endif
 
-        {!! Form::open(['url' => ['addResultOwner/'.$idResult], 'class'=>'form-inline', 'files'=>'true']) !!}
 
-        {!! Form::submit('Save', ['class' => 'btn btn-default', 'id' => 'btn']) !!}
 
-        <a class="btn btn-default btn-close" href="{{ url()->to('profile') }}">Cancel</a>
-        <br>
-        <table class="table" id="ownerTable">
+        {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to('profile') }}">Cancel</a>
+        <br><br>
+        <table class="table table-sm" id="ownerTable">
             <thead>
                 <tr>
                     <th>
@@ -64,9 +66,11 @@
 
                    // $id = ($i % 2 == 0) ? '0': '1';
                     @endphp
-                    <td>{!! Form::select('arrRole['.$i.']', \App\UsersOwners::ARRAY_ROLES,  null, ['class' => 'form-control']) !!}</td>
-                    <td>{!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
-                    true : false, ['class' => 'form-control']) !!}
+                    <td>{!! Form::select('arrRole['.$i.']', \App\Models\UsersOwners::ARRAY_ROLES,  null, ['class' => 'form-old-select form-control']) !!}</td>
+                    <td>
+
+                        {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
+                    true : false) !!}
 
                     </td>
                 </tr>
@@ -77,9 +81,9 @@
 
             </tbody>
         </table>
-        {!! Form::submit('Save', ['class' => 'btn btn-default', 'id' => 'btn']) !!}
+        {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
 
-        <a class="btn btn-default btn-close" id="j">Cancel</a>
+        <a class="btn btn-outline-secondary btn-close" id="j">Cancel</a>
 
         {!! Form::close() !!}
         <br>

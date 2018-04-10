@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models\RankingModels;
 
+use App\Models\UsersOwners;
 use Illuminate\Database\Eloquent\Model;
 use \Smalot\PdfParser\Parser;
 

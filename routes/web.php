@@ -13,6 +13,7 @@
 
 
 use Anouar\Fpdf\Fpdf;
+use App\Models\UsersOwners;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -70,14 +71,14 @@ Route::get('/pdfMaster/{idTemp}', function($idTemp) {
 Route::get('/information/create/ajax-year',function()
 {
     $year_id = Input::get('year_id');
-    $subcategories = \App\UsersOwners::getGroups($year_id);
+    $subcategories = UsersOwners::getGroups($year_id);
     return $subcategories;
 });
 
 Route::get('/information/create/ajax-group',function()
 {
     $group_id = Input::get('group_id');
-    $subcategories = \App\UsersOwners::getStudentsInGroup($group_id);
+    $subcategories = UsersOwners::getStudentsInGroup($group_id);
     return $subcategories;
 });
 
@@ -91,5 +92,15 @@ Route::get('/information/res/{id}',function()
 
 Route::get('/articles/{id}', 'ProfileController@showArticles')->name('articles');
 Route::resource('/articles', 'ProfileController@showArticles');
+
+Route::get('/professorProfile','ProfileController@professorProfile')->middleware('auth');
+Route::get('/infoProfile','ProfileController@infoProfile')->middleware('auth');
+Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
+
+Route::get('/studentProfile','ProfileController@studentProfile')->middleware('auth');
+Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
+
+Route::get('/infoProfileMethodist','ProfileController@infoProfile')->middleware('auth');
+Route::post('/editMethodistInfo', 'ProfileController@updateMethodistInfoForm')->middleware('auth');
 
 Auth::routes();

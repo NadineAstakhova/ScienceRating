@@ -1,11 +1,14 @@
 @extends('layouts.main')
 @section('title', 'Create Result')
+
 @section('content')
     <div class="row">
+        <nav aria-label="breadcrumb" style="width: 100%;">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
+            <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
             <li class="breadcrumb-item active">Ввод данных рейтинга</li>
         </ol>
+        </nav>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -22,35 +25,37 @@
             }
 
         @endphp
-        {!! Form::open(['url' => ['createResult'], 'class'=>'form-inline', 'files'=>'true']) !!}
+        {!! Form::open(['url' => ['createResult'], 'class'=>'form', 'files'=>'true']) !!}
 
         {!! Form::label('file', 'Загрузить документ:') !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
         <p id="error"></p>
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="allField" name="allField" value="allField">
+            <label class="custom-control-label" for="allField">Заполнить автоматически</label>
+        </div>
         <br>
-        <label class="form-check-label">
-            <input type="checkbox" id="allField" class="form-check-input" name="allField" value="allField">
-            Заполнить автоматически
-        </label>
-        <br> <br>
 
         {!! Form::label('name', 'Название результата:') !!}
 
         <input type="text" id="name" class="form-control" name="name" value="{{isset($pdfText) && $searchTitle ? $searchTitle : ''}}">
         <span id="nameT"></span>
-        <br> <br>
+        <br>
 
         {!! Form::label('type', 'Тип:') !!}
-        {!! Form::select('type', $arrType,  null, ['class' => 'form-control', 'style' => 'width:100%']) !!}
+        {!! Form::select('type', $arrType,  null, ['class' => 'form-control form-control-lg', 'style' => 'width:100%']) !!}
         <span id="typeT"></span>
-        <br> <br>
+        <br>
+        <div class="form-group row">
+        {!! Form::label('date', 'Дата:', array('class' => 'col-sm-1 col-form-label')) !!}
+            <div class="col-sm-3">
+                <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}">
+            </div>
+        <span id="dateT" class="col-sm-10"></span>
+        </div>
 
-        {!! Form::label('date', 'Дата:') !!}
-        <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}">
-        <span id="dateT"></span>
 
-
-        <br> <br>
+        <br>
         @if(isset($pdfText))
             {!! Form::label('pdfText', 'Содержание файла:') !!}
             {!! Form::textArea('pdfText', $pdfText, ['class' => 'form-control', 'style' => 'width:100%']) !!}
@@ -69,23 +74,23 @@
             @endif
             </div>
         @endif
-        <br> <br>
+
 
         <div id="articleFields">
             {!! Form::label('article', 'Название статьи:') !!}
             {!! Form::text('article', null, ['class' => 'form-control']) !!}
-            <br> <br>
+            <br>
             {!! Form::label('publishing', 'Издательство:') !!}
             {!! Form::text('publishing', null, ['class' => 'form-control']) !!}
-            <br> <br>
+            <br>
             {!! Form::label('pages', 'Количество страниц:') !!}
             {!! Form::number('pages', null, ['class' => 'form-control']) !!}
-            <br> <br>
+            <br>
         </div>
 
-        {!! Form::submit('Save', ['class' => 'btn btn-default', 'id' => 'btn']) !!}
+        {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
 
-        <a class="btn btn-default btn-close" href="{{ url()->previous() }}">Cancel</a>
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">Cancel</a>
         <br><br>
 
         {!! Form::close() !!}

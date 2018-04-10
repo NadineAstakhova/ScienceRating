@@ -1,7 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models\ReportModels;
 
+use App\Models\RankingModels\DataInRanking;
+use App\Models\UsersOwners;
 use Illuminate\Database\Eloquent\Model;
 use PhpOffice\PhpWord\PhpWord;
 
