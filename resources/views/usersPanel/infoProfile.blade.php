@@ -12,7 +12,12 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Back</a></li>
+                @if(Auth::user()->type == '1')
+                    <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Back</a></li>
+                @elseif(Auth::user()->type == '2')
+                    <li class="breadcrumb-item"><a href={{ url('studentProfile') }}>Back</a></li>
+                @endif
+
                 <li class="breadcrumb-item active">Анкета</li>
             </ol>
         </nav>
@@ -33,23 +38,29 @@
                             <div class="col-md-6">
                                 <h6>ФИО</h6>
                                 <p>
-                                    {{$professor->surname}} {{$professor->name}} {{$professor->patronymic}}
+                                    {{$user->surname}} {{$user->name}} {{$user->patronymic}}
                                 </p>
                                 <h6>ФИО (укр)</h6>
                                 <p>
-                                    {{$professor->surname}} {{$professor->name}} {{$professor->patronymic}}
+                                    {{$user->surname_ukr}} {{$user->name_ukr}} {{$user->patronymic_ukr}}
                                 </p>
                                 <h6>ФИО (en)</h6>
                                 <p>
-                                    {{$professor->surname}} {{$professor->name}}
+                                    {{$user->surname_en}} {{$user->name_en}}
                                 </p>
+                                @if(Auth::user()->type == '2')
+                                    <h6>Группа</h6>
+                                    <p>
+                                        {{$user->groupName}} ({{$user->groupFullName}})
+                                    </p>
+                                @endif
                                 <h6>Логин</h6>
                                 <p>
-                                    {{$professor->username}}
+                                    {{$user->username}}
                                 </p>
                                 <h6>Почта</h6>
                                 <p>
-                                    {{$professor->email}}
+                                    {{$user->email}}
                                 </p>
                             </div>
 
@@ -59,62 +70,87 @@
                     </div>
 
                     <div class="tab-pane" id="edit">
-                        {!! Form::open(['url' => ['editUserInfo'], 'class'=>'form']) !!}
+                        @if(Auth::user()->type == '1')
+                            {!! Form::open(['url' => ['editProfInfo'], 'class'=>'form']) !!}
+                        @elseif(Auth::user()->type == '2')
+                            {!! Form::open(['url' => ['editStudentInfo'], 'class'=>'form']) !!}
+                        @endif
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Фамилия:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="{{$professor->surname}}" name="surname">
+                                <input class="form-control" type="text" value="{{$user->surname}}" name="surname">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Имя:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="{{$professor->name}}" name="name">
+                                <input class="form-control" type="text" value="{{$user->name}}" name="name">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Отчество:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="{{$professor->patronymic}}" name="patronymic">
+                                <input class="form-control" type="text" value="{{$user->patronymic}}" name="patronymic">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Фамилия (укр):</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="{{$professor->surname}}" name="surname_ukr">
+                                <input class="form-control" type="text" value="{{$user->surname_ukr}}" name="surname_ukr">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Имя (укр):</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="{{$professor->name}}" name="name_ukr">
+                                <input class="form-control" type="text" value="{{$user->name_ukr}}" name="name_ukr">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Отчество (укр):</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="{{$professor->patronymic}}" name="patronymic_ukr">
+                                <input class="form-control" type="text" value="{{$user->patronymic_ukr}}" name="patronymic_ukr">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Фамилия (en):</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="{{$professor->surname}}" name="surname_en">
+                                <input class="form-control" type="text" value="{{$user->surname_en}}"
+                                       name="surname_en" pattern="[a-zA-Z]+" oninvalid="this.setCustomValidity('Введите фамилию латиницей')"
+                                       oninput="setCustomValidity('')" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Имя (en):</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="text" value="{{$professor->name}}" name="name_ukr">
+                                <input class="form-control" type="text" value="{{$user->name_en}}"
+                                       name="name_en"  pattern="[a-zA-Z]+" oninvalid="this.setCustomValidity('Введите имя латиницей')"
+                                       oninput="setCustomValidity('')">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label">Email:</label>
                             <div class="col-lg-9">
-                                <input class="form-control" type="email" value="{{$professor->email}}" name="email">
+                                <input class="form-control" type="email" value="{{$user->email}}"
+                                       name="email" oninvalid="this.setCustomValidity('Это неверный формат Email')"
+                                       oninput="setCustomValidity('')">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Новый пароль:</label>
+                            <div class="col-lg-9">
+                                {!! Form::password('new_password',
+                                    ['class' => 'form-control', 'id' => 'passNew', 'minlength' => 6]) !!}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Повторите пароль:</label>
+                            <div class="col-lg-9">
+                                {!! Form::password('password_confirm',
+                                    ['class' => 'form-control', 'id' => 'passConf',  'minlength' => 6]) !!}
+                                <span class = "error" id="conf"></span>
                             </div>
                         </div>
 
@@ -128,5 +164,22 @@
             </div>
 
         </div>
-
+    <script>
+        $('#passConf').keyup(function() {
+            formval();
+        });
+        $('#passNew').keyup(function() {
+            formval();
+        });
+        function formval() {
+            if($('#passNew').val() != $('#passConf').val()) {
+                $('#conf').html('Пароли не совпдают');
+                $('#btn').prop( "disabled", true );
+            }
+            else {
+                $('#conf').html('');
+                $('#btn').prop( "disabled", false );
+            }
+        }
+    </script>
 @endsection

@@ -13,10 +13,13 @@ use App\Http\Requests\CreateResultFormRequest;
 
 use App\Models\ReportModels\CreatePdfReport;
 use App\Models\UsersModels\Professor;
+use App\Models\UsersModels\Student;
 use App\Models\UsersOwners;
+use App\User;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -34,9 +37,17 @@ class ProfileController extends Controller
     public function professorProfile() {
        $professor = Professor::findIdentity( Auth::user()->idUsers);
        session()->put('professor', $professor);
-       return view('usersPanel/professorProfile',
-            array('title' => 'professorProfile','description' => '',
-                'page' => 'professorProfile', 'professor' =>   $professor));
+       return view('usersPanel/userProfile',
+            array('title' => 'userProfile','description' => '',
+                'page' => 'userProfile', 'user' =>   $professor));
+    }
+
+    public function studentProfile() {
+        $student = Student::findIdentity( Auth::user()->idUsers);
+        session()->put('student', $student);
+        return view('usersPanel/userProfile',
+            array('title' => 'userProfile','description' => '',
+                'page' => 'userProfile', 'user' =>   $student));
     }
 
 
@@ -160,9 +171,16 @@ class ProfileController extends Controller
     }
 
     public function infoProfile(){
-        return view('usersPanel/infoProfile',
-            array('title' => 'infoProfile','description' => '',
-                'page' => 'infoProfile', 'professor' =>   session()->get('professor')));
+        if(Auth::user()->type == '1'){
+            return view('usersPanel/infoProfile',
+                array('title' => 'infoProfile','description' => '',
+                    'page' => 'infoProfile', 'user' =>   session()->get('professor')));
+        } if(Auth::user()->type == '2'){
+            return view('usersPanel/infoProfile',
+                array('title' => 'infoProfile','description' => '',
+                    'page' => 'infoProfile', 'user' =>   session()->get('student')));
+        }
+
     }
 
     /**
@@ -173,18 +191,26 @@ class ProfileController extends Controller
     public function updateUserInfoForm(Request $request){
         $updateInfo = new Professor();
         try {
-            //TODO add ukr and en
             $updateInfoProf = $updateInfo->updateProfInfo(
                 session()->get('professor')->id,
                 $request->get('name'),
                 $request->get('surname'),
-                $request->get('patronymic')
+                $request->get('patronymic'),
+                $request->get('name_ukr'),
+                $request->get('surname_ukr'),
+                $request->get('patronymic_ukr'),
+                $request->get('name_en'),
+                $request->get('surname_en')
             );
-            $updateInfoUser =  $updateInfo->updateUserInfo(
+            $updateInfoUser =  User::updateUserInfo(
                 session()->get('professor')->idUsers,
                 $request->get('email')
             );
-            if(($updateInfoProf && $updateInfoUser) || ($updateInfoProf || $updateInfoUser)){
+            if (strlen($request->get('new_password')) != 0)
+                $updatePass = User::updatePass(session()->get('professor')->idUsers, Hash::make($request->get('new_password')));
+            else
+                $updatePass = 0;
+            if(($updateInfoProf && $updateInfoUser) || ($updateInfoProf || $updateInfoUser) || $updatePass){
                  return redirect('professorProfile')->with('save', 'Данные успешно изменены');
             }
             else
@@ -194,9 +220,41 @@ class ProfileController extends Controller
         } catch (\Exception $e) {
             return redirect('professorProfile')->with('error', 'Ошибка при измении данных');
         }
+    }
 
 
-
+    public function updateStudentInfoForm(Request $request){
+        $updateInfo = new Student();
+        try {
+            $updateInfoProf = $updateInfo->updateStudentInfo(
+                session()->get('student')->id,
+                $request->get('name'),
+                $request->get('surname'),
+                $request->get('patronymic'),
+                $request->get('name_ukr'),
+                $request->get('surname_ukr'),
+                $request->get('patronymic_ukr'),
+                $request->get('name_en'),
+                $request->get('surname_en')
+            );
+            $updateInfoUser =  User::updateUserInfo(
+                session()->get('student')->idUsers,
+                $request->get('email')
+            );
+            if (strlen($request->get('new_password')) != 0)
+                $updatePass = User::updatePass(session()->get('student')->idUsers, Hash::make($request->get('new_password')));
+            else
+                $updatePass = 0;
+            if(($updateInfoProf && $updateInfoUser) || ($updateInfoProf || $updateInfoUser) || $updatePass){
+                return redirect('studentProfile')->with('save', 'Данные успешно изменены');
+            }
+            else
+                return redirect('studentProfile')->with('error', 'Ошибка при измении данных');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect('studentProfile')->with('error', 'Ошибка при измении данных');
+        } catch (\Exception $e) {
+            return redirect('studentProfile')->with('error', 'Ошибка при измении данных');
+        }
     }
 
 

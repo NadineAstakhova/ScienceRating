@@ -10,7 +10,8 @@ class Professor extends BaseModel
 {
     protected $primaryKey = 'id';
     protected $table = 'professor';
-    protected $fillable = array('name', 'surname', 'patronymic', 'status', 'type_user');
+    protected $fillable = array('name', 'surname', 'patronymic','name_ukr', 'surname_ukr',
+        'patronymic_ukr', 'name_en', 'surname_en',  'status', 'type_user');
 
     public static function findIdentity($id){
         $professor = DB::table('professor')
@@ -20,10 +21,12 @@ class Professor extends BaseModel
         return $professor;
     }
 
-    public function updateProfInfo($id, $name, $surname, $patronymic){
+    public function updateProfInfo($id, $name, $surname, $patronymic, $name_ukr, $surname_ukr, $patronymic_ukr, $name_en, $surname_en){
         $update = DB::table('professor')
             ->where('id', $id)
-            ->update(['name' => $name, 'surname' => $surname, 'patronymic' => $patronymic]);
+            ->update(['name' => $name, 'surname' => $surname, 'patronymic' => $patronymic,
+                      'name_ukr' => $name_ukr, 'surname_ukr' => $surname_ukr, 'patronymic_ukr' => $patronymic_ukr,
+                      'name_en' => $name_en, 'surname_en' => $surname_en]);
         if($update)
             return true;
         else

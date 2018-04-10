@@ -95,6 +95,9 @@ Route::resource('/articles', 'ProfileController@showArticles');
 
 Route::get('/professorProfile','ProfileController@professorProfile')->middleware('auth');
 Route::get('/infoProfile','ProfileController@infoProfile')->middleware('auth');
-Route::post('/editUserInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
+Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
+
+Route::get('/studentProfile','ProfileController@studentProfile')->middleware('auth');
+Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
 
 Auth::routes();

@@ -3,11 +3,12 @@
 
 @section('content')
     <div class="row-signin">
-    @php
-        if(Session::has('message'))
-            echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("message")."</div>";
-    @endphp
+
         {!! Form::open(['url' => ['auth/login']], ['class' => 'form-signin']) !!}
+        @php
+            if(Session::has('message'))
+                echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("message")."</div>";
+        @endphp
         <img src="{{asset('images/logo-2.png')}}" alt="" width="102" height="102">
         <h3 class="h3 mb-3 font-weight-normal">Введите данные для входа</h3>
             <label for="email" class="sr-only">Почта</label>

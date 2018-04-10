@@ -10,7 +10,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-9 panel-cards">
-            <h3>Hello, {{$professor->surname}} {{$professor->name}} {{$professor->patronymic}}</h3>
+            <h3>Hello, {{$user->surname}} {{$user->name}} {{$user->patronymic}}</h3>
         @php
             if(Session::has('save'))
                echo "<div class='alert alert-success' id='mesSuccessAdd'>".Session::get("save")."</div>";

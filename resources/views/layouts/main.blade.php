@@ -25,7 +25,10 @@
     <a href="{{Auth::check() ?
                        ((Auth::user()->type == \App\User::METHODIST) ?
                              url('profile') :
-                             url('professorProfile')
+                             ((Auth::user()->type == \App\User::PROFESSOR) ?
+                                  url('professorProfile') :
+                                  url('studentProfile')
+                             )
                        )
                        : url('auth/login')}}" class="navbar-brand">
         Научный рейтинг кафеды КТ</a>
