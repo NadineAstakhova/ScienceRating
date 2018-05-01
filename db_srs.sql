@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.7.3
 -- https://www.phpmyadmin.net/
 --
--- Хост: localhost
--- Время создания: Апр 01 2018 г., 19:06
--- Версия сервера: 5.5.54
--- Версия PHP: 5.6.34
+-- Хост: 127.0.0.1:3306
+-- Время создания: Апр 29 2018 г., 22:49
+-- Версия сервера: 5.6.37
+-- Версия PHP: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -159,25 +159,30 @@ CREATE TABLE `professor` (
   `phone` varchar(20) DEFAULT NULL,
   `skype` varchar(32) DEFAULT NULL,
   `status` smallint(6) DEFAULT '0',
-  `type_user` int(10) UNSIGNED NOT NULL
+  `type_user` int(10) UNSIGNED NOT NULL,
+  `surname_ru` varchar(255) DEFAULT NULL,
+  `name_ru` varchar(255) DEFAULT NULL,
+  `patronymic_ru` varchar(255) DEFAULT NULL,
+  `name_en` varchar(255) DEFAULT NULL,
+  `surname_en` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `professor`
 --
 
-INSERT INTO `professor` (`id`, `name`, `patronymic`, `surname`, `phone`, `skype`, `status`, `type_user`) VALUES
-(1, 'Денис', 'Геннадиевич', 'Богуто', NULL, NULL, 0, 4),
-(2, 'Георгий', 'Борисович', 'Галич', NULL, NULL, 0, 5),
-(3, 'Марина', 'Александровна', 'Епик', NULL, NULL, 0, 6),
-(4, 'Кирилл', 'Константинович', 'Кадомский', NULL, NULL, 0, 7),
-(5, 'Николай', 'Владимирович', 'Крачковский', NULL, NULL, 0, 8),
-(6, 'Наталья', 'Артуровна', 'Мацецка', NULL, NULL, 0, 9),
-(7, 'Петр', 'Карпович', 'Николюк', NULL, NULL, 0, 10),
-(8, 'Антон', 'Иванович', 'Парамонов', NULL, NULL, 0, 11),
-(9, 'Олег', 'Сергеевич', 'Тимчук', NULL, NULL, 0, 12),
-(10, 'Ирина', 'Владимировна', 'Украинец', NULL, NULL, 0, 13),
-(11, 'Ярослав', 'Олегович', 'Шмырев', NULL, NULL, 0, 14);
+INSERT INTO `professor` (`id`, `name`, `patronymic`, `surname`, `phone`, `skype`, `status`, `type_user`, `surname_ru`, `name_ru`, `patronymic_ru`, `name_en`, `surname_en`) VALUES
+(1, 'Денис', 'Геннадиевич', 'Богуто', NULL, NULL, 0, 4, NULL, NULL, NULL, NULL, NULL),
+(2, 'Георгий', 'Борисович', 'Галич', NULL, NULL, 0, 5, NULL, NULL, NULL, NULL, NULL),
+(3, 'Марина', 'Александровна', 'Епик', NULL, NULL, 0, 6, NULL, NULL, NULL, NULL, NULL),
+(4, 'Кирилл', 'Константинович', 'Кадомский', NULL, NULL, 0, 7, NULL, NULL, NULL, NULL, NULL),
+(5, 'Николай', 'Владимирович', 'Крачковский', NULL, NULL, 0, 8, NULL, NULL, NULL, NULL, NULL),
+(6, 'Наталья', 'Артуровна', 'Мацецка', NULL, NULL, 0, 9, NULL, NULL, NULL, NULL, NULL),
+(7, 'Петр', 'Карпович', 'Николюк', NULL, NULL, 0, 10, NULL, NULL, NULL, NULL, NULL),
+(8, 'Антон', 'Иванович', 'Парамонов', NULL, NULL, 0, 11, NULL, NULL, NULL, NULL, NULL),
+(9, 'Олег', 'Сергеевич', 'Тимчук', NULL, NULL, 0, 12, NULL, NULL, NULL, NULL, NULL),
+(10, 'Ирина', 'Владимировна', 'Украинец', NULL, NULL, 0, 13, NULL, NULL, NULL, NULL, NULL),
+(11, 'Ярослав', 'Олегович', 'Шмырев', NULL, NULL, 0, 14, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -345,7 +350,12 @@ CREATE TABLE `student` (
   `registration_date` datetime DEFAULT NULL,
   `last_visit` datetime DEFAULT NULL,
   `status` enum('new','active','lock') DEFAULT NULL,
-  `type_user` int(10) UNSIGNED NOT NULL
+  `type_user` int(10) UNSIGNED NOT NULL,
+  `surname_ru` varchar(255) DEFAULT NULL,
+  `name_ru` varchar(255) DEFAULT NULL,
+  `patronymic_ru` varchar(255) DEFAULT NULL,
+  `name_en` varchar(255) DEFAULT NULL,
+  `surname_en` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -648,7 +658,7 @@ ALTER TABLE `access`
 -- AUTO_INCREMENT для таблицы `article_in_res`
 --
 ALTER TABLE `article_in_res`
-  MODIFY `idArticle` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idArticle` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `group`
 --
@@ -658,17 +668,17 @@ ALTER TABLE `group`
 -- AUTO_INCREMENT для таблицы `group_subject`
 --
 ALTER TABLE `group_subject`
-  MODIFY `idGroup_subject` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
+  MODIFY `idGroup_subject` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `individual_works`
 --
 ALTER TABLE `individual_works`
-  MODIFY `idInd_work` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
+  MODIFY `idInd_work` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `list_of_task`
 --
 ALTER TABLE `list_of_task`
-  MODIFY `idList_of_task` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `idList_of_task` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `messages`
 --
@@ -678,7 +688,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT для таблицы `professor`
 --
 ALTER TABLE `professor`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT для таблицы `res_in_template`
 --
@@ -703,12 +713,12 @@ ALTER TABLE `scient_res_owner`
 -- AUTO_INCREMENT для таблицы `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `idSubject` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `idSubject` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `type_of_scient_res`
 --
@@ -723,7 +733,7 @@ ALTER TABLE `type_of_works`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `idUsers` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `idUsers` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
@@ -745,15 +755,15 @@ ALTER TABLE `group_subject`
 -- Ограничения внешнего ключа таблицы `individual_works`
 --
 ALTER TABLE `individual_works`
-  ADD CONSTRAINT `FK_student` FOREIGN KEY (`FK_Student`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Task` FOREIGN KEY (`FK_Task`) REFERENCES `list_of_task` (`idList_of_task`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Task` FOREIGN KEY (`FK_Task`) REFERENCES `list_of_task` (`idList_of_task`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_student` FOREIGN KEY (`FK_Student`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `list_of_task`
 --
 ALTER TABLE `list_of_task`
-  ADD CONSTRAINT `FK_sub` FOREIGN KEY (`FK_Subject`) REFERENCES `subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Typework` FOREIGN KEY (`Type`) REFERENCES `type_of_works` (`idType`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_Typework` FOREIGN KEY (`Type`) REFERENCES `type_of_works` (`idType`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_sub` FOREIGN KEY (`FK_Subject`) REFERENCES `subject` (`idSubject`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `messages`
