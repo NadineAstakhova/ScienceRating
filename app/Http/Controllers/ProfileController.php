@@ -131,7 +131,7 @@ class ProfileController extends Controller
         return view('panel/showRankigs/createrating',
             array('title' => 'createrating','description' => '',
                 'page' => 'createrating',
-                'arrArticles' => UsersOwners::countOfArticles(UsersOwners::getAllUsersForTable()),
+            //    'arrArticles' => UsersOwners::countOfArticles(UsersOwners::getAllUsersForTable()),
             )
         );
     }

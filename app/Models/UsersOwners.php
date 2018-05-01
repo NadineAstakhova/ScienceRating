@@ -85,11 +85,18 @@ class UsersOwners extends BaseModel
 
     }
 
-    public static function getCountOfUserRes($idUser, $idType){
-        $sum = DB::table('scient_res_owner')
-            ->join('scientific_result', 'scientific_result.idRes', '=', 'scient_res_owner.fkRes')
-            ->where([['scientific_result.fkType', '=', $idType], ['scient_res_owner.fkOwner', '=', $idUser]])
-            ->count('scient_res_owner.idOwner');
+    public static function getCountOfUserEvent($idUser, $idType){
+        $sum = DB::table('members_of_event')
+            ->join('scient_event', 'scient_event.idScientEvent', '=', 'members_of_event.fk_event')
+            ->where([['scient_event.fk_type_res', '=', $idType], ['members_of_event.fk_member', '=', $idUser]])
+            ->count('members_of_event.idMember');
+        return $sum;
+    }
+    public static function getCountOfUserPublication($idUser, $idType){
+        $sum = DB::table('authors_of_publication')
+            ->join('scient_publication', 'scient_publication.idPublication', '=', 'authors_of_publication.fk_pub')
+            ->where([['scient_publication.fk_pub_type', '=', $idType], ['authors_of_publication.fk_user', '=', $idUser]])
+            ->count('authors_of_publication.idPubAuthor');
         return $sum;
     }
 
