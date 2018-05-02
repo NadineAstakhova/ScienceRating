@@ -145,20 +145,20 @@ class UsersOwners extends BaseModel
     }
 
     public static function countOfArticlesByID($idUser){
-        $count = DB::table('article_in_res')
-            ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
-            ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
-            ->where('scient_res_owner.fkOwner', '=', $idUser)
+        $count = DB::table('authors_of_publication')
+          //  ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
+         //   ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
+            ->where('authors_of_publication.fk_user', '=', $idUser)
             ->count();
         return $count;
     }
 
     public static function articlesByID($idUser){
-        $articles =  DB::table('article_in_res')
-            ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
-            ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
-            ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
-            ->where('scient_res_owner.fkOwner', '=', $idUser)
+        $articles =  DB::table('authors_of_publication')
+           // ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
+            ->join('scient_publication', 'authors_of_publication.fk_pub', '=', 'scient_publication.idPublication')
+            ->join('type_of_publication', 'scient_publication.fk_pub_type',  '=', 'type_of_publication.idTypePub')
+            ->where('authors_of_publication.fk_user', '=', $idUser)
             ->get();
         return $articles;
     }

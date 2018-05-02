@@ -138,7 +138,7 @@
             </div>
 
             <div class="ranking" id="3-content" style="display: none">
-
+                @include('panel.showRankigs.articlesranking')
             </div>
 
         </div>
