@@ -161,7 +161,9 @@ class ProfileController extends Controller
             array('title' => 'showUserResult','description' => '',
                 'page' => 'showUserResult',
                 'user' => UsersOwners::getUserById($idUser),
-                'arrResults' => UsersOwners::userResults($idUser)));
+                'arrArticles' => UsersOwners::articlesByID($idUser),
+                'arrEvents' => UsersOwners::getUserEvents($idUser)
+            ));
     }
 
     public function showArticles($id){

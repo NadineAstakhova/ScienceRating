@@ -125,16 +125,7 @@ class UsersOwners extends BaseModel
         return $arrUsersProf;
     }
 
-    public static function userResults($idUser){
-        $arrResults = DB::table('scient_res_owner')
-            ->join('scientific_result', 'scient_res_owner.fkRes', '=', 'scientific_result.idRes')
-            ->join('type_of_scient_res', 'scientific_result.fkType',  '=', 'type_of_scient_res.idType_certificates')
-            ->where('scient_res_owner.fkOwner', '=', $idUser)
-            ->orderBy('scientific_result.date', 'ASC')
-            ->orderBy('type_of_scient_res.type', 'ASC')
-            ->get();
-        return $arrResults;
-    }
+
 
 
     public static function countOfArticles($arrUsers){
@@ -159,10 +150,29 @@ class UsersOwners extends BaseModel
             ->join('scient_publication', 'authors_of_publication.fk_pub', '=', 'scient_publication.idPublication')
             ->join('type_of_publication', 'scient_publication.fk_pub_type',  '=', 'type_of_publication.idTypePub')
             ->where('authors_of_publication.fk_user', '=', $idUser)
+            ->orderBy('scient_publication.date', 'DESC')
             ->get();
         return $articles;
     }
 
+    public static function getUserEvents($idUser){
+        $arrArticles = DB::table('members_of_event')
+            ->join('scient_event', 'members_of_event.fk_event', '=', 'scient_event.idScientEvent')
+            ->join('type_of_result', 'members_of_event.fk_res', '=', 'type_of_result.idTypeRes')
+            ->join('type_of_role', 'members_of_event.fk_role', '=', 'type_of_role.idTypeRole')
+            ->join('type_of_scient_event', 'scient_event.fk_type_res',  '=', 'type_of_scient_event.idTypeEvents')
+            ->where('members_of_event.fk_member', '=', $idUser)
+            ->orderBy('scient_event.date', 'DESC')
+            ->get();
+        return $arrArticles;
+    }
+
+    public static function getUserResults($idUser){
+        $arrEvents = self::getUserEvents($idUser);
+        $arrArticles = self::articlesByID($idUser);
+        $arrResults =  $arrEvents->merge($arrArticles);
+        return $arrResults;
+    }
 
 
 

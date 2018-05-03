@@ -24,36 +24,116 @@
         <div class="col-xs-8 col-sm-4 col-lg-4" id="listBtn">
             <button class="btn btn-outline-dark" id="print">Печать</button>
         </div>
-
+        <div class="col-xs-6 col-sm-8 col-lg-8">
+            <h3>Научные мероприятия </h3>
+        </div>
+        @if(count($arrEvents) > 0)
         <table class="table table-bordered" style="margin-top: 5px;">
             <thead>
             <tr>
                 <th>
-                    Тип результата
+                    Название
                 </th>
                 <th>
-                    Название
+                    Тип результата
                 </th>
                 <th>
                     Дата
                 </th>
                 <th>
+                    Результат
+                </th>
+                <th>
                     Роль
+                </th>
+                <th>
+                    Файл
+                </th>
+                <th>
+                    Статус
                 </th>
             </tr>
             </thead>
             <tbody>
-                @foreach($arrResults as $res)
+                @foreach($arrEvents as $res)
                     <tr>
-                        <td>{{$res->type}} {{$res->type_of_participation}}</td>
-                        <td>{{$res->title}}</td>
+                        <td>{{$res->titleEvent}}</td>
+                        <td>{{$res->type}} </td>
                         <td>{{$res->date}}</td>
-                        <td>{{$res->role}}</td>
+                        <td>{{$res->type_of_res}}</td>
+                        <td>{{$res->type_of_role}}</td>
+                        <td>{{$res->file}}</td>
+                        <td>{{$res->status}}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        @else
+            <div class="col-xs-6 col-sm-8 col-lg-8">
+                Нет результатов
+            </div>
+        @endif
+        <div class="col-xs-6 col-sm-8 col-lg-8">
+            <h3>Научные публикации </h3>
+        </div>
 
+        @if(count($arrArticles) > 0)
+        <table class="table table-bordered" style="margin-top: 5px;">
+            <thead>
+            <tr>
+                <th>
+                    Название
+                </th>
+                <th>
+                    Тип
+                </th>
+                <th>
+                    Издательство
+                </th>
+                <th>
+                    Дата
+                </th>
+                <th>
+                    Кол-во страниц
+                </th>
+                <th>
+                    Процент
+                </th>
+
+                <th>
+                    Файл
+                </th>
+                <th>
+                    Статус
+                </th>
+            </tr>
+            </thead>
+
+            @php $i=0;
+            @endphp
+            <tbody>
+                @foreach($arrArticles as $article)
+                    <tr class="all">
+                        <td class="name">{{$article->title}} </td>
+                        <td class="type_pub">{{$article->type}} </td>
+                        <td class="pub">{{$article->edition}} </td>
+                        <td class="date">{{$article->date}} </td>
+                        <td class="pages">{{$article->pages}} </td>
+                        <td class="percent">{{$article->percent_of_writing}} </td>
+                        <td class="file">{{$article->file}} </td>
+                        <td class="status">{{$article->status}} </td>
+                    </tr>
+                    @php
+                        $i++;
+                    @endphp
+                @endforeach
+            </tbody>
+        </table>
+        @else
+            <div class="col-xs-6 col-sm-8 col-lg-8">
+                 Нет публикаций
+            </div>
+        @endif
     </div>
 <script>
     $(document).ready(function(){
