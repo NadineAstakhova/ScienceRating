@@ -51,29 +51,28 @@ class ProfileController extends Controller
     }
 
 
-    public function createResultPage(){
-        return view('panel/addResultForms/createRes',
-            array('title' => 'createRes','description' => '',
-                'page' => 'createRes', 'arrType' => TypeOfRes::getAll()));
+    public function createArticlePage(){
+        return view('panel/addResultForms/createPublication',
+            array('title' => 'createPublication','description' => '',
+                'page' => 'createPublication', 'arrType' => TypeOfRes::getPublicationTypes()));
     }
 
-    public function createResultForm(CreateResultFormRequest $request){
+    public function createArticleForm(CreateResultFormRequest $request){
         //get data from request
         $model = new CreateResult();
-        $model->name = $request->get('name');
-        $model->type = $request->get('type');
-        $model->file = $request->file('file');
 
-        $model->date = $request->get('date');
+        $title = $request->get('name');
+        $publishing = $request->get('publishing');
+        $pages =  $request->get('pages');
+        $date =  $request->get('date');
+        $file =  $request->file('file');
+        $fkType =  $request->get('type');
 
-        $model->article = $request->get('article');
-        $model->publishing = $request->get('publishing');
-        $model->pages = $request->get('pages');
 
-        $model->parsePDF = $request->get('allField');
+        $parsePDF = $request->get('allField');
 
         //if automatic document parsing is selected
-        if(!is_null($model->parsePDF)){
+        if(!is_null($parsePDF)){
            //parse file
            $parseFile = new CertificatPdfParse($model->file);
            $content = $parseFile->getContent();
@@ -85,7 +84,7 @@ class ProfileController extends Controller
            $searchDate = $parseFile->searchDate();
            $searchTitle = $parseFile->serachTitle();
 
-            return view('panel/addResultForms/createRes',
+            return view('panel/addResultForms/createArticle',
                 array('title' => 'createRes','description' => '',
                     'page' => 'createRes', 'arrType' => TypeOfRes::getAll(),
                     'pdfText' => $content,
@@ -95,15 +94,12 @@ class ProfileController extends Controller
                 ));
         }
 
-        if ($model->createRes()){
+        if ($model->createPublication($title, $publishing, $pages, $date, $file, $fkType)){
             $last_id = DB::getPdo()->lastInsertId();
-            if(!is_null($model->article)) {
-                $model->createArticle($last_id);
-            }
-            return redirect('createres/'.$last_id)->with('owners', $request->get('owners'));
+            return redirect('addArticleAuthor/'.$last_id)->with('owners', $request->get('owners'));
         }
         else
-            return 0;
+            echo "error";
     }
 
     public function createResultOwner($idRes){
@@ -115,12 +111,13 @@ class ProfileController extends Controller
                     UsersOwners::getAllUsersForTable(Session::get("owners")) : UsersOwners::getAllUsersForTable()));
     }
 
-    public function createResultOwnerForm($idResult, AddOwnersFormRequest $request){
+    //TODO check sum of percent
+    public function addPublicationAuthorForm($idResult, AddOwnersFormRequest $request){
         $model = new AddOwnersForm();
         $model->arrOwners = $request->get('arrOwners');
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
-        if($model->addOwners()){
+        if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult)){
             return redirect('profile')->with('save', 'Научный результат успешно добавлен');
         }
         else

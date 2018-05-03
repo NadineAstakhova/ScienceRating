@@ -21,4 +21,14 @@ class AddOwnersForm extends Model
         return $insertOwners->setOwnersForResult($this->idResult, $this->arrOwners, $arrR);
     }
 
+    public function addPublicationAuthor($arrOwners, $arrRole, $idResult){
+        $arrR = array();
+        foreach ($arrRole as $key=>$value){
+            if(array_key_exists($key, $this->arrOwners))
+                $arrR[$key] = $value;
+        }
+        $insertOwners = new UsersOwners();
+        return $insertOwners->setAuthorsForPublication($idResult, $arrOwners, $arrR);
+    }
+
 }

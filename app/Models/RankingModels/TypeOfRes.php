@@ -21,4 +21,13 @@ class TypeOfRes extends BaseModel
         }
         return $arr;
     }
+
+    public static function getPublicationTypes(){
+       $types =  DB::table('type_of_publication')->get();
+        $arr = array();
+        foreach ($types as $type) {
+            $arr[$type->idTypePub] = $type->type;
+        }
+        return $arr;
+    }
 }

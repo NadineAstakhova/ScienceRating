@@ -22,9 +22,9 @@ class ScientificResult extends BaseModel
             return false;
     }
 
-    public function insertArticle($idRes, $article, $publishing, $pages){
-        $insert = DB::table('article_in_res')->insert([
-            ['title' => $article, 'publishing' => $publishing, 'pages' => $pages, 'fkRes' => $idRes]
+    public function insertPublication($title, $publishing, $pages, $date, $file, $fkType){
+        $insert = DB::table('scient_publication')->insert([
+            ['title' => $title, 'edition' => $publishing, 'pages' => $pages, 'date' => $date, 'file' => $file, 'fk_pub_type' => $fkType]
         ]);
         if ($insert)
             return true;

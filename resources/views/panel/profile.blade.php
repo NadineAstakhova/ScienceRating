@@ -26,11 +26,11 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
-                    <h5 class="card-header">Ввод данных результата</h5>
+                    <h5 class="card-header">Ввод данных публикации</h5>
                     <div class="card-body">
-                        <h5 class="card-title">Данные результата</h5>
-                        <p class="card-text">Формы добавление данных результата для пользователя/ей.</p>
-                        <a href="{{url("createres")}}" class="btn btn-info" id="listSub">Ввести данные результата</a>
+                        <h5 class="card-title">Данные научной публикации</h5>
+                        <p class="card-text">Формы добавление данных публикации для пользователя/ей.</p>
+                        <a href="{{url("createArticle")}}" class="btn btn-info" id="listSub">Ввести данные публикации</a>
                     </div>
                 </div>
             </div>

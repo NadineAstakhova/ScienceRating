@@ -1,13 +1,20 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: astakhova.n
+ * Date: 5/3/2018
+ * Time: 7:37 PM
+ */?>
 @extends('layouts.main')
 @section('title', 'Create Result')
 
 @section('content')
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
-            <li class="breadcrumb-item active">Ввод данных рейтинга</li>
-        </ol>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
+                <li class="breadcrumb-item active">Ввод данных научной публикации</li>
+            </ol>
         </nav>
 
         @if ($errors->any())
@@ -23,7 +30,7 @@
             }
 
         @endphp
-        {!! Form::open(['url' => ['createResult'], 'class'=>'form', 'files'=>'true']) !!}
+        {!! Form::open(['url' => ['createPublicationForm'], 'class'=>'form', 'files'=>'true']) !!}
 
         {!! Form::label('file', 'Загрузить документ:') !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
@@ -34,24 +41,39 @@
         </div>
         <br>
 
-        {!! Form::label('name', 'Название результата:') !!}
+        {!! Form::label('name', 'Название публикации:') !!}
 
         <input type="text" id="name" class="form-control" name="name" value="{{isset($pdfText) && $searchTitle ? $searchTitle : ''}}">
         <span id="nameT"></span>
         <br>
 
         {!! Form::label('type', 'Тип:') !!}
-        {!! Form::select('type', $arrType,  null, ['class' => 'form-control form-control-lg', 'style' => 'width:100%']) !!}
+        {!! Form::select('type', $arrType,  null, ['class' => 'form-control form-control-md', 'style' => 'max-width:100%']) !!}
         <span id="typeT"></span>
+
         <br>
         <div class="form-group row">
-            {!! Form::label('date', 'Дата:', array('class' => 'col-sm-1 col-form-label')) !!}
+            {!! Form::label('date', 'Дата:', array('class' => 'col-sm-2 col-form-label')) !!}
             <div class="col-sm-3">
                 <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}">
             </div>
             <span id="dateT" class="col-sm-10"></span>
         </div>
+        <div class="form-group row">
+            {!! Form::label('publishing', 'Издательство:', array('class' => 'col-sm-2 col-form-label')) !!}
+            <div class="col-sm-3">
+                <input type="text" id="publishing" class="form-control"
+                       name="publishing" >
+            </div>
 
+        </div>
+        <div class="form-group row">
+            {!! Form::label('pages', 'Количество страниц:', array('class' => 'col-sm-2 col-form-label')) !!}
+            <div class="col-sm-3">
+                <input type="number" id="pages" class="form-control" name="pages" >
+            </div>
+
+        </div>
 
 
         <br>
@@ -61,31 +83,18 @@
             <br> <br>
             <div class="alert alert-info" role="alert">
                 <p>Удалось определить таких студентов/преподавателей. На следующей странице вы можете изменить эту информацию</p>
-            @if($users != 0)
-             @php $i=0; @endphp
-                @foreach ($users as $user)
-                    <li>{{ $user['surname'] }}</li>
-                    {{ Form::hidden('owners['.$i.']', $user['id']) }}
-                    @php $i++; @endphp
-                @endforeach
-            @else
-                Совпадений не найдено.
-            @endif
+                @if($users != 0)
+                    @php $i=0; @endphp
+                    @foreach ($users as $user)
+                        <li>{{ $user['surname'] }}</li>
+                        {{ Form::hidden('owners['.$i.']', $user['id']) }}
+                        @php $i++; @endphp
+                    @endforeach
+                @else
+                    Совпадений не найдено.
+                @endif
             </div>
         @endif
-
-
-        <div id="articleFields">
-            {!! Form::label('article', 'Название статьи:') !!}
-            {!! Form::text('article', null, ['class' => 'form-control']) !!}
-            <br>
-            {!! Form::label('publishing', 'Издательство:') !!}
-            {!! Form::text('publishing', null, ['class' => 'form-control']) !!}
-            <br>
-            {!! Form::label('pages', 'Количество страниц:') !!}
-            {!! Form::number('pages', null, ['class' => 'form-control']) !!}
-            <br>
-        </div>
 
         {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
 
@@ -98,39 +107,25 @@
     </div>
     <script>
         $(document).ready(function() {
-        $('#type').change(function () {
-            let resType = $(this).find(":selected").val();
-            console.log(resType);
-            let arrArticles = ['8', '9', '10', '11', '12', '13', '14'];
-            console.log(arrArticles);
-            console.log(jQuery.inArray(resType, arrArticles));
-            if(jQuery.inArray(resType, arrArticles) != -1){
-                $('#articleFields').slideDown('slow');
-            }
-            else
-                $('#articleFields').slideUp('slow');
+            $('#allField').change(
+                function(){
+                    if ($(this).is(':checked')) {
+                        $("#nameT").html("Поле будет заполнено автоматически");
+                        $("#dateT").html("Поле будет заполнено автоматически");
+                        $("#typeT").html("Поле нужно будет заполнить самостоятельно");
+                        $("#name").css("border-color", "#3A5FCD");
+                        $("#date").css("border-color", "#3A5FCD");
 
-        });
+                    }
+                    else {
+                        $("#nameT").html("");
+                        $("#dateT").html("");
+                        $("#typeT").html("");
+                        $("#name").css("border-color", "#ccc");
+                        $("#date").css("border-color", "#ccc");
+                    }
+                });
 
-        $('#allField').change(
-            function(){
-                if ($(this).is(':checked')) {
-                    $("#nameT").html("Поле будет заполнено автоматически");
-                    $("#dateT").html("Поле будет заполнено автоматически");
-                    $("#typeT").html("Поле нужно будет заполнить самостоятельно");
-                    $("#name").css("border-color", "#3A5FCD");
-                    $("#date").css("border-color", "#3A5FCD");
-
-                }
-                else {
-                    $("#nameT").html("");
-                    $("#dateT").html("");
-                    $("#typeT").html("");
-                    $("#name").css("border-color", "#ccc");
-                    $("#date").css("border-color", "#ccc");
-                }
-            });
-        
             $("#date").keyup(function () {
                 let reg = /^(\d{1,2})?-?(\d{1,2})?-?(\d{2,4})?$/;
                 //checking if these strings are dates

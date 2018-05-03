@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="row">
-        {!! Form::open(['url' => ['addResultOwner/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+        {!! Form::open(['url' => ['addPublicationAuthor/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         <h3 class="font-weight-normal">Выберите участника/ов</h3>
         <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
 
@@ -41,7 +41,7 @@
                         Email
                     </th>
                     <th>
-                        Участие в результате
+                        Процент написания
                     </th>
                     <th>
                         Добавить
@@ -66,7 +66,9 @@
 
                    // $id = ($i % 2 == 0) ? '0': '1';
                     @endphp
-                    <td>{!! Form::select('arrRole['.$i.']', \App\Models\UsersOwners::ARRAY_ROLES,  null, ['class' => 'form-old-select form-control']) !!}</td>
+                    <td>
+                        {!! Form::number('arrRole['.$i.']', '100', ['class' => 'form-control']) !!}
+                    </td>
                     <td>
 
                         {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
