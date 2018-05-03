@@ -9,12 +9,12 @@ use DB;
 class ScientificResult extends BaseModel
 {
     protected $primaryKey = 'idRes';
-    protected $table = 'scientific_result';
+    protected $table = 'scient_event';
     protected $fillable = array('title', 'date', 'fkType', 'file');
 
-    public function insertResult($title, $date, $fkType, $file){
-        $insert = DB::table($this->table)->insert([
-            ['title' => $title, 'date' => $date, 'fkType' => $fkType, 'file' => $file]
+    public function insertEvent($title,$date, $fkType){
+        $insert = DB::table('scient_event')->insert([
+            ['titleEvent' => $title, 'date' => $date, 'fk_type_res' => $fkType]
         ]);
         if ($insert)
             return true;

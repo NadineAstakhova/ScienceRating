@@ -4,7 +4,13 @@
 @section('content')
 
     <div class="row">
-        {!! Form::open(['url' => ['addPublicationAuthor/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+
+        @if(isset($arrRoles))
+            {!! Form::open(['url' => ['addEventMembers/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+        @else
+            {!! Form::open(['url' => ['addPublicationAuthor/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+        @endif
+
         <h3 class="font-weight-normal">Выберите участника/ов</h3>
         <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
 
@@ -40,9 +46,19 @@
                     <th>
                         Email
                     </th>
-                    <th>
-                        Процент написания
-                    </th>
+                    @if(isset($arrRoles))
+                        <th>
+                            Результат
+                        </th>
+                        <th>
+                            Роль
+                        </th>
+                    @else
+                        <th>
+                            Процент написания
+                        </th>
+                    @endif
+
                     <th>
                         Добавить
                     </th>
@@ -62,13 +78,20 @@
                     <td class="name">{{$user->surname}} {{$user->name}} {{$user->patronymic}}</td>
                     <td class="type">{{$user->type}}</td>
                     <td class="email">{{$user->email}}</td>
-                    @php
+                    @if(isset($arrRoles))
+                        <td>
+                            {!! Form::select('arrResults['.$i.']', $arrResults,  null, ['class' => 'form-old-select form-control']) !!}
+                        </td>
+                        <td>
+                            {!! Form::select('arrRole['.$i.']', $arrRoles,  null, ['class' => 'form-old-select form-control']) !!}
+                        </td>
 
-                   // $id = ($i % 2 == 0) ? '0': '1';
-                    @endphp
-                    <td>
-                        {!! Form::number('arrRole['.$i.']', '100', ['class' => 'form-control']) !!}
-                    </td>
+                    @else
+                        <td>
+                            {!! Form::number('arrRole['.$i.']', '100', ['class' => 'form-control']) !!}
+                        </td>
+                    @endif
+
                     <td>
 
                         {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?

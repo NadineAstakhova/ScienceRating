@@ -11,20 +11,27 @@ class AddOwnersForm extends Model
     public $arrOwners;
     public $arrRole;
 
-    public function addOwners(){
+    public function addEventMembers($arrOwners, $arrRole, $arrResult, $idResult){
         $arrR = array();
-        foreach ($this->arrRole as $key=>$value){
-            if(array_key_exists($key, $this->arrOwners))
+        $arrRes = array();
+
+        foreach ($arrRole as $key=>$value){
+            if(array_key_exists($key, $arrOwners))
                 $arrR[$key] = $value;
         }
+
+        foreach ($arrResult as $key=>$value){
+            if(array_key_exists($key, $arrOwners))
+                $arrRes[$key] = $value;
+        }
         $insertOwners = new UsersOwners();
-        return $insertOwners->setOwnersForResult($this->idResult, $this->arrOwners, $arrR);
+        return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
     }
 
     public function addPublicationAuthor($arrOwners, $arrRole, $idResult){
         $arrR = array();
         foreach ($arrRole as $key=>$value){
-            if(array_key_exists($key, $this->arrOwners))
+            if(array_key_exists($key, $arrOwners))
                 $arrR[$key] = $value;
         }
         $insertOwners = new UsersOwners();

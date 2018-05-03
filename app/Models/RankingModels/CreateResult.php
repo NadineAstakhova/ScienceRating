@@ -15,15 +15,15 @@ class CreateResult extends Model
     public $pages;
 
 
-   /* public function createRes(){
+    public function createEvent($title,$date, $file, $fkType ){
 
         $res = new ScientificResult();
-        $fileName = $this->file->getClientOriginalName();
+        $fileName = $file->getClientOriginalName();
         $path = base_path(). '/public/uploads/';
-        $this->file->move($path , $fileName);
+        $file->move($path , $fileName);
 
-        return $res->insertResult($this->name, $this->date, $this->type, '/public/uploads/'. $fileName);
-    }*/
+        return $res->insertEvent($title,$date, $fkType);
+    }
 
     public function createPublication($title, $publishing, $pages, $date, $file, $fkType){
         $res = new ScientificResult();

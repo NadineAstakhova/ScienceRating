@@ -3,17 +3,18 @@
  * Created by PhpStorm.
  * User: astakhova.n
  * Date: 5/3/2018
- * Time: 7:37 PM
- */?>
+ * Time: 10:26 PM
+ */
+?>
 @extends('layouts.main')
-@section('title', 'Create Publication')
+@section('title', 'Create Event')
 
 @section('content')
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
-                <li class="breadcrumb-item active">Ввод данных научной публикации</li>
+                <li class="breadcrumb-item active">Ввод данных научного результата</li>
             </ol>
         </nav>
 
@@ -30,7 +31,7 @@
             }
 
         @endphp
-        {!! Form::open(['url' => ['createPublicationForm'], 'class'=>'form', 'files'=>'true']) !!}
+        {!! Form::open(['url' => ['createEventForm'], 'class'=>'form', 'files'=>'true']) !!}
 
         {!! Form::label('file', 'Загрузить документ:') !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
@@ -41,7 +42,7 @@
         </div>
         <br>
 
-        {!! Form::label('name', 'Название публикации:') !!}
+        {!! Form::label('name', 'Название результата (мероприятия/события):') !!}
 
         <input type="text" id="name" class="form-control" name="name" value="{{isset($pdfText) && $searchTitle ? $searchTitle : ''}}">
         <span id="nameT"></span>
@@ -59,23 +60,6 @@
             </div>
             <span id="dateT" class="col-sm-10"></span>
         </div>
-        <div class="form-group row">
-            {!! Form::label('publishing', 'Издательство:', array('class' => 'col-sm-2 col-form-label')) !!}
-            <div class="col-sm-3">
-                <input type="text" id="publishing" class="form-control"
-                       name="publishing" >
-            </div>
-
-        </div>
-        <div class="form-group row">
-            {!! Form::label('pages', 'Количество страниц:', array('class' => 'col-sm-2 col-form-label')) !!}
-            <div class="col-sm-3">
-                <input type="number" id="pages" class="form-control" name="pages" >
-            </div>
-
-        </div>
-
-
         <br>
         @if(isset($pdfText))
             {!! Form::label('pdfText', 'Содержание файла:') !!}

@@ -27,14 +27,16 @@ Route::get('auth/logout', 'Controller@logout');
 Route::get('/profile','ProfileController@index')->middleware('auth');
 
 Route::get('/createArticle','ProfileController@createArticlePage')->middleware('auth');
-
-//Route::get('/createResPdf','ProfileController@createResultPage')->middleware('auth');
-
 Route::post('/createPublicationForm', 'ProfileController@createArticleForm')->middleware('auth');
-
 Route::get('/addArticleAuthor/{idRes}','ProfileController@createResultOwner')->middleware('auth');
-
 Route::post('/addPublicationAuthor/{idRes}', 'ProfileController@addPublicationAuthorForm')->middleware('auth');
+
+Route::get('/createResult','ProfileController@createEventPage')->middleware('auth');
+Route::post('/createEventForm', 'ProfileController@createEventForm')->middleware('auth');
+Route::get('/addEventAuthor/{idRes}','ProfileController@memberOfEventPage')->middleware('auth');
+Route::post('/addEventMembers/{idRes}', 'ProfileController@addEventMembersForm')->middleware('auth');
+
+
 
 Route::get('/createrating','ProfileController@createRatingPage')->middleware('auth');
 

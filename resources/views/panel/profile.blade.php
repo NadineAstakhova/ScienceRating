@@ -14,13 +14,14 @@
         </div>
     </div>
     <div class="row">
+
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
-                    <h5 class="card-header">Анкета</h5>
+                    <h5 class="card-header">Ввод данных результата</h5>
                     <div class="card-body">
-                        <h5 class="card-title">Данные профайла</h5>
-                        <p class="card-text">Просмотр личных данных и их редактирование</p>
-                        <a href="{{url("infoProfileMethodist")}}" class="btn btn-info" id="listSub">Посмотреть анкету</a>
+                        <h5 class="card-title">Данные научного результата</h5>
+                        <p class="card-text">Формы добавление данных результата для пользователя/ей.</p>
+                        <a href="{{url("createResult")}}" class="btn btn-info" id="listSub">Ввести данные результата</a>
                     </div>
                 </div>
             </div>
@@ -61,6 +62,16 @@
                         <h5 class="card-title">Подтверждение результатов</h5>
                         <p class="card-text">Подтверждение научных результатов, которые присылают пользователи.</p>
                         <a href="{{url("#")}}" class="btn btn-info">Новых результатов - </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
+                <div class="card">
+                    <h5 class="card-header">Анкета</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Данные профайла</h5>
+                        <p class="card-text">Просмотр личных данных и их редактирование</p>
+                        <a href="{{url("infoProfileMethodist")}}" class="btn btn-info" id="listSub">Посмотреть анкету</a>
                     </div>
                 </div>
             </div>
