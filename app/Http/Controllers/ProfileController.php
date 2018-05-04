@@ -366,5 +366,14 @@ class ProfileController extends Controller
 
     }
 
+    public function acceptResultsPage(){
+        return view('panel/showRankigs/createrating',
+            array('title' => 'createrating','description' => '',
+                'page' => 'createrating',
+                'arrArticles' => UsersOwners::countOfArticles(UsersOwners::getAllUsersForTable()),
+            )
+        );
+    }
+
 
 }

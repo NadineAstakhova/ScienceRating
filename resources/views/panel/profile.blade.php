@@ -61,7 +61,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Подтверждение результатов</h5>
                         <p class="card-text">Подтверждение научных результатов, которые присылают пользователи.</p>
-                        <a href="{{url("#")}}" class="btn btn-info">Новых результатов - </a>
+                        <a href="{{url("acceptResults")}}" class="btn btn-info">Новых результатов - </a>
                     </div>
                 </div>
             </div>
