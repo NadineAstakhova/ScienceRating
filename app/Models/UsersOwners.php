@@ -64,7 +64,7 @@ class UsersOwners extends BaseModel
         $insert = false;
         foreach ($arrUsers as $key=>$value){
             $insert = DB::table('members_of_event')->insert([
-                ['fk_member' => $arrRoles[$key], 'fk_event' => $idRes, 'fk_res' => $arrRoles[$key],
+                ['fk_member' => $arrUsers[$key], 'fk_event' => $idRes, 'fk_res' => $arrRoles[$key],
                     'fk_role' => $arrResults[$key], 'file' => 'dd',  'status' => 'confirmed']
             ]);
         }

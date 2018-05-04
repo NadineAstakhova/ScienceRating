@@ -146,19 +146,19 @@ class ProfileController extends Controller
         //if automatic document parsing is selected
         if(!is_null($parsePDF)){
             //parse file
-            $parseFile = new CertificatPdfParse($model->file);
+            $parseFile = new CertificatPdfParse($file);
             $content = $parseFile->getContent();
             if ($content == '0')
-                return redirect('createres')->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
+                return redirect('createResult')->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
 
             //searching our users in text
             $users = $parseFile->searchUserAtPdf();
             $searchDate = $parseFile->searchDate();
             $searchTitle = $parseFile->serachTitle();
 
-            return view('panel/addResultForms/createArticle',
+            return view('panel/addResultForms/createEvent',
                 array('title' => 'createRes','description' => '',
-                    'page' => 'createRes', 'arrType' => TypeOfRes::getAll(),
+                    'page' => 'createRes', 'arrType' =>  TypeOfRes::getEventTypes(),
                     'pdfText' => $content,
                     'users' => $users,
                     'date' => $searchDate,

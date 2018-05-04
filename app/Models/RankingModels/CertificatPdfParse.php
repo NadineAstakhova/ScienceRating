@@ -57,7 +57,13 @@ class CertificatPdfParse extends Parser
         $i = 0;
         $str =  str_replace(' ', '', $this->content);
         foreach ($users as $user) {
-            if (strpos($str, $user->surname)) {
+            if ( (strlen($user->surname_ukr) > 0 && strpos($str, $user->surname_ukr))
+                    ||
+                        (strlen($user->surname_en) > 0 && strpos($str, $user->surname_en))
+                    ||
+                        strpos($str, $user->surname)
+                )
+            {
                 $arrUser[$i]['surname'] = $user->surname;
                 $arrUser[$i]['id'] = $user->idUsers;
                 $i++;
