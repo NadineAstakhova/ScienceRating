@@ -240,7 +240,7 @@ class ProfileController extends Controller
     }
 
     public function showArticles($id){
-        $articles = UsersOwners::articlesByID($id);
+        $articles = UsersOwners::articlesByID($id, 'confirmed');
         $user = UsersOwners::getUserById($id);
         return view('panel/showRankigs/articles', compact('articles', 'user'));
     }

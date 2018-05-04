@@ -102,14 +102,16 @@ class UsersOwners extends BaseModel
     public static function getCountOfUserEvent($idUser, $idType){
         $sum = DB::table('members_of_event')
             ->join('scient_event', 'scient_event.idScientEvent', '=', 'members_of_event.fk_event')
-            ->where([['scient_event.fk_type_res', '=', $idType], ['members_of_event.fk_member', '=', $idUser]])
+            ->where([['scient_event.fk_type_res', '=', $idType], ['members_of_event.fk_member', '=', $idUser],
+                    ['members_of_event.status', '=', 'confirmed']])
             ->count('members_of_event.idMember');
         return $sum;
     }
     public static function getCountOfUserPublication($idUser, $idType){
         $sum = DB::table('authors_of_publication')
             ->join('scient_publication', 'scient_publication.idPublication', '=', 'authors_of_publication.fk_pub')
-            ->where([['scient_publication.fk_pub_type', '=', $idType], ['authors_of_publication.fk_user', '=', $idUser]])
+            ->where([['scient_publication.fk_pub_type', '=', $idType], ['authors_of_publication.fk_user', '=', $idUser],
+                    ['authors_of_publication.status', '=', 'confirmed']])
             ->count('authors_of_publication.idPubAuthor');
         return $sum;
     }
@@ -153,20 +155,32 @@ class UsersOwners extends BaseModel
         $count = DB::table('authors_of_publication')
           //  ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
          //   ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
-            ->where('authors_of_publication.fk_user', '=', $idUser)
+            ->where([['authors_of_publication.fk_user', '=', $idUser], ['authors_of_publication.status', '=', 'confirmed']])
             ->count();
         return $count;
     }
 
-    public static function articlesByID($idUser){
-        $articles =  DB::table('authors_of_publication')
-           // ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
-            ->join('scient_publication', 'authors_of_publication.fk_pub', '=', 'scient_publication.idPublication')
-            ->join('type_of_publication', 'scient_publication.fk_pub_type',  '=', 'type_of_publication.idTypePub')
-            ->where('authors_of_publication.fk_user', '=', $idUser)
-            ->orderBy('scient_publication.date', 'DESC')
-            ->get();
-        return $articles;
+    public static function articlesByID($idUser, $status = null){
+        if (!is_null($status)){
+            $articles =  DB::table('authors_of_publication')
+                // ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
+                ->join('scient_publication', 'authors_of_publication.fk_pub', '=', 'scient_publication.idPublication')
+                ->join('type_of_publication', 'scient_publication.fk_pub_type',  '=', 'type_of_publication.idTypePub')
+                ->where([['authors_of_publication.fk_user', '=', $idUser], ['authors_of_publication.status', '=', $status]])
+                ->orderBy('scient_publication.date', 'DESC')
+                ->get();
+            return $articles;
+        }
+        else{
+            $articles =  DB::table('authors_of_publication')
+                // ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
+                ->join('scient_publication', 'authors_of_publication.fk_pub', '=', 'scient_publication.idPublication')
+                ->join('type_of_publication', 'scient_publication.fk_pub_type',  '=', 'type_of_publication.idTypePub')
+                ->where('authors_of_publication.fk_user', '=', $idUser)
+                ->orderBy('scient_publication.date', 'DESC')
+                ->get();
+            return $articles;
+        }
     }
 
     public static function getUserEvents($idUser){

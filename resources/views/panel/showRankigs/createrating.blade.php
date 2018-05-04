@@ -11,6 +11,9 @@
         <h3 class="font-weight-normal">Выберите тип рейтинга:</h3>
     </div>
     <div class="row">
+        <p class="font-weight-normal">Обратите внимание, что в рейтингах учитываются только подтверждённые результаты</p>
+    </div>
+    <div class="row">
         <div class="col-sm-3">
             <ul>
                 <li><a id="0" onclick="showTabs(0)" class="header-active">Научный рейтинг. Магистратура</a></li>
