@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\RankingModels\AddOwnersForm;
 use App\Models\RankingModels\CertificatPdfParse;
 use App\Models\RankingModels\CreateResult;
+use App\Models\RankingModels\EditResults;
+use App\Models\RankingModels\ScientificResult;
 use App\Models\RankingModels\TypeOfRes;
 use App\Models\ReportModels\CreateDocReport;
 
@@ -31,7 +33,10 @@ class ProfileController extends Controller
 
 
     public function index() {
-        return view('panel/profile');
+
+        return view('panel/profile',
+            array('title' => 'profile','description' => '',
+                'page' => 'profile', 'countOfNewResults' =>   ScientificResult::getCountOfAllNewResults()));
     }
 
     public function professorProfile() {
@@ -367,12 +372,26 @@ class ProfileController extends Controller
     }
 
     public function acceptResultsPage(){
-        return view('panel/showRankigs/createrating',
+        return view('panel/userRating/acceptResults',
             array('title' => 'createrating','description' => '',
                 'page' => 'createrating',
-                'arrArticles' => UsersOwners::countOfArticles(UsersOwners::getAllUsersForTable()),
+                'arrNewEvents' => ScientificResult::getAllNewEvents(),
+                'arrNewPublications' => ScientificResult::getAllNewPublications()
             )
         );
+    }
+
+    public static function changeStatusForNewResForm(Request $request){
+        $model = new EditResults();
+
+        if($model->editStatusForNewResults($request->get('arrResults'), $request->get('arrStatusRes'),
+                $request->get('arrPublications'), $request->get('arrStatusPub'))
+
+        ){
+            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+        }
+        //else
+        //    return redirect('profile')->with('error', 'Ошибка записи');
     }
 
 

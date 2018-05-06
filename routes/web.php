@@ -106,5 +106,6 @@ Route::get('/infoProfileMethodist','ProfileController@infoProfile')->middleware(
 Route::post('/editMethodistInfo', 'ProfileController@updateMethodistInfoForm')->middleware('auth');
 
 Route::get('/acceptResults','ProfileController@acceptResultsPage')->middleware('auth');
+Route::post('/changeStatusForNewRes', 'ProfileController@changeStatusForNewResForm')->middleware('auth');
 
 Auth::routes();

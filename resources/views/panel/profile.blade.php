@@ -56,12 +56,20 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
+            @if($countOfNewResults > 0)
                 <div class="card">
+            @else
+                <div class="card disabled-card">
+            @endif
                     <h5 class="card-header">Подтверждение</h5>
                     <div class="card-body">
                         <h5 class="card-title">Подтверждение результатов</h5>
                         <p class="card-text">Подтверждение научных результатов, которые присылают пользователи.</p>
-                        <a href="{{url("acceptResults")}}" class="btn btn-info">Новых результатов - </a>
+                        @if($countOfNewResults > 0)
+                            <a href="{{url("acceptResults")}}" class="btn btn-info">Новых результатов - {{$countOfNewResults}}</a>
+                        @else
+                            <button type="button" class="btn btn-light" disabled="">Новых результатов - 0</button>
+                        @endif
                     </div>
                 </div>
             </div>

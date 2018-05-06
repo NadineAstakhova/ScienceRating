@@ -184,7 +184,7 @@ class UsersOwners extends BaseModel
     }
 
     public static function getUserEvents($idUser){
-        $arrArticles = DB::table('members_of_event')
+        $arrEvents = DB::table('members_of_event')
             ->join('scient_event', 'members_of_event.fk_event', '=', 'scient_event.idScientEvent')
             ->join('type_of_result', 'members_of_event.fk_res', '=', 'type_of_result.idTypeRes')
             ->join('type_of_role', 'members_of_event.fk_role', '=', 'type_of_role.idTypeRole')
@@ -192,7 +192,7 @@ class UsersOwners extends BaseModel
             ->where('members_of_event.fk_member', '=', $idUser)
             ->orderBy('scient_event.date', 'DESC')
             ->get();
-        return $arrArticles;
+        return $arrEvents;
     }
 
     public static function getUserResults($idUser){
