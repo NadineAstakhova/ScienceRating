@@ -144,3 +144,13 @@ label{
 .disabled-card{
     color: #bababa;
 }
+
+.new{
+    color: darkgreen;
+}
+
+
+
+.unconfirmed{
+    color: red;
+}

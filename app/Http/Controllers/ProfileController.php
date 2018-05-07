@@ -6,6 +6,7 @@ use App\Models\RankingModels\AddOwnersForm;
 use App\Models\RankingModels\CertificatPdfParse;
 use App\Models\RankingModels\CreateResult;
 use App\Models\RankingModels\EditResults;
+use App\Models\RankingModels\ScientificEvent;
 use App\Models\RankingModels\ScientificResult;
 use App\Models\RankingModels\TypeOfRes;
 use App\Models\ReportModels\CreateDocReport;
@@ -392,6 +393,17 @@ class ProfileController extends Controller
         }
         //else
         //    return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function showInfoAboutResult($idEvent){
+        $event = new ScientificEvent($idEvent);
+        return view('panel/resultsPages/infoRes',
+            array('title' => 'createrating','description' => '',
+                'page' => 'createrating',
+                'event' => $event->identifyEvent(),
+                'members' => $event->getMembers(),
+            )
+        );
     }
 
 

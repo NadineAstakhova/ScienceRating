@@ -5,6 +5,7 @@
  * Date: 27.12.2017
  * Time: 12:48
  */
+use App\Models\RankingModels\ScientificResult;
 ?>
 @extends('layouts.main')
 @section('title', 'User Results')
@@ -57,13 +58,15 @@
             <tbody>
                 @foreach($arrEvents as $res)
                     <tr>
-                        <td>{{$res->titleEvent}}</td>
+                        <td>
+                            <a href="{{url("event/$res->idScientEvent")}}">{{$res->titleEvent}}</a>
+                        </td>
                         <td>{{$res->type}} </td>
                         <td>{{$res->date}}</td>
                         <td>{{$res->type_of_res}}</td>
                         <td>{{$res->type_of_role}}</td>
                         <td>{{$res->file}}</td>
-                        <td>{{$res->status}}</td>
+                        <td class = "{{$res->status}}">{{ScientificResult::ARRAY_STATUS[$res->status]}}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -121,7 +124,7 @@
                         <td class="pages">{{$article->pages}} </td>
                         <td class="percent">{{$article->percent_of_writing}} </td>
                         <td class="file">{{$article->file}} </td>
-                        <td class="status">{{$article->status}} </td>
+                        <td class = "{{$res->status}}">{{ScientificResult::ARRAY_STATUS[$res->status]}}</td>
                     </tr>
                     @php
                         $i++;
