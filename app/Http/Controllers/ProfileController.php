@@ -382,7 +382,7 @@ class ProfileController extends Controller
         );
     }
 
-    public static function changeStatusForNewResForm(Request $request){
+    public  function changeStatusForNewResForm(Request $request){
         $model = new EditResults();
 
         if($model->editStatusForNewResults($request->get('arrResults'), $request->get('arrStatusRes'),
@@ -402,8 +402,21 @@ class ProfileController extends Controller
                 'page' => 'createrating',
                 'event' => $event->identifyEvent(),
                 'members' => $event->getMembers(),
+                'arrType' => TypeOfRes::getEventTypes(),
             )
         );
+    }
+
+    public  function editEventInfoForm($idEvent, Request $request){
+        $model = new EditResults();
+
+        if($model->editEventInfoForm($idEvent, $request->get('name'), $request->get('date'),$request->get('type'))
+
+        ){
+            return redirect('profile')->with('save', 'Научный результат успешно обновлён');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
     }
 
 

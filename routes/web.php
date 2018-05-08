@@ -109,5 +109,6 @@ Route::get('/acceptResults','ProfileController@acceptResultsPage')->middleware('
 Route::post('/changeStatusForNewRes', 'ProfileController@changeStatusForNewResForm')->middleware('auth');
 
 Route::get('/event/{id}','ProfileController@showInfoAboutResult')->middleware('auth');
+Route::post('/editEventInfo/{id}', 'ProfileController@editEventInfoForm')->middleware('auth');
 
 Auth::routes();

@@ -42,4 +42,11 @@ class EditResults extends Model
 
         return true;
     }
+
+    public function editEventInfoForm($id, $title, $date, $fkType){
+        $edit = new ScientificEvent($id);
+        $edit->editEventInfo($title, $date, $fkType);
+       return true;
+
+    }
 }

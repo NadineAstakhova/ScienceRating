@@ -28,7 +28,7 @@ class ScientificEvent extends Model
     }
 
     public function getMembers(){
-        $event = DB::table('members_of_event')
+        $members = DB::table('members_of_event')
             ->select("users.*",  "type_of_result.*", "type_of_role.*", "members_of_event.*",
                 "student.surname AS student_surname", "professor.surname AS professor_surname",
                 "student.name AS student_name", "professor.name AS professor_name")
@@ -37,9 +37,16 @@ class ScientificEvent extends Model
             ->leftjoin('student', 'student.type_user', '=', 'users.idUsers')
             ->join('type_of_result', 'members_of_event.fk_res', '=', 'type_of_result.idTypeRes')
             ->join('type_of_role', 'members_of_event.fk_role', '=', 'type_of_role.idTypeRole')
-            ->where('members_of_event.fk_member', '=',  $this->idScientEvent )
-            ->first();
-        return $event;
+            ->where('members_of_event.fk_event', '=',  $this->idScientEvent )
+            ->get();
+        return $members;
+    }
+
+    public function editEventInfo($title, $date, $fkType){
+        $update = DB::table('scient_event')
+            ->where('idScientEvent', $this->idScientEvent)
+            ->update( ['titleEvent' => $title, 'date' => $date, 'fk_type_res' => $fkType]);
+        return $update;
     }
 
 }
