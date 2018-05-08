@@ -62,14 +62,32 @@ class UsersOwners extends BaseModel
 
     public function setMembersOfEvent($idRes, $arrUsers, $arrRoles, $arrResults){
         $insert = false;
+
         foreach ($arrUsers as $key=>$value){
-            $insert = DB::table('members_of_event')->insert([
-                ['fk_member' => $arrUsers[$key], 'fk_event' => $idRes, 'fk_res' => $arrRoles[$key],
-                    'fk_role' => $arrResults[$key], 'file' => 'dd',  'status' => 'confirmed']
-            ]);
+            $existRow = $this->existsRow($arrUsers[$key], $idRes);
+            if($existRow != false)
+                $insert = DB::table('members_of_event')
+                    ->where('idMember', $existRow)
+                    ->update( ['fk_res' => $arrResults[$key], 'fk_role' => $arrRoles[$key]]);
+            else
+
+                $insert = DB::table('members_of_event')->insert([
+                    ['fk_member' => $arrUsers[$key], 'fk_event' => $idRes, 'fk_res' => $arrResults[$key],
+                        'fk_role' => $arrRoles[$key], 'file' => 'dd',  'status' => 'confirmed']
+                ]);
         }
         if ($insert)
             return true;
+        else
+            return false;
+    }
+
+    public function existsRow($idMember, $idRes){
+        $row = DB::table('members_of_event')
+            ->where([['fk_member', '=', $idMember]], ['fk_event', '=', $idRes])
+            ->first();
+        if (count($row) > 0)
+            return $row->idMember;
         else
             return false;
     }

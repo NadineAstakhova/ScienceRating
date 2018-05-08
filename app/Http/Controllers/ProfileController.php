@@ -397,11 +397,17 @@ class ProfileController extends Controller
 
     public function showInfoAboutResult($idEvent){
         $event = new ScientificEvent($idEvent);
+        $members = $event->getMembers();
+        $arrUser = array();
+        foreach ($members as $user) {
+                $arrUser['id'] = $user->idUsers;
+        }
+        session()->put('owners', $arrUser);
         return view('panel/resultsPages/infoRes',
             array('title' => 'createrating','description' => '',
                 'page' => 'createrating',
                 'event' => $event->identifyEvent(),
-                'members' => $event->getMembers(),
+                'members' =>$members ,
                 'arrType' => TypeOfRes::getEventTypes(),
             )
         );
@@ -409,7 +415,6 @@ class ProfileController extends Controller
 
     public  function editEventInfoForm($idEvent, Request $request){
         $model = new EditResults();
-
         if($model->editEventInfoForm($idEvent, $request->get('name'), $request->get('date'),$request->get('type'))
 
         ){

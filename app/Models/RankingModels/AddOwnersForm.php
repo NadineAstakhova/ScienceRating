@@ -25,6 +25,7 @@ class AddOwnersForm extends Model
                 $arrRes[$key] = $value;
         }
         $insertOwners = new UsersOwners();
+      //  $getOldRowToDelete = in_array()
         return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
     }
 
