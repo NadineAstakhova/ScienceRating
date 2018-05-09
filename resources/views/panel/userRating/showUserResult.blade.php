@@ -117,7 +117,9 @@ use App\Models\RankingModels\ScientificResult;
             <tbody>
                 @foreach($arrArticles as $article)
                     <tr class="all">
-                        <td class="name">{{$article->title}} </td>
+                        <td>
+                            <a href="{{url("publication/$article->idPublication")}}">{{$article->title}}</a>
+                        </td>
                         <td class="type_pub">{{$article->type}} </td>
                         <td class="pub">{{$article->edition}} </td>
                         <td class="date">{{$article->date}} </td>

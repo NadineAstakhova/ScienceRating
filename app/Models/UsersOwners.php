@@ -60,6 +60,35 @@ class UsersOwners extends BaseModel
             return false;
     }
 
+    public function editAuthorsForPublication($idRes, $arrUsers, $arrRoles ){
+        $insert = false;
+        $oldRow = $this->allRowAtTablePublication($idRes);
+
+        foreach ($oldRow as $old){
+            if(!in_array($old->fk_user, $arrUsers)){
+                $this->deleteRowFromPublication($old->idPubAuthor);
+            }
+            else
+                continue;
+        }
+
+        foreach ($arrUsers as $key=>$value){
+            $existRow = $this->existsPubRow($arrUsers[$key], $idRes);
+            if($existRow != false)
+                $insert = DB::table('authors_of_publication')
+                    ->where('idPubAuthor', $existRow)
+                    ->update( ['percent_of_writing' => $arrRoles[$key]]);
+            else
+                $insert = DB::table('authors_of_publication')->insert([
+                    ['fk_pub' => $idRes, 'fk_user' => $arrUsers[$key], 'percent_of_writing' => $arrRoles[$key], 'status' => 'confirmed']
+                ]);
+        }
+        if ($insert)
+            return true;
+        else
+            return false;
+    }
+
     public function setMembersOfEvent($idRes, $arrUsers, $arrRoles, $arrResults){
         $insert = false;
 
@@ -80,7 +109,6 @@ class UsersOwners extends BaseModel
         $oldRow = $this->allRowAtTable($idRes);
 
         foreach ($oldRow as $old){
-       //     echo in_array($old->fk_member, $arrUsers);
             if(!in_array($old->fk_member, $arrUsers)){
                $this->deleteRow($old->idMember);
             }
@@ -132,6 +160,33 @@ class UsersOwners extends BaseModel
             return $row;
         else
             return false;
+    }
+
+    public function existsPubRow($idMember, $idRes){
+        $row = DB::table('authors_of_publication')
+            ->where([['fk_user', '=', $idMember], ['fk_pub', '=', $idRes]])
+            ->first();
+        if (count($row) > 0)
+            return $row->idPubAuthor;
+        else
+            return false;
+    }
+
+    public function allRowAtTablePublication($idRes){
+        $row = DB::table('authors_of_publication')
+            ->where('fk_pub', '=', $idRes)
+            ->get();
+        if (count($row) > 0)
+            return $row;
+        else
+            return false;
+    }
+
+    public function deleteRowFromPublication($id){
+        $delete = DB::table('authors_of_publication')
+            ->where('idPubAuthor', '=', $id)
+            ->delete();
+        return $delete;
     }
 
     public static function getUserById($id){

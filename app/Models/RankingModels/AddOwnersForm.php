@@ -26,7 +26,6 @@ class AddOwnersForm extends Model
         }
         $insertOwners = new UsersOwners();
         if(!is_null($action) ){
-
             return $insertOwners->editMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
         }
         else
@@ -34,13 +33,16 @@ class AddOwnersForm extends Model
 
     }
 
-    public function addPublicationAuthor($arrOwners, $arrRole, $idResult){
+    public function addPublicationAuthor($arrOwners, $arrRole, $idResult, $action = null){
         $arrR = array();
         foreach ($arrRole as $key=>$value){
             if(array_key_exists($key, $arrOwners))
                 $arrR[$key] = $value;
         }
         $insertOwners = new UsersOwners();
+        if(!is_null($action) ){
+            return $insertOwners->editAuthorsForPublication($idResult, $arrOwners, $arrR);
+        }
         return $insertOwners->setAuthorsForPublication($idResult, $arrOwners, $arrR);
     }
 

@@ -7,7 +7,8 @@
 
         @if(strpos($_SERVER['REQUEST_URI'], 'editEventMembers') !== false)
             {!! Form::open(['url' => ['editEventMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
-
+        @elseif(strpos($_SERVER['REQUEST_URI'], 'editAuthorMembers') !== false)
+                {!! Form::open(['url' => ['editAuthorMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @elseif(isset($arrRoles))
             {!! Form::open(['url' => ['addEventMembers/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @else

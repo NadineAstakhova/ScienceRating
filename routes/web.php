@@ -113,4 +113,9 @@ Route::post('/editEventInfo/{id}', 'ProfileController@editEventInfoForm')->middl
 Route::get('/editEventMembers/{idRes}','ProfileController@memberOfEventPage')->middleware('auth');
 Route::post('/editEventMembersForm/{idRes}', 'ProfileController@editEventMembersForm')->middleware('auth');
 
+Route::get('/publication/{id}','ProfileController@showInfoAboutPublication')->middleware('auth');
+Route::post('/editPublicationInfo/{id}', 'ProfileController@editPublicationInfoForm')->middleware('auth');
+Route::get('/editAuthorMembers/{idRes}','ProfileController@createResultOwner')->middleware('auth');
+Route::post('/editAuthorMembersForm/{idRes}', 'ProfileController@editPubAuthorsForm')->middleware('auth');
+
 Auth::routes();

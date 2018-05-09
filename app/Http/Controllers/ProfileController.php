@@ -7,6 +7,7 @@ use App\Models\RankingModels\CertificatPdfParse;
 use App\Models\RankingModels\CreateResult;
 use App\Models\RankingModels\EditResults;
 use App\Models\RankingModels\ScientificEvent;
+use App\Models\RankingModels\ScientificPublication;
 use App\Models\RankingModels\ScientificResult;
 use App\Models\RankingModels\TypeOfRes;
 use App\Models\ReportModels\CreateDocReport;
@@ -433,6 +434,50 @@ class ProfileController extends Controller
         $model->idResult = $idResult;
         if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, "edit")){
             return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function showInfoAboutPublication($idPublication){
+        $publication = new ScientificPublication($idPublication);
+        $members = $publication->getAuthors();
+        $arrUser = array();
+        $i = 0;
+        foreach ($members as $user) {
+            $arrUser[$i] = $user->idUsers;
+            $i++;
+        }
+        session()->put('owners', $arrUser);
+        return view('panel/resultsPages/infoPub',
+            array('title' => 'createrating','description' => '',
+                'page' => 'createrating',
+                'publication' => $publication->identifyPublication(),
+                'members' =>$members ,
+                'arrType' => TypeOfRes::getPublicationTypes(),
+            )
+        );
+    }
+
+    public  function editPublicationInfoForm($idPublication, Request $request){
+        $model = new EditResults();
+        if($model->editPublicationInfoForm($idPublication, $request->get('name'), $request->get('date'),
+            $request->get('type'), $request->get('publishing'), $request->get('pages'))
+
+        ){
+            return redirect('profile')->with('save', 'Научная публикация успешно обновлена');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function editPubAuthorsForm($idResult, AddOwnersFormRequest $request){
+        $model = new AddOwnersForm();
+        $model->arrOwners = $request->get('arrOwners');
+        $model->arrRole = $request->get('arrRole');
+        $model->idResult = $idResult;
+        if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult, "edit")){
+            return redirect('profile')->with('save', 'Научная публикация успешно обновлена');
         }
         else
             return redirect('profile')->with('error', 'Ошибка записи');

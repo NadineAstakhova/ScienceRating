@@ -49,4 +49,11 @@ class EditResults extends Model
        return true;
 
     }
+
+    public function editPublicationInfoForm($id, $title, $date, $fkType, $edition, $pages){
+        $edit = new ScientificPublication($id);
+        $edit->editPublicationInfo($title, $date, $fkType,$edition, $pages);
+        return true;
+
+    }
 }
