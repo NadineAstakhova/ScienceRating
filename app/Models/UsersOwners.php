@@ -64,6 +64,31 @@ class UsersOwners extends BaseModel
         $insert = false;
 
         foreach ($arrUsers as $key=>$value){
+            $insert = DB::table('members_of_event')->insert([
+                ['fk_member' => $arrUsers[$key], 'fk_event' => $idRes, 'fk_res' => $arrResults[$key],
+                    'fk_role' => $arrRoles[$key], 'file' => 'dd',  'status' => 'confirmed']
+            ]);
+        }
+        if ($insert)
+            return true;
+        else
+            return false;
+    }
+
+    public function editMembersOfEvent($idRes, $arrUsers, $arrRoles, $arrResults){
+        $insert = false;
+        $oldRow = $this->allRowAtTable($idRes);
+
+        foreach ($oldRow as $old){
+       //     echo in_array($old->fk_member, $arrUsers);
+            if(!in_array($old->fk_member, $arrUsers)){
+               $this->deleteRow($old->idMember);
+            }
+            else
+                continue;
+        }
+
+        foreach ($arrUsers as $key=>$value){
             $existRow = $this->existsRow($arrUsers[$key], $idRes);
             if($existRow != false)
                 $insert = DB::table('members_of_event')
@@ -84,10 +109,27 @@ class UsersOwners extends BaseModel
 
     public function existsRow($idMember, $idRes){
         $row = DB::table('members_of_event')
-            ->where([['fk_member', '=', $idMember]], ['fk_event', '=', $idRes])
+            ->where([['fk_member', '=', $idMember], ['fk_event', '=', $idRes]])
             ->first();
         if (count($row) > 0)
             return $row->idMember;
+        else
+            return false;
+    }
+
+    public function deleteRow($id){
+        $delete = DB::table('members_of_event')
+            ->where('idMember', '=', $id)
+            ->delete();
+        return $delete;
+    }
+
+    public function allRowAtTable($idRes){
+        $row = DB::table('members_of_event')
+            ->where('fk_event', '=', $idRes)
+            ->get();
+        if (count($row) > 0)
+            return $row;
         else
             return false;
     }

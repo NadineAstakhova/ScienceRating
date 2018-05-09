@@ -399,8 +399,10 @@ class ProfileController extends Controller
         $event = new ScientificEvent($idEvent);
         $members = $event->getMembers();
         $arrUser = array();
+        $i = 0;
         foreach ($members as $user) {
-                $arrUser['id'] = $user->idUsers;
+                $arrUser[$i] = $user->idUsers;
+                $i++;
         }
         session()->put('owners', $arrUser);
         return view('panel/resultsPages/infoRes',
@@ -419,6 +421,18 @@ class ProfileController extends Controller
 
         ){
             return redirect('profile')->with('save', 'Научный результат успешно обновлён');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function editEventMembersForm($idResult, AddOwnersFormRequest $request){
+        $model = new AddOwnersForm();
+        $model->arrOwners = $request->get('arrOwners');
+        $model->arrRole = $request->get('arrRole');
+        $model->idResult = $idResult;
+        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, "edit")){
+            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
         }
         else
             return redirect('profile')->with('error', 'Ошибка записи');

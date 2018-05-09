@@ -5,11 +5,15 @@
 
     <div class="row">
 
-        @if(isset($arrRoles))
+        @if(strpos($_SERVER['REQUEST_URI'], 'editEventMembers') !== false)
+            {!! Form::open(['url' => ['editEventMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+
+        @elseif(isset($arrRoles))
             {!! Form::open(['url' => ['addEventMembers/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @else
             {!! Form::open(['url' => ['addPublicationAuthor/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @endif
+
 
         <h3 class="font-weight-normal">Выберите участника/ов</h3>
         <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
@@ -93,7 +97,6 @@
                     @endif
 
                     <td>
-
                         {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
                     true : false) !!}
 

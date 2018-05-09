@@ -45,7 +45,7 @@
                                 {{$event->type}}
                             </p>
                             <h6>Участинки</h6>
-                            <a href="{{url("addEventAuthor/".$event->idScientEvent)}}" class="btn btn-info" id="listSub">Изменить участников</a>
+                            <a href="{{url("editEventMembers/".$event->idScientEvent)}}" class="btn btn-info" id="listSub">Изменить участников</a>
                             <table class="table table-sm">
                                 <thead>
                                 <tr>

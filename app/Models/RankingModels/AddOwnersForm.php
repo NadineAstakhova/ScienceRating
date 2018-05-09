@@ -11,7 +11,7 @@ class AddOwnersForm extends Model
     public $arrOwners;
     public $arrRole;
 
-    public function addEventMembers($arrOwners, $arrRole, $arrResult, $idResult){
+    public function addEventMembers($arrOwners, $arrRole, $arrResult, $idResult, $action = null){
         $arrR = array();
         $arrRes = array();
 
@@ -25,8 +25,13 @@ class AddOwnersForm extends Model
                 $arrRes[$key] = $value;
         }
         $insertOwners = new UsersOwners();
-      //  $getOldRowToDelete = in_array()
-        return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
+        if(!is_null($action) ){
+
+            return $insertOwners->editMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
+        }
+        else
+            return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
+
     }
 
     public function addPublicationAuthor($arrOwners, $arrRole, $idResult){
