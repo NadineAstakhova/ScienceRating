@@ -28,9 +28,13 @@
             if(Session::has('errorParse')){
                echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("errorParse")."</div>";
             }
-
         @endphp
-        {!! Form::open(['url' => ['createPublicationForm'], 'class'=>'form', 'files'=>'true']) !!}
+
+        @if(!isset($idUser))
+            {!! Form::open(['url' => ['createPublicationForm'], 'class'=>'form', 'files'=>'true']) !!}
+        @else
+            {!! Form::open(['url' => ['createPublicationForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
+        @endif
 
         {!! Form::label('file', 'Загрузить документ:') !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}

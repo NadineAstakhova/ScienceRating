@@ -43,7 +43,7 @@ class AddOwnersForm extends Model
         if(!is_null($action) ){
             return $insertOwners->editAuthorsForPublication($idResult, $arrOwners, $arrR);
         }
-        return $insertOwners->setAuthorsForPublication($idResult, $arrOwners, $arrR);
+        return $insertOwners->setAuthorsForPublication($idResult, $arrOwners, $arrR, 'confirmed');
     }
 
 }

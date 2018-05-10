@@ -2,6 +2,7 @@
 
 namespace App\Models\RankingModels;
 
+use App\Models\UsersOwners;
 use Illuminate\Database\Eloquent\Model;
 
 class CreateResult extends Model
@@ -32,6 +33,12 @@ class CreateResult extends Model
         $path = base_path(). '/public/uploads/';
         $file->move($path , $fileName);
         return $res->insertPublication($title, $publishing, $pages, $date, '/public/uploads/'. $fileName, $fkType);
+    }
+
+    public function addOneAuthorToArticle($idUser, $last_id){
+        $publication = new UsersOwners();
+        return $publication->setAuthorsForPublication($last_id, $idUser, '100', 'new');
+
     }
 
 

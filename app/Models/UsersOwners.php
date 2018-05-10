@@ -47,13 +47,20 @@ class UsersOwners extends BaseModel
         return $arrUser;
     }
 
-    public function setAuthorsForPublication($idRes, $arrUsers, $arrRoles ){
+    public function setAuthorsForPublication($idRes, $arrUsers, $arrRoles, $status ){
         $insert = false;
-        foreach ($arrUsers as $key=>$value){
-            $insert = DB::table('authors_of_publication')->insert([
-                ['fk_pub' => $idRes, 'fk_user' => $arrUsers[$key], 'percent_of_writing' => $arrRoles[$key], 'status' => 'confirmed']
-            ]);
+        if (is_array($arrUsers) || is_array($arrRoles)){
+            foreach ($arrUsers as $key=>$value){
+                $insert = DB::table('authors_of_publication')->insert([
+                    ['fk_pub' => $idRes, 'fk_user' => $arrUsers[$key], 'percent_of_writing' => $arrRoles[$key], 'status' => $status]
+                ]);
+            }
         }
+        else
+            $insert = DB::table('authors_of_publication')->insert([
+                ['fk_pub' => $idRes, 'fk_user' => $arrUsers, 'percent_of_writing' => $arrRoles, 'status' => $status]
+            ]);
+
         if ($insert)
             return true;
         else

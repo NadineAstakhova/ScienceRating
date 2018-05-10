@@ -118,4 +118,9 @@ Route::post('/editPublicationInfo/{id}', 'ProfileController@editPublicationInfoF
 Route::get('/editAuthorMembers/{idRes}','ProfileController@createResultOwner')->middleware('auth');
 Route::post('/editAuthorMembersForm/{idRes}', 'ProfileController@editPubAuthorsForm')->middleware('auth');
 
+Route::get('/showUserResult/{id}','ProfileController@showUserResult')->middleware('auth');
+
+Route::get('/createArticleByUser/{idUser}','ProfileController@createArticlePage')->middleware('auth');
+Route::post('/createPublicationForm/{idUser}', 'ProfileController@createArticleForm')->middleware('auth');
+
 Auth::routes();

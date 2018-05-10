@@ -10,6 +10,7 @@ use App\Models\RankingModels\ScientificResult;
 @extends('layouts.main')
 @section('title', 'User Results')
 @section('content')
+
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
@@ -109,6 +110,9 @@ use App\Models\RankingModels\ScientificResult;
                 <th>
                     Статус
                 </th>
+                <th>
+                    Действие
+                </th>
             </tr>
             </thead>
 
@@ -126,7 +130,11 @@ use App\Models\RankingModels\ScientificResult;
                         <td class="pages">{{$article->pages}} </td>
                         <td class="percent">{{$article->percent_of_writing}} </td>
                         <td class="file">{{$article->file}} </td>
-                        <td class = "{{$res->status}}">{{ScientificResult::ARRAY_STATUS[$res->status]}}</td>
+                        <td class = "{{$article->status}}">{{ScientificResult::ARRAY_STATUS[$article->status]}}</td>
+                        <td>
+                            <button class="btn  btn-xs btn-detail open-modal" value="{{$article->idPubAuthor}}">Edit</button>
+                            <button class="btn btn-danger btn-xs btn-delete delete-task" value="{{$article->idPubAuthor}}">Delete</button>
+                        </td>
                     </tr>
                     @php
                         $i++;
@@ -134,6 +142,38 @@ use App\Models\RankingModels\ScientificResult;
                 @endforeach
             </tbody>
         </table>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Task Editor</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="frmTasks" name="frmTasks" class="form-horizontal" novalidate="">
+
+                                <div class="form-group error">
+                                    <label for="inputTask" class="col-sm-3 control-label">Task</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control has-error" id="task" name="task" placeholder="Task" value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Description</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="description" name="description" placeholder="Description" value="">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-save" value="add">Save changes</button>
+                            <input type="hidden" id="task_id" name="task_id" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
         @else
             <div class="col-xs-6 col-sm-8 col-lg-8">
                  Нет публикаций

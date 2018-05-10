@@ -58,13 +58,18 @@ class ProfileController extends Controller
     }
 
 
-    public function createArticlePage(){
-        return view('panel/addResultForms/createPublication',
-            array('title' => 'createPublication','description' => '',
-                'page' => 'createPublication', 'arrType' => TypeOfRes::getPublicationTypes()));
+    public function createArticlePage($idUser = null){
+        if(is_null($idUser))
+            return view('panel/addResultForms/createPublication',
+                array('title' => 'createPublication','description' => '',
+                    'page' => 'createPublication', 'arrType' => TypeOfRes::getPublicationTypes()));
+        else
+            return view('panel/addResultForms/createPublication',
+                array('title' => 'createPublication','description' => '',
+                    'page' => 'createPublication', 'arrType' => TypeOfRes::getPublicationTypes(), 'idUser' => $idUser));
     }
 
-    public function createArticleForm(CreateResultFormRequest $request){
+    public function createArticleForm($idUser = null, CreateResultFormRequest $request){
         //get data from request
         $model = new CreateResult();
 
@@ -103,7 +108,13 @@ class ProfileController extends Controller
 
         if ($model->createPublication($title, $publishing, $pages, $date, $file, $fkType)){
             $last_id = DB::getPdo()->lastInsertId();
-            return redirect('addArticleAuthor/'.$last_id)->with('owners', $request->get('owners'));
+            if(is_null($idUser))
+                return redirect('addArticleAuthor/'.$last_id)->with('owners', $request->get('owners'));
+            else{
+                //percent????
+                $model->addOneAuthorToArticle($idUser, $last_id);
+                return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+            }
         }
         else
            return 0;
