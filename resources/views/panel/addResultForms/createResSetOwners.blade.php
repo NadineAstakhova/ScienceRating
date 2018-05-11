@@ -3,6 +3,33 @@
 
 @section('content')
 
+    <script>
+
+            const isValidateTrue = () => {
+
+                let whoUse = [];
+
+                const sum =
+                Array.from(document.getElementsByClassName("unic-check"))
+                    .filter(che => che.checked)
+                    .map(che => {whoUse.push(che.id.replace("arrRole[","").replace("]","")+"]"); return che;})
+                    .reduce((a,b)=>a +
+                                    Number.parseInt(
+                                        document.getElementById("arrRole["+b.id.replace("arrOwners[","").replace("]","")+"]").value),0);
+
+
+                console.log("sum",sum);
+                console.log("whoUse",whoUse);
+            }
+
+
+
+
+
+
+
+
+    </script>
     <div class="row">
 
         @if(strpos($_SERVER['REQUEST_URI'], 'editEventMembers') !== false)
@@ -93,13 +120,15 @@
 
                     @else
                         <td>
-                            {!! Form::number('arrRole['.$i.']', '100', ['class' => 'form-control']) !!}
+                            {!! Form::number('arrRole['.$i.']', '100', ['class' => 'form-control', 'onChange'=>'isValidateTrue()', 'id' => 'arrRole['.$i.']', 'min'=>1,'max'=>100]) !!}
                         </td>
                     @endif
 
-                    <td>
-                        {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
-                    true : false) !!}
+                    <td >
+
+                                {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
+                            true : false, ['id' => 'arrOwners['.$i.']', 'onClick'=>'isValidateTrue()', 'class' => 'unic-check']) !!}
+
 
                     </td>
                 </tr>
@@ -117,5 +146,6 @@
         {!! Form::close() !!}
         <br>
     </div>
+
 
 @endsection

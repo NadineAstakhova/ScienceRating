@@ -125,6 +125,7 @@ Route::post('/createPublicationForm/{idUser}', 'ProfileController@createArticleF
 
 Route::get('/rankingsPage','ProfileController@showRankingsPage')->middleware('auth');
 
+//TODO: add normal identify for rankings
 Route::get('/pdfRanking/{idTemp}/{idUser}','ProfileController@createPdfReport')->middleware('auth');
 Route::get('/docRanking/{idTemp}/{idUser}','ProfileController@createDocReport')->middleware('auth');
 
