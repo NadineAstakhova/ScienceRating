@@ -123,4 +123,9 @@ Route::get('/showUserResult/{id}','ProfileController@showUserResult')->middlewar
 Route::get('/createArticleByUser/{idUser}','ProfileController@createArticlePage')->middleware('auth');
 Route::post('/createPublicationForm/{idUser}', 'ProfileController@createArticleForm')->middleware('auth');
 
+Route::get('/rankingsPage','ProfileController@showRankingsPage')->middleware('auth');
+
+Route::get('/pdfRanking/{idTemp}/{idUser}','ProfileController@createPdfReport')->middleware('auth');
+Route::get('/docRanking/{idTemp}/{idUser}','ProfileController@createDocReport')->middleware('auth');
+
 Auth::routes();

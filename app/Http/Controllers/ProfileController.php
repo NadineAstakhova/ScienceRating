@@ -494,5 +494,11 @@ class ProfileController extends Controller
             return redirect('profile')->with('error', 'Ошибка записи');
     }
 
+    public function showRankingsPage(){
+        return view('usersPanel/rankingPage',
+            array('title' => 'rankingsPage','description' => 'rankingsPage',
+                'page' => 'rankingsPage' ));
+    }
+
 
 }

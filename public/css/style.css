@@ -139,6 +139,7 @@ label{
 
 .panel-cards{
     margin-bottom: 10px;
+    flex: 0 0 100%;
 }
 
 .disabled-card{

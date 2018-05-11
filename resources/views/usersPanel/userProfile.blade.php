@@ -67,7 +67,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Научные рейтинги</h5>
                     <p class="card-text">Просмотр и распечатка доступных научных рейтингов.</p>
-                    <a href="#" class="btn btn-info" id="listSub">Построить рейтинг</a>
+                    <a href="rankingsPage" class="btn btn-info" id="listSub">Построить рейтинг</a>
                 </div>
             </div>
         </div>
