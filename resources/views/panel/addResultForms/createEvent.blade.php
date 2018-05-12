@@ -31,7 +31,21 @@
             }
 
         @endphp
-        {!! Form::open(['url' => ['createEventForm'], 'class'=>'form', 'files'=>'true']) !!}
+        @if(Auth::user()->type == '3')
+        <div class="alert alert-info" role="alert">
+            Если документ общий для всех участников выберите "Использовать для всех", если нет,
+            то на следующей странице вы можете для каждого участника загрузить свой файл.
+            <br>Если хотите воспользоваться функцией автоматического распознавания, то "Использовать для всех" выберите на следующем этапе.
+        </div>
+        @endif
+
+        @if(!isset($idUser))
+            {!! Form::open(['url' => ['createEventForm'], 'class'=>'form', 'files'=>'true']) !!}
+        @else
+            {!! Form::open(['url' => ['createEventForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
+        @endif
+
+
 
         {!! Form::label('file', 'Загрузить документ:') !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
@@ -40,8 +54,14 @@
             <input type="checkbox" class="custom-control-input" id="allField" name="allField" value="allField">
             <label class="custom-control-label" for="allField">Заполнить автоматически</label>
         </div>
-        <br>
+        @if(Auth::user()->type == '3')
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="forAllUser" name="forAllUser" value="forAllUser">
+                <label class="custom-control-label" for="forAllUser">Использовать для всех</label>
+            </div>
+        @endif
 
+        <br>
         {!! Form::label('name', 'Название результата (мероприятия/события):') !!}
 
         <input type="text" id="name" class="form-control" name="name" value="{{isset($pdfText) && $searchTitle ? $searchTitle : ''}}">
@@ -79,6 +99,12 @@
                 @endif
             </div>
         @endif
+
+        @if(!isset($idUser))
+            {!! Form::select('arrResults['.$i.']', $arrResults,  null, ['class' => 'form-old-select form-control']) !!}
+            {!! Form::select('arrRole['.$i.']', $arrRoles,  null, ['class' => 'form-old-select form-control']) !!}
+        @endif
+
 
         {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
 
@@ -125,7 +151,7 @@
 
 
 
-            $('#btn').bind("click",function()
+           /* $('#btn').bind("click",function()
             {
                 let imgVal = $('#file').val();
                 if(imgVal=='')
@@ -135,7 +161,7 @@
                     return false;
                 }
 
-            });
+            });*/
         });
 
     </script>

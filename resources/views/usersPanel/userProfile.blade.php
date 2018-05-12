@@ -56,7 +56,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Данные результата</h5>
                     <p class="card-text">Форма добавления данных вашего научного результата.</p>
-                    <a href="#" class="btn btn-info" id="listSub">Ввести данные результата</a>
+                    <a href="{{url("createEventByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">Ввести данные результата</a>
                 </div>
             </div>
         </div>

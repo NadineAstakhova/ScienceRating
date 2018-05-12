@@ -78,7 +78,12 @@
                 </ul>
             </div>
         @endif
+            @php
+                if(Session::has('fileNameAll')){
+                   echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("fileNameAll")."</div>";
+                }
 
+            @endphp
 
 
         {!! Form::submit('Save', ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
@@ -109,6 +114,11 @@
                         <th>
                             Роль
                         </th>
+                        @if(!Session::has('fileNameAll'))
+                            <th>
+                                Файл
+                            </th>
+                        @endif
                     @else
                         <th>
                             Процент написания
@@ -141,6 +151,13 @@
                         <td>
                             {!! Form::select('arrRole['.$i.']', $arrRoles,  null, ['class' => 'form-old-select form-control']) !!}
                         </td>
+                        @if(!Session::has('fileNameAll'))
+                            <td>
+                                {!! Form::file('arrFiles['.$i.']', null, ['class' => 'form-control']) !!}
+                            </td>
+
+                        @endif
+
                         <td >
                             {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
                         true : false, ['id' => 'arrOwners['.$i.']']) !!}

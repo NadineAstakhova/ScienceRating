@@ -11,7 +11,7 @@ class AddOwnersForm extends Model
     public $arrOwners;
     public $arrRole;
 
-    public function addEventMembers($arrOwners, $arrRole, $arrResult, $idResult, $action = null){
+    public function addEventMembers($arrOwners, $arrRole, $arrResult, $idResult, $file,  $action = null){
         $arrR = array();
         $arrRes = array();
 
@@ -24,12 +24,29 @@ class AddOwnersForm extends Model
             if(array_key_exists($key, $arrOwners))
                 $arrRes[$key] = $value;
         }
+        $files = array();
+        if(!is_array($file)){
+            foreach ($arrOwners as $key=>$value){
+                $files[$key] = $file;
+            }
+        }
+        else{
+            foreach ($file as $key=>$value){
+                if(array_key_exists($key, $arrOwners))
+                    $files[$key] = $value;
+                $fileName = $value->getClientOriginalName();
+                $path = base_path(). '/public/uploads/';
+                $value->move($path , $fileName);
+            }
+
+        }
+
         $insertOwners = new UsersOwners();
         if(!is_null($action) ){
             return $insertOwners->editMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
         }
         else
-            return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
+            return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes, $files);
 
     }
 

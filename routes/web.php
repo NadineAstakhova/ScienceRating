@@ -123,6 +123,8 @@ Route::get('/showUserResult/{id}','ProfileController@showUserResult')->middlewar
 Route::get('/createArticleByUser/{idUser}','ProfileController@createArticlePage')->middleware('auth');
 Route::post('/createPublicationForm/{idUser}', 'ProfileController@createArticleForm')->middleware('auth');
 
+Route::get('/createEventByUser/{idUser}','ProfileController@createEventPage')->middleware('auth');
+
 Route::get('/rankingsPage','ProfileController@showRankingsPage')->middleware('auth');
 
 //TODO: add normal identify for rankings
@@ -134,5 +136,7 @@ Route::get('/deleteAuthorPub/{idAuthor}','ProfileController@deleteAuthorOfPublic
 Route::get('/editAuthorPub/{idAuthor}','ProfileController@editAuthorOfPublication')->middleware('auth');
 
 Route::get('/deleteMemberEvent/{idMember}','ProfileController@deleteMemberOfEvent')->middleware('auth');
+
+
 
 Auth::routes();

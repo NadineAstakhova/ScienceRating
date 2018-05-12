@@ -4,6 +4,7 @@ namespace App\Models\RankingModels;
 
 use App\Models\UsersOwners;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
 class CreateResult extends Model
 {
@@ -16,12 +17,20 @@ class CreateResult extends Model
     public $pages;
 
 
-    public function createEvent($title,$date, $file, $fkType ){
+    public function createEvent($title,$date, $file, $fkType, $forAllUser = null ){
 
         $res = new ScientificResult();
-        $fileName = $file->getClientOriginalName();
-        $path = base_path(). '/public/uploads/';
-        $file->move($path , $fileName);
+        if(!is_null($forAllUser)){
+            $fileName = $file->getClientOriginalName();
+            $unicodefileName = iconv('windows-1256', 'utf-8', $fileName);
+            $path = base_path(). '/public/uploads/';
+            $file->move($path , $unicodefileName);
+            session()->put('fileNameAll', $fileName);
+        }
+        else
+            if(Session::has('owners')){
+                Session::forget('fileNameAll');
+            }
 
         return $res->insertEvent($title,$date, $fkType);
     }
@@ -39,6 +48,10 @@ class CreateResult extends Model
         $publication = new UsersOwners();
         return $publication->setAuthorsForPublication($last_id, $idUser, '100', 'new');
 
+    }
+
+    public function addOneMemberToEvent($idUser, $last_id, $file){
+        $event = new UsersOwners();
     }
 
 

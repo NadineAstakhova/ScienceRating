@@ -86,7 +86,7 @@ class ProfileController extends Controller
         //if automatic document parsing is selected
         if(!is_null($parsePDF)){
            //parse file
-           $parseFile = new CertificatPdfParse($model->file);
+           $parseFile = new CertificatPdfParse($file);
            $content = $parseFile->getContent();
            if ($content == '0')
                return redirect('createres')->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
@@ -96,9 +96,9 @@ class ProfileController extends Controller
            $searchDate = $parseFile->searchDate();
            $searchTitle = $parseFile->serachTitle();
 
-            return view('panel/addResultForms/createArticle',
-                array('title' => 'createRes','description' => '',
-                    'page' => 'createRes', 'arrType' => TypeOfRes::getAll(),
+            return view('panel/addResultForms/createPublication',
+                array('title' => 'createPublication','description' => '',
+                    'page' => 'createPublication', 'arrType' =>TypeOfRes::getPublicationTypes(),
                     'pdfText' => $content,
                     'users' => $users,
                     'date' => $searchDate,
@@ -129,7 +129,7 @@ class ProfileController extends Controller
                     UsersOwners::getAllUsersForTable(Session::get("owners")) : UsersOwners::getAllUsersForTable()));
     }
 
-    //TODO check sum of percent
+
     public function addPublicationAuthorForm($idResult, AddOwnersFormRequest $request){
         $model = new AddOwnersForm();
         $model->arrOwners = $request->get('arrOwners');
@@ -149,7 +149,7 @@ class ProfileController extends Controller
                 'page' => 'createEvent', 'arrType' => TypeOfRes::getEventTypes()));
     }
 
-    public function createEventForm(CreateResultFormRequest $request){
+    public function createEventForm($idUser = null, CreateResultFormRequest $request){
         //get data from request
         $model = new CreateResult();
 
@@ -157,9 +157,11 @@ class ProfileController extends Controller
         $date =  $request->get('date');
         $file =  $request->file('file');
         $fkType =  $request->get('type');
+        $forAllUser = $request->get('forAllUser');
 
 
         $parsePDF = $request->get('allField');
+
 
         //if automatic document parsing is selected
         if(!is_null($parsePDF)){
@@ -184,12 +186,18 @@ class ProfileController extends Controller
                 ));
         }
 
-        if ($model->createEvent($title,  $date, $file, $fkType)){
+        if ($model->createEvent($title,  $date, $file, $fkType, $forAllUser)){
             $last_id = DB::getPdo()->lastInsertId();
-            return redirect('addEventAuthor/'.$last_id)->with('owners', $request->get('owners'));
+            if(is_null($idUser))
+                return redirect('addEventAuthor/'.$last_id)->with('owners', $request->get('owners'));
+            else{
+                $model->addOneMemberToEvent($idUser, $last_id, $file);
+                return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+            }
+
         }
         else
-            echo "error";
+            return redirect('profile')->with('error', 'Ошибка записи');
     }
 
     public function memberOfEventPage($idRes){
@@ -204,12 +212,20 @@ class ProfileController extends Controller
     }
 
 
+    //TODO validation
     public function addEventMembersForm($idResult, AddOwnersFormRequest $request){
         $model = new AddOwnersForm();
         $model->arrOwners = $request->get('arrOwners');
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
-        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult)){
+        $file = "";
+        if(Session::has('fileNameAll')){
+           $file = Session::get("fileNameAll");
+        }
+        else
+            $file =  $request->file('arrFiles');
+        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'),
+            $request->get('arrResults'), $idResult, $file)){
             return redirect('profile')->with('save', 'Научный результат успешно добавлен');
         }
         else
