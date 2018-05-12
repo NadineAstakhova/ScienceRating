@@ -500,5 +500,29 @@ class ProfileController extends Controller
                 'page' => 'rankingsPage' ));
     }
 
+    public function deleteAuthorOfPublication($idAuthor){
+        ScientificPublication::deleteAuthorOfPublication($idAuthor);
+        return redirect()->back();
+    }
+
+    public function editAuthorOfPublication($idAuthor, Request $request)
+    {
+        if ($request->ajax()) {
+            return view('panel/userRating/editResultPublication',
+                array('title' => 'editResultPublication','description' => 'editResultPublication'));
+        }
+
+        else
+            return view('panel/userRating/editResultPublication',
+                array('title' => 'editResultPublication','description' => 'editResultPublication'));
+
+    }
+
+    public function deleteMemberOfEvent($idMember){
+        ScientificEvent::deleteMemberOfEvent($idMember);
+        return redirect()->back();
+    }
+
+
 
 }

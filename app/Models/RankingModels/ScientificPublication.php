@@ -46,4 +46,9 @@ class ScientificPublication extends Model
             ->update( ['title' => $title, 'date' => $date, 'fk_pub_type' => $fkType, 'edition' => $edition, 'pages' => $pages]);
         return $update;
     }
+
+    public static function deleteAuthorOfPublication($idDelete){
+        $deleted =  DB::table('authors_of_publication')->where('idPubAuthor','=',$idDelete)->delete();
+        return $deleted;
+    }
 }

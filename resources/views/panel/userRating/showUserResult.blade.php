@@ -10,6 +10,13 @@ use App\Models\RankingModels\ScientificResult;
 @extends('layouts.main')
 @section('title', 'User Results')
 @section('content')
+<script>
+    $(document).ready(function (e) {
+        $('.delete_btn').on('click', function () {
+            return confirm('Вы уверены, что хотите удалить научный результат для пользователя?');
+        });
+    });
+</script>
 
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
@@ -54,6 +61,9 @@ use App\Models\RankingModels\ScientificResult;
                 <th>
                     Статус
                 </th>
+                <th>
+                    Действие
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -68,6 +78,12 @@ use App\Models\RankingModels\ScientificResult;
                         <td>{{$res->type_of_role}}</td>
                         <td>{{$res->file}}</td>
                         <td class = "{{$res->status}}">{{ScientificResult::ARRAY_STATUS[$res->status]}}</td>
+                        <td>
+                            <a href="{{url("editMemberEvent/$res->idMember")}}">
+                                <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn"></a>
+                            <a href="{{url("deleteMemberEvent/$res->idMember")}}">
+                                <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -92,7 +108,10 @@ use App\Models\RankingModels\ScientificResult;
                     Тип
                 </th>
                 <th>
-                    Издательство
+                    Процент
+                </th>
+                <th>
+                    Из-во
                 </th>
                 <th>
                     Дата
@@ -100,9 +119,7 @@ use App\Models\RankingModels\ScientificResult;
                 <th>
                     Кол-во страниц
                 </th>
-                <th>
-                    Процент
-                </th>
+
 
                 <th>
                     Файл
@@ -125,15 +142,19 @@ use App\Models\RankingModels\ScientificResult;
                             <a href="{{url("publication/$article->idPublication")}}">{{$article->title}}</a>
                         </td>
                         <td class="type_pub">{{$article->type}} </td>
+                        <td class="percent">
+                            {{$article->percent_of_writing}}
+                        </td>
                         <td class="pub">{{$article->edition}} </td>
                         <td class="date">{{$article->date}} </td>
                         <td class="pages">{{$article->pages}} </td>
-                        <td class="percent">{{$article->percent_of_writing}} </td>
                         <td class="file">{{$article->file}} </td>
                         <td class = "{{$article->status}}">{{ScientificResult::ARRAY_STATUS[$article->status]}}</td>
                         <td>
-                            <button class="btn  btn-xs btn-detail open-modal" value="{{$article->idPubAuthor}}">Edit</button>
-                            <button class="btn btn-danger btn-xs btn-delete delete-task" value="{{$article->idPubAuthor}}">Delete</button>
+                            <a href="{{url("editAuthorPub/$article->idPubAuthor")}}">
+                                <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn"></a>
+                            <a href="{{url("deleteAuthorPub/$article->idPubAuthor")}}">
+                                <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
                         </td>
                     </tr>
                     @php
@@ -142,49 +163,18 @@ use App\Models\RankingModels\ScientificResult;
                 @endforeach
             </tbody>
         </table>
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Task Editor</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form id="frmTasks" name="frmTasks" class="form-horizontal" novalidate="">
-
-                                <div class="form-group error">
-                                    <label for="inputTask" class="col-sm-3 control-label">Task</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control has-error" id="task" name="task" placeholder="Task" value="">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label">Description</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="description" name="description" placeholder="Description" value="">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn-save" value="add">Save changes</button>
-                            <input type="hidden" id="task_id" name="task_id" value="0">
-                        </div>
-                    </div>
-                </div>
-            </div>
         @else
             <div class="col-xs-6 col-sm-8 col-lg-8">
                  Нет публикаций
             </div>
         @endif
     </div>
+
 <script>
     $(document).ready(function(){
         $('#print').click(function(){
             var printing_css = "<style media=print>" +
-                "#print, .breadcrumb, .delete_btn, #update_btn{display: none;}" +
+                "#print, .breadcrumb, .delete_btn, .update_btn{display: none;}" +
                 "table{text-align: left} </style>";
             var html_to_print=printing_css+$('#to_print').html();
             var iframe=$('<iframe id="print_frame">');

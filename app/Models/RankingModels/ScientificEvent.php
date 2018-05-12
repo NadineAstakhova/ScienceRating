@@ -49,4 +49,9 @@ class ScientificEvent extends Model
         return $update;
     }
 
+    public static function deleteMemberOfEvent($idDelete){
+        $deleted =  DB::table('members_of_event')->where('idMember','=',$idDelete)->delete();
+        return $deleted;
+    }
+
 }

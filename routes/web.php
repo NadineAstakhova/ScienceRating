@@ -129,4 +129,10 @@ Route::get('/rankingsPage','ProfileController@showRankingsPage')->middleware('au
 Route::get('/pdfRanking/{idTemp}/{idUser}','ProfileController@createPdfReport')->middleware('auth');
 Route::get('/docRanking/{idTemp}/{idUser}','ProfileController@createDocReport')->middleware('auth');
 
+Route::get('/deleteAuthorPub/{idAuthor}','ProfileController@deleteAuthorOfPublication')->middleware('auth');
+//TODO
+Route::get('/editAuthorPub/{idAuthor}','ProfileController@editAuthorOfPublication')->middleware('auth');
+
+Route::get('/deleteMemberEvent/{idMember}','ProfileController@deleteMemberOfEvent')->middleware('auth');
+
 Auth::routes();

@@ -166,3 +166,8 @@ label{
     /*background-color: red;*/
     border-color: red !important;
 }
+
+.icons{
+    width: 16px;
+    height: 16px;
+}
