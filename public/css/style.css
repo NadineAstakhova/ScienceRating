@@ -155,3 +155,14 @@ label{
 .unconfirmed{
     color: red;
 }
+
+
+.valid-true {
+    /*background-color: green;*/
+    border-color: green !important;
+}
+
+.valid-false{
+    /*background-color: red;*/
+    border-color: red !important;
+}

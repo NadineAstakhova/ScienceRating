@@ -4,30 +4,53 @@
 @section('content')
 
     <script>
-
+            //TODO move to js file
             const isValidateTrue = () => {
-
                 let whoUse = [];
 
                 const sum =
                 Array.from(document.getElementsByClassName("unic-check"))
                     .filter(che => che.checked)
-                    .map(che => {whoUse.push(che.id.replace("arrRole[","").replace("]","")+"]"); return che;})
-                    .reduce((a,b)=>a +
-                                    Number.parseInt(
-                                        document.getElementById("arrRole["+b.id.replace("arrOwners[","").replace("]","")+"]").value),0);
+                    .map(che => {whoUse.push(che.id.replace("arrOwners[","arrRole[")); return che;})
+                    .reduce((a,b) => a +
+                                     Number.parseInt(
+                                        document.getElementById("arrRole["+b.id.replace("arrOwners[","").replace("]","")+"]").value)
+                          ,0);
 
 
-                console.log("sum",sum);
-                console.log("whoUse",whoUse);
-            }
+                return { whoUse:whoUse, valid: sum === 100 }
+            };
 
 
+            const getState = () => {
 
+                const validTrueClassName = "form-control unic-input valid-true";
+                const validFalseClassName = "form-control unic-input valid-false";
+                const validRes = isValidateTrue();
 
+                console.log(validRes.whoUse.length);
 
+                if(validRes.valid === false && validRes.whoUse.length > 0){
+                    $('.btn-submit').prop('disabled', true);
+                    $("#error").html("Сумма процентов написания должна быть равна 100");
 
+                }
+                else{
+                    $('.btn-submit').prop('disabled', false);
+                    $("#error").html("");
+                }
 
+                Array.from(document.getElementsByClassName("unic-input"))
+                    .map(el =>
+                                validRes.whoUse.includes(el.id)
+                                 ? (validRes.valid)
+                                    ? el.className = validTrueClassName
+                                    : el.className = validFalseClassName
+                                 : el.className = validTrueClassName
+                    )
+            };
+
+            $(document).ready(()=> getState());
 
     </script>
     <div class="row">
@@ -58,10 +81,11 @@
 
 
 
-        {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+        {!! Form::submit('Save', ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
 
         <a class="btn btn-outline-secondary btn-close" href="{{ url()->to('profile') }}">Cancel</a>
-        <br><br>
+        <br> <br>
+            <p id="error"></p>
         <table class="table table-sm" id="ownerTable">
             <thead>
                 <tr>
@@ -117,20 +141,21 @@
                         <td>
                             {!! Form::select('arrRole['.$i.']', $arrRoles,  null, ['class' => 'form-old-select form-control']) !!}
                         </td>
+                        <td >
+                            {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
+                        true : false, ['id' => 'arrOwners['.$i.']']) !!}
+                        </td>
 
                     @else
                         <td>
-                            {!! Form::number('arrRole['.$i.']', '100', ['class' => 'form-control', 'onChange'=>'isValidateTrue()', 'id' => 'arrRole['.$i.']', 'min'=>1,'max'=>100]) !!}
+                            {!! Form::number('arrRole['.$i.']', '100', ['class' => 'form-control unic-input', 'onKeyUp'=>'getState()', 'onChange'=>'getState()', 'id' => 'arrRole['.$i.']', 'min'=>1,'max'=>100]) !!}
+                        </td>
+                        <td >
+                            {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
+                        true : false, ['id' => 'arrOwners['.$i.']', 'onClick'=>'getState()', 'class' => 'unic-check']) !!}
                         </td>
                     @endif
 
-                    <td >
-
-                                {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?
-                            true : false, ['id' => 'arrOwners['.$i.']', 'onClick'=>'isValidateTrue()', 'class' => 'unic-check']) !!}
-
-
-                    </td>
                 </tr>
                 @php
                     $i++;
@@ -139,7 +164,7 @@
 
             </tbody>
         </table>
-        {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+        {!! Form::submit('Save', ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
 
         <a class="btn btn-outline-secondary btn-close" id="j">Cancel</a>
 
