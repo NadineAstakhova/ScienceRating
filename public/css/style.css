@@ -170,4 +170,19 @@ label{
 .icons{
     width: 16px;
     height: 16px;
+    cursor: pointer;
 }
+
+.unic-text-percent{
+    cursor: pointer;
+}
+
+.display-none{
+    display: none;
+}
+
+.display-block{
+    display: block;
+}
+
+

@@ -15,7 +15,11 @@ use App\Models\RankingModels\ScientificResult;
         $('.delete_btn').on('click', function () {
             return confirm('Вы уверены, что хотите удалить научный результат для пользователя?');
         });
+
+        init();
     });
+
+
 </script>
 
     <div class="row">
@@ -143,7 +147,17 @@ use App\Models\RankingModels\ScientificResult;
                         </td>
                         <td class="type_pub">{{$article->type}} </td>
                         <td class="percent">
-                            {{$article->percent_of_writing}}
+                            <div onclick="showInputProvider({{$i}})">
+                            <span id="percent[{{$i}}]" onclick="showInputProvider({{$i}})" class="unic-text-percent" >{{$article->percent_of_writing}}</span>
+                            </div>
+
+                                <input type="number" class='form-control' name="arrPercent[{{$i}}]" id="percentInput[{{$i}}]"
+                                       value="{{$article->percent_of_writing}}"
+                                       onBlur="blurInputProvider({{$i}})"
+
+                                />
+
+
                         </td>
                         <td class="pub">{{$article->edition}} </td>
                         <td class="date">{{$article->date}} </td>
@@ -151,8 +165,8 @@ use App\Models\RankingModels\ScientificResult;
                         <td class="file">{{$article->file}} </td>
                         <td class = "{{$article->status}}">{{ScientificResult::ARRAY_STATUS[$article->status]}}</td>
                         <td>
-                            <a href="{{url("editAuthorPub/$article->idPubAuthor")}}">
-                                <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn"></a>
+                            <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
+                                 onclick="showInputProvider({{$i}})">
                             <a href="{{url("deleteAuthorPub/$article->idPubAuthor")}}">
                                 <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
                         </td>
@@ -184,6 +198,74 @@ use App\Models\RankingModels\ScientificResult;
             doc.getElementsByTagName('body')[0].innerHTML=html_to_print;
             win.print();
             $('iframe').remove();
-        }); });
+        });
+
+    });
+
+    const styleTextElem = "unic-text-percent";
+    const styleInputElem = "form-control percentInputArr";
+
+    const setElementVisible = (elId, display) => {
+        document.getElementById('percentInput['+ elId +']').className = styleInputElem + ((display) ? " display-block" : " display-none");
+        document.getElementById('percent['+ elId +']').className = styleTextElem + ((display) ? " display-none" : " display-block");
+    };
+
+    /**
+     *
+     * @param text format ex. textbala[3]
+     * @returns {string} number beetwen [ and ]
+     */
+    const getNumberFromId = (text) => {
+        const n = text.indexOf('[');
+
+        return text.substr(n+1,(text.length - (n + 2)) );
+    };
+
+    const showInputProvider = (id) => {
+        showInput([{display:true, id:id}]);
+        document.getElementById('percentInput['+ id +']').focus();
+    };
+
+    const blurInputProvider = (id) => {
+        showInput([{display:false, id:id}]);
+        blurLogic();
+    };
+
+    // state.el = [{id:1, display:true}, {id:2,display:false}]
+    const showInput = (state) => {
+        state.map(st => setElementVisible(st.id, st.display));
+    };
+
+    const blurLogic = () =>{
+
+    };
+
+    const init = () => {
+        console.log(" Array.of(document.getElementsByClassName(styleTextElem))",
+            Array.from(document.getElementsByClassName(styleTextElem))[0]);
+
+        Array.from(document.getElementsByClassName(styleTextElem))
+            .forEach(el => setElementVisible(getNumberFromId(el.id),false))
+    };
+
+    function updatePercent(newLat, newLng)
+    {
+
+        // make an ajax request to a PHP file
+        // on our site that will update the database
+        // pass in our lat/lng as parameters
+        $.post('http://plentypeeps.app:8000/testhuhu', {
+                _token: $('meta[name=csrf-token]').attr('content'),
+                newLat: newLat,
+                newLng: newLng
+            }
+        )
+            .done(function(data) {
+                alert(data);
+            })
+            .fail(function() {
+                alert( "error" );
+            });
+    }
 </script>
 @endsection
