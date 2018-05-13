@@ -5,6 +5,7 @@
  * Date: 5/3/2018
  * Time: 10:26 PM
  */
+use App\Models\RankingModels\TypeOfRes;
 ?>
 @extends('layouts.main')
 @section('title', 'Create Event')
@@ -100,9 +101,21 @@
             </div>
         @endif
 
-        @if(!isset($idUser))
-            {!! Form::select('arrResults['.$i.']', $arrResults,  null, ['class' => 'form-old-select form-control']) !!}
-            {!! Form::select('arrRole['.$i.']', $arrRoles,  null, ['class' => 'form-old-select form-control']) !!}
+        @if(isset($idUser))
+            <div class="form-group row">
+                {!! Form::label('result', 'Результат:', array('class' => 'col-sm-2 col-form-label')) !!}
+                <div class="col-sm-3">
+                    {!! Form::select('result', TypeOfRes::getResultTypes(),  null, ['class' => 'form-old-select form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {!! Form::label('role', 'Роль:', array('class' => 'col-sm-2 col-form-label')) !!}
+                <div class="col-sm-3">
+                   {!! Form::select('role',  TypeOfRes::getRolesTypes(),  null, ['class' => 'form-old-select form-control']) !!}
+                </div>
+            </div>
+
+
         @endif
 
 
@@ -151,7 +164,7 @@
 
 
 
-           /* $('#btn').bind("click",function()
+            $('#btn').bind("click",function()
             {
                 let imgVal = $('#file').val();
                 if(imgVal=='')
@@ -161,7 +174,7 @@
                     return false;
                 }
 
-            });*/
+            });
         });
 
     </script>

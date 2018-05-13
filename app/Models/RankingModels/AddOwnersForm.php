@@ -46,7 +46,7 @@ class AddOwnersForm extends Model
             return $insertOwners->editMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
         }
         else
-            return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes, $files);
+            return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes, $files, 'confirmed');
 
     }
 

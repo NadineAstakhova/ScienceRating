@@ -50,8 +50,13 @@ class CreateResult extends Model
 
     }
 
-    public function addOneMemberToEvent($idUser, $last_id, $file){
+    public function addOneMemberToEvent($idUser, $last_id, $file, $result, $role){
         $event = new UsersOwners();
+        $fileName = $file->getClientOriginalName();
+        $unicodefileName = iconv('windows-1256', 'utf-8', $fileName);
+        $path = base_path(). '/public/uploads/';
+        $file->move($path , $unicodefileName);
+        return $event->setMembersOfEvent($last_id, $idUser, $role, $result,  $fileName, 'new');
     }
 
 

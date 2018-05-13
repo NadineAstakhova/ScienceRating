@@ -22,16 +22,6 @@
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
             <div class="card">
-                <h5 class="card-header">Анкета</h5>
-                <div class="card-body">
-                    <h5 class="card-title">Личные данные</h5>
-                    <p class="card-text">Просмотр личных данных и их редактирование</p>
-                    <a href="{{url("infoProfile")}}" class="btn btn-info" id="listSub">Посмотреть анкету</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
-            <div class="card">
                 <h5 class="card-header">Научные результаты</h5>
                 <div class="card-body">
                     <h5 class="card-title">Научные результаты</h5>
@@ -60,14 +50,23 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
             <div class="card">
                 <h5 class="card-header">Просмотр рейтинга</h5>
                 <div class="card-body">
                     <h5 class="card-title">Научные рейтинги</h5>
                     <p class="card-text">Просмотр и распечатка доступных научных рейтингов.</p>
-                    <a href="rankingsPage" class="btn btn-info" id="listSub">Построить рейтинг</a>
+                    <a href="{{url("rankingsPage")}}" class="btn btn-info" id="listSub">Построить рейтинг</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
+            <div class="card">
+                <h5 class="card-header">Анкета</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Личные данные</h5>
+                    <p class="card-text">Просмотр личных данных и их редактирование</p>
+                    <a href="{{url("infoProfile")}}" class="btn btn-info" id="listSub">Посмотреть анкету</a>
                 </div>
             </div>
         </div>

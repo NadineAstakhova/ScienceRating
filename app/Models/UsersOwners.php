@@ -96,15 +96,21 @@ class UsersOwners extends BaseModel
             return false;
     }
 
-    public function setMembersOfEvent($idRes, $arrUsers, $arrRoles, $arrResults, $file){
+    public function setMembersOfEvent($idRes, $arrUsers, $arrRoles, $arrResults, $file, $status){
         $insert = false;
-
-        foreach ($arrUsers as $key=>$value){
-            $insert = DB::table('members_of_event')->insert([
-                ['fk_member' => $arrUsers[$key], 'fk_event' => $idRes, 'fk_res' => $arrResults[$key],
-                    'fk_role' => $arrRoles[$key], 'file' => $file[$key],  'status' => 'confirmed']
-            ]);
+        if (is_array($arrUsers)) {
+            foreach ($arrUsers as $key => $value) {
+                $insert = DB::table('members_of_event')->insert([
+                    ['fk_member' => $arrUsers[$key], 'fk_event' => $idRes, 'fk_res' => $arrResults[$key],
+                        'fk_role' => $arrRoles[$key], 'file' => $file[$key], 'status' => $status]
+                ]);
+            }
         }
+        else
+            $insert = DB::table('members_of_event')->insert([
+                ['fk_member' => $arrUsers, 'fk_event' => $idRes, 'fk_res' => $arrResults,
+                    'fk_role' => $arrRoles, 'file' => $file, 'status' => $status]
+            ]);
         if ($insert)
             return true;
         else

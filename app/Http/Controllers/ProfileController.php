@@ -96,14 +96,25 @@ class ProfileController extends Controller
            $searchDate = $parseFile->searchDate();
            $searchTitle = $parseFile->serachTitle();
 
-            return view('panel/addResultForms/createPublication',
-                array('title' => 'createPublication','description' => '',
-                    'page' => 'createPublication', 'arrType' =>TypeOfRes::getPublicationTypes(),
-                    'pdfText' => $content,
-                    'users' => $users,
-                    'date' => $searchDate,
-                    'searchTitle' => $searchTitle,
-                ));
+           if(is_null($idUser))
+                return view('panel/addResultForms/createPublication',
+                    array('title' => 'createPublication','description' => '',
+                        'page' => 'createPublication', 'arrType' =>TypeOfRes::getPublicationTypes(),
+                        'pdfText' => $content,
+                        'users' => $users,
+                        'date' => $searchDate,
+                        'searchTitle' => $searchTitle,
+                    ));
+           else
+               return view('panel/addResultForms/createPublication',
+                   array('title' => 'createPublication','description' => '',
+                       'page' => 'createPublication', 'arrType' =>TypeOfRes::getPublicationTypes(),
+                       'pdfText' => $content,
+                       'users' => $users,
+                       'date' => $searchDate,
+                       'searchTitle' => $searchTitle,
+                       'idUser' => $idUser
+                   ));
         }
 
         if ($model->createPublication($title, $publishing, $pages, $date, $file, $fkType)){
@@ -113,7 +124,10 @@ class ProfileController extends Controller
             else{
                 //percent????
                 $model->addOneAuthorToArticle($idUser, $last_id);
-                return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+                if(Auth::user()->type == '1')
+                    return redirect('professorProfile')->with('save', 'Научный результат успешно добавлен');
+                if(Auth::user()->type == '2')
+                    return redirect('studentProfile')->with('save', 'Научный результат успешно добавлен');
             }
         }
         else
@@ -143,10 +157,15 @@ class ProfileController extends Controller
     }
 
 
-    public function createEventPage(){
-        return view('panel/addResultForms/createEvent',
-            array('title' => 'createEvent','description' => '',
-                'page' => 'createEvent', 'arrType' => TypeOfRes::getEventTypes()));
+    public function createEventPage($idUser){
+        if(is_null($idUser))
+            return view('panel/addResultForms/createEvent',
+                array('title' => 'createEvent','description' => '',
+                    'page' => 'createEvent', 'arrType' => TypeOfRes::getEventTypes()));
+        else
+            return view('panel/addResultForms/createEvent',
+                array('title' => 'createEvent','description' => '',
+                    'page' => 'createEvent', 'arrType' => TypeOfRes::getEventTypes(), 'idUser' => $idUser));
     }
 
     public function createEventForm($idUser = null, CreateResultFormRequest $request){
@@ -175,15 +194,25 @@ class ProfileController extends Controller
             $users = $parseFile->searchUserAtPdf();
             $searchDate = $parseFile->searchDate();
             $searchTitle = $parseFile->serachTitle();
-
-            return view('panel/addResultForms/createEvent',
-                array('title' => 'createRes','description' => '',
-                    'page' => 'createRes', 'arrType' =>  TypeOfRes::getEventTypes(),
-                    'pdfText' => $content,
-                    'users' => $users,
-                    'date' => $searchDate,
-                    'searchTitle' => $searchTitle,
-                ));
+            if(is_null($idUser))
+                return view('panel/addResultForms/createEvent',
+                    array('title' => 'createRes','description' => '',
+                        'page' => 'createRes', 'arrType' =>  TypeOfRes::getEventTypes(),
+                        'pdfText' => $content,
+                        'users' => $users,
+                        'date' => $searchDate,
+                        'searchTitle' => $searchTitle,
+                    ));
+            else
+                return view('panel/addResultForms/createEvent',
+                    array('title' => 'createRes','description' => '',
+                        'page' => 'createRes', 'arrType' =>  TypeOfRes::getEventTypes(),
+                        'pdfText' => $content,
+                        'users' => $users,
+                        'date' => $searchDate,
+                        'searchTitle' => $searchTitle,
+                        'idUser' => $idUser
+                    ));
         }
 
         if ($model->createEvent($title,  $date, $file, $fkType, $forAllUser)){
@@ -191,8 +220,11 @@ class ProfileController extends Controller
             if(is_null($idUser))
                 return redirect('addEventAuthor/'.$last_id)->with('owners', $request->get('owners'));
             else{
-                $model->addOneMemberToEvent($idUser, $last_id, $file);
-                return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+                $model->addOneMemberToEvent($idUser, $last_id, $file, $request->get('result'), $request->get('role'));
+                if(Auth::user()->type == '1')
+                    return redirect('professorProfile')->with('save', 'Научный результат успешно добавлен');
+                if(Auth::user()->type == '2')
+                    return redirect('studentProfile')->with('save', 'Научный результат успешно добавлен');
             }
 
         }

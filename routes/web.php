@@ -124,6 +124,7 @@ Route::get('/createArticleByUser/{idUser}','ProfileController@createArticlePage'
 Route::post('/createPublicationForm/{idUser}', 'ProfileController@createArticleForm')->middleware('auth');
 
 Route::get('/createEventByUser/{idUser}','ProfileController@createEventPage')->middleware('auth');
+Route::post('/createEventForm/{idUser}', 'ProfileController@createEventForm')->middleware('auth');
 
 Route::get('/rankingsPage','ProfileController@showRankingsPage')->middleware('auth');
 
