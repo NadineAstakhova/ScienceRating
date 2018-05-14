@@ -41,7 +41,7 @@ class CreateResult extends Model
         $fileName = $file->getClientOriginalName();
         $path = base_path(). '/public/uploads/';
         $file->move($path , $fileName);
-        return $res->insertPublication($title, $publishing, $pages, $date, '/public/uploads/'. $fileName, $fkType);
+        return $res->insertPublication($title, $publishing, $pages, $date, $fileName, $fkType);
     }
 
     public function addOneAuthorToArticle($idUser, $last_id){

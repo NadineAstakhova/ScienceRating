@@ -51,6 +51,11 @@ use App\Models\RankingModels\TypeOfRes;
         <div class="col-xs-6 col-sm-8 col-lg-8">
             <h3>Научные мероприятия </h3>
         </div>
+        <div class="col-xs-6 col-sm-8 col-lg-9">
+            <div class="alert alert-info" role="alert">
+              Чтобы отредактировать значение в колонках "Результат", "Роль", "Процент" достаточно нажать на нужную колонку
+            </div>
+        </div>
         @if(count($arrEvents) > 0)
         <table class="table table-bordered" style="margin-top: 5px;">
             <thead>
@@ -76,9 +81,11 @@ use App\Models\RankingModels\TypeOfRes;
                 <th>
                     Статус
                 </th>
-                <th class="no-print">
-                    Действие
-                </th>
+                @if(Auth::user()->type == '3')
+                    <th class="no-print">
+                        Действие
+                    </th>
+                @endif
             </tr>
             </thead>
             <tbody>
@@ -112,14 +119,15 @@ use App\Models\RankingModels\TypeOfRes;
                         </td>
                         <td class="no-print">{{$res->file}}</td>
                         <td class = "{{$res->status}}">{{ScientificResult::ARRAY_STATUS[$res->status]}}</td>
+                        @if(Auth::user()->type == '3')
                         <td class="no-print">
-                            <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
-                                 onclick="showInputProviderRes({{$i}})">
-                            @if(Auth::user()->type == '3')
+
+
                                 <a href="{{url("deleteMemberEvent/$res->idMember")}}">
                                     <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
-                            @endif
+
                         </td>
+                        @endif
                         @php
                             $i++;
                         @endphp
@@ -285,7 +293,7 @@ use App\Models\RankingModels\TypeOfRes;
 
     const blurLogic = (obj) =>{
 
-        $.post('http://sciencerating/public/editPercent', {
+        $.post('http://paramonov.info/srs/public/editPercent', {
             idPublication: obj.idPublication,
             newValue: obj.newValue,
                 _token: $('meta[name=csrf-token]').attr('content'),
@@ -331,7 +339,7 @@ use App\Models\RankingModels\TypeOfRes;
     };
     const blurLogicRes = (obj) =>{
 
-        $.post('http://sciencerating/public/editResult', {
+        $.post('http://paramonov.info/srs/public/editResult', {
                 idMember: obj.idMember,
                 newValue: obj.newValue,
                 _token: $('meta[name=csrf-token]').attr('content'),
@@ -371,7 +379,7 @@ use App\Models\RankingModels\TypeOfRes;
     };
     const blurLogicRole = (obj) =>{
 
-        $.post('http://sciencerating/public/editRole', {
+        $.post('http://paramonov.info/srs/public/editRole', {
                 idMember: obj.idMember,
                 newValue: obj.newValue,
                 _token: $('meta[name=csrf-token]').attr('content'),

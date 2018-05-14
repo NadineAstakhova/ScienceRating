@@ -575,7 +575,6 @@ class ProfileController extends Controller
     }
 
     public function editPercentToUser(Request $request){
-
         $modelEdit = new EditResults();
         if($modelEdit->editPercentOfUser( $request->get('idPublication'), $request->get('newValue')))
              //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
