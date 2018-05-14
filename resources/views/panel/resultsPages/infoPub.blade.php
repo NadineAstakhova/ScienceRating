@@ -29,9 +29,11 @@
                 <li class="nav-item">
                     <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Информация</a>
                 </li>
-                <li class="nav-item">
-                    <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Редактирование</a>
-                </li>
+                @if(Auth::user()->type == '3')
+                    <li class="nav-item">
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Редактирование</a>
+                    </li>
+                @endif
             </ul>
             <div class="tab-content py-4">
                 <div class="tab-pane active" id="profile">
@@ -58,7 +60,9 @@
                                 {{$publication->file}}
                             </p>
                             <h6>Участинки</h6>
-                            <a href="{{url("editAuthorMembers/".$publication->idPublication)}}" class="btn btn-info btn-sm" id="listSub">Изменить участников</a>
+                            @if(Auth::user()->type == '3')
+                                <a href="{{url("editAuthorMembers/".$publication->idPublication)}}" class="btn btn-info btn-sm" id="listSub">Изменить участников</a>
+                            @endif
                             <table class="table table-sm">
                                 <thead>
                                 <tr>

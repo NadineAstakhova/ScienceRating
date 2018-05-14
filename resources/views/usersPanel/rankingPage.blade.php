@@ -35,7 +35,7 @@
                 <h5 class="card-header">Текущий рейтинг преподавателя</h5>
                 <div class="card-body">
                     <p class="card-text">Индикаторы персонального рейтинга преподавателя ДонНУ</p>
-                    <a href="{{url("pdfRanking/3/".Auth::user()->idUsers)}}" class="btn btn-primary">Сформировать pdf-отчёт</a>
+                    <a href="{{url("pdfRanking/3/".Auth::user()->idUsers)}}" class="btn btn-primary" target="_blank">Сформировать pdf-отчёт</a>
                     <a href="{{url("docRanking/3/".Auth::user()->idUsers)}}" class="btn btn-primary">Сформировать doc-отчёт</a>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     <h5 class="card-header">Научный рейтинг. Магистратура</h5>
                     <div class="card-body">
                         <p class="card-text">Научные баллы для поступления на магистратуру</p>
-                        <a href="{{url("pdfRanking/2/".Auth::user()->idUsers)}}" class="btn btn-primary">Сформировать pdf-отчёт</a>
+                        <a href="{{url("pdfRanking/2/".Auth::user()->idUsers)}}" class="btn btn-primary" target="_blank">Сформировать pdf-отчёт</a>
                         <a href="{{url("docRanking/2/".Auth::user()->idUsers)}}" class="btn btn-primary">Сформировать doc-отчёт</a>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <h5 class="card-header">Научный рейтинг. Аспирантура</h5>
                     <div class="card-body">
                         <p class="card-text">Научные баллы для поступления на аспирантуру</p>
-                        <a href="{{url("pdfRanking/1/".Auth::user()->idUsers)}}" class="btn btn-primary">Сформировать pdf-отчёт</a>
+                        <a href="{{url("pdfRanking/1/".Auth::user()->idUsers)}}" class="btn btn-primary" target="_blank">Сформировать pdf-отчёт</a>
                         <a href="{{url("docRanking/1/".Auth::user()->idUsers)}}" class="btn btn-primary">Сформировать doc-отчёт</a>
                     </div>
                 </div>

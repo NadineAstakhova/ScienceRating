@@ -5,7 +5,8 @@
  * Date: 07/05/2018
  * Time: 16:36
  */
-?>@extends('layouts.main')
+?>
+@extends('layouts.main')
 @section('title', 'Info Scientific Result')
 @section('content')
     <div class="row">
@@ -28,9 +29,11 @@
                 <li class="nav-item">
                     <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Информация</a>
                 </li>
-                <li class="nav-item">
-                    <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Редактирование</a>
-                </li>
+                @if(Auth::user()->type == '3')
+                    <li class="nav-item">
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Редактирование</a>
+                    </li>
+                @endif
             </ul>
             <div class="tab-content py-4">
                 <div class="tab-pane active" id="profile">
@@ -45,7 +48,9 @@
                                 {{$event->type}}
                             </p>
                             <h6>Участинки</h6>
-                            <a href="{{url("editEventMembers/".$event->idScientEvent)}}" class="btn btn-info" id="listSub">Изменить участников</a>
+                            @if(Auth::user()->type == '3')
+                                <a href="{{url("editEventMembers/".$event->idScientEvent)}}" class="btn btn-info" id="listSub">Изменить участников</a>
+                            @endif
                             <table class="table table-sm">
                                 <thead>
                                 <tr>

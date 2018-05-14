@@ -11,16 +11,16 @@ use App\Models\RankingModels\TypeOfRes;
 @extends('layouts.main')
 @section('title', 'User Results')
 @section('content')
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
 <script>
     $(document).ready(function (e) {
+
         $('.delete_btn').on('click', function () {
             return confirm('Вы уверены, что хотите удалить научный результат для пользователя?');
         });
 
         init();
-        $('[data-toggle="tooltip"]').tooltip();
+
     });
 
 
@@ -30,7 +30,13 @@ use App\Models\RankingModels\TypeOfRes;
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
+                @if(Auth::user()->type == '1')
+                    <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Back</a></li>
+                @elseif(Auth::user()->type == '2')
+                    <li class="breadcrumb-item"><a href={{ url('studentProfile') }}>Back</a></li>
+                @elseif(Auth::user()->type == '3')
+                    <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
+                @endif
                 <li class="breadcrumb-item active">Научные результаты </li>
             </ol>
         </nav>
@@ -64,13 +70,13 @@ use App\Models\RankingModels\TypeOfRes;
                 <th>
                     Роль
                 </th>
-                <th>
+                <th class="no-print">
                     Файл
                 </th>
                 <th>
                     Статус
                 </th>
-                <th>
+                <th class="no-print">
                     Действие
                 </th>
             </tr>
@@ -104,14 +110,15 @@ use App\Models\RankingModels\TypeOfRes;
                                 'id' => 'roleInput['.$i.']', 'onBlur' =>"blurInputProviderRole($i,$res->idMember )"
                                 ]) !!}
                         </td>
-                        <td>{{$res->file}}</td>
+                        <td class="no-print">{{$res->file}}</td>
                         <td class = "{{$res->status}}">{{ScientificResult::ARRAY_STATUS[$res->status]}}</td>
-                        <td>
+                        <td class="no-print">
                             <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
                                  onclick="showInputProviderRes({{$i}})">
-
-                            <a href="{{url("deleteMemberEvent/$res->idMember")}}">
-                                <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
+                            @if(Auth::user()->type == '3')
+                                <a href="{{url("deleteMemberEvent/$res->idMember")}}">
+                                    <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
+                            @endif
                         </td>
                         @php
                             $i++;
@@ -149,17 +156,17 @@ use App\Models\RankingModels\TypeOfRes;
                     Дата
                 </th>
                 <th>
-                    Кол-во страниц
+                    Кол-во стр
                 </th>
 
 
-                <th>
+                <th class="no-print">
                     Файл
                 </th>
                 <th>
                     Статус
                 </th>
-                <th>
+                <th class="no-print">
                     Действие
                 </th>
             </tr>
@@ -182,18 +189,22 @@ use App\Models\RankingModels\TypeOfRes;
                                        value="{{$article->percent_of_writing}}"
                                        onBlur="blurInputProvider({{$i}}, {{$article->idPubAuthor}})"
 
+                                   onkeydown="if (event.keyCode ==13) blurInputProvider({{$i}}, {{$article->idPubAuthor}})"
+
                             />
                         </td>
                         <td class="pub">{{$article->edition}} </td>
                         <td class="date">{{$article->date}} </td>
                         <td class="pages">{{$article->pages}} </td>
-                        <td class="file">{{$article->file}} </td>
+                        <td class="file no-print">{{$article->file}} </td>
                         <td class = "{{$article->status}}">{{ScientificResult::ARRAY_STATUS[$article->status]}}</td>
-                        <td>
+                        <td class="no-print">
                             <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
                                  onclick="showInputProvider({{$i}})">
-                            <a href="{{url("deleteAuthorPub/$article->idPubAuthor")}}">
-                                <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
+                            @if(Auth::user()->type == '3')
+                                <a href="{{url("deleteAuthorPub/$article->idPubAuthor")}}">
+                                    <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
+                            @endif
                         </td>
                     </tr>
                     @php
@@ -214,7 +225,7 @@ use App\Models\RankingModels\TypeOfRes;
 
         $('#print').click(function(){
             var printing_css = "<style media=print>" +
-                "#print, .breadcrumb, .delete_btn, .update_btn{display: none;}" +
+                "#print, .breadcrumb, .delete_btn, .update_btn, .form-control, .no-print{display: none;}" +
                 "table{text-align: left} </style>";
             var html_to_print=printing_css+$('#to_print').html();
             var iframe=$('<iframe id="print_frame">');
@@ -232,6 +243,9 @@ use App\Models\RankingModels\TypeOfRes;
     const styleInputElem = "form-control percentInputArr";
 
     const setElementVisible = (elId, display) => {
+        // const elInput = document.getElementById('percentInput['+ elId +']');
+        // const elText = document.getElementById('percentInput['+ elId +']');
+
         document.getElementById('percentInput['+ elId +']').className = styleInputElem + ((display) ? " display-block" : " display-none");
         document.getElementById('percent['+ elId +']').className = styleTextElem + ((display) ? " display-none" : " display-block");
     };
@@ -242,6 +256,7 @@ use App\Models\RankingModels\TypeOfRes;
      * @returns {string} number beetwen [ and ]
      */
     const getNumberFromId = (text) => {
+        console.log("text",text);
         const n = text.indexOf('[');
 
         return text.substr(n+1,(text.length - (n + 2)) );
@@ -254,7 +269,7 @@ use App\Models\RankingModels\TypeOfRes;
 
     const blurInputProvider = (id, idPublication) => {
         showInput([{display:false, id:id}]);
-        blurLogic([{idPublication:idPublication, newValue:document.getElementById('percentInput['+ id +']').value}]);
+        blurLogic({idPublication:idPublication,  id:id, newValue:document.getElementById('percentInput['+ id +']').value});
     };
 
     // state.el = [{id:1, display:true}, {id:2,display:false}]
@@ -262,19 +277,24 @@ use App\Models\RankingModels\TypeOfRes;
         state.map(st => setElementVisible(st.id, st.display));
     };
 
-    const blurLogic = (idPublication, newValue) =>{
+    const setValue = (id, newVal, field, fieldInput) => {
+        console.log(fieldInput);
+        document.getElementById(fieldInput+'['+ id +']').value = newVal;
+        document.getElementById(field+'['+ id +']').innerHTML = newVal;
+    };
+
+    const blurLogic = (obj) =>{
 
         $.post('http://sciencerating/public/editPercent', {
-            idPublication: idPublication,
-            newValue: newValue,
+            idPublication: obj.idPublication,
+            newValue: obj.newValue,
                 _token: $('meta[name=csrf-token]').attr('content'),
 
 
             }
         )
             .done(function(data) { //meow
-                document.getElementById('percentInput['+ 0 +']').innerHTML = data;
-                console.log(document.getElementById('percentInput['+ 0 +']'));
+                setValue(obj.id, data, 'percent',  'percentInput');
             })
             .fail(function( jqXHR, textStatus ) {
                 console.log( "Request failed: " + textStatus );
@@ -306,14 +326,14 @@ use App\Models\RankingModels\TypeOfRes;
 
     const blurInputProviderRes= (id, idMember) => {
         showInputRes([{display:false, id:id}]);
-        console.log(idMember);
-        blurLogicRes([{idMember:idMember, newValue:document.getElementById('resultInput['+ id +']').value}]);
+        let e = document.getElementById('resultInput['+ id +']');
+        blurLogicRes({idMember:idMember, newValue:e.value,  id:id, text: e.options[e.selectedIndex].text});
     };
-    const blurLogicRes = (idMember, newValue) =>{
+    const blurLogicRes = (obj) =>{
 
         $.post('http://sciencerating/public/editResult', {
-                idMember: idMember,
-                newValue: newValue,
+                idMember: obj.idMember,
+                newValue: obj.newValue,
                 _token: $('meta[name=csrf-token]').attr('content'),
 
 
@@ -321,7 +341,7 @@ use App\Models\RankingModels\TypeOfRes;
         )
             .done(function(data) { //meow
              //   document.getElementById('percentInput['+ 0 +']').innerHTML = data;
-               alert("Запись успешно обновлена");
+                setValue(obj.id, obj.text,  'result', 'resultInput');
             })
             .fail(function( jqXHR, textStatus ) {
                 console.log( "Request failed: " + textStatus );
@@ -345,22 +365,21 @@ use App\Models\RankingModels\TypeOfRes;
 
     const blurInputProviderRole= (id, idMember) => {
         showInputRole([{display:false, id:id}]);
-        console.log(idMember);
-        blurLogicRole([{idMember:idMember, newValue:document.getElementById('roleInput['+ id +']').value}]);
+        let e = document.getElementById('roleInput['+ id +']');
+        blurLogicRole({idMember:idMember, newValue:e.value, id:id,
+            text: e.options[e.selectedIndex].text});
     };
-    const blurLogicRole = (idMember, newValue) =>{
+    const blurLogicRole = (obj) =>{
 
         $.post('http://sciencerating/public/editRole', {
-                idMember: idMember,
-                newValue: newValue,
+                idMember: obj.idMember,
+                newValue: obj.newValue,
                 _token: $('meta[name=csrf-token]').attr('content'),
-
-
             }
         )
             .done(function(data) { //meow
                 //   document.getElementById('percentInput['+ 0 +']').innerHTML = data;
-                alert("Запись успешно обновлена");
+                setValue(obj.id, obj.text, 'role',  'roleInput');
             })
             .fail(function( jqXHR, textStatus ) {
                 console.log( "Request failed: " + textStatus );

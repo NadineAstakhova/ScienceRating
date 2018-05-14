@@ -12,7 +12,13 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
+                @if(Auth::user()->type == '1')
+                    <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Back</a></li>
+                @elseif(Auth::user()->type == '2')
+                    <li class="breadcrumb-item"><a href={{ url('studentProfile') }}>Back</a></li>
+                @elseif(Auth::user()->type == '3')
+                    <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
+                @endif
                 <li class="breadcrumb-item active">Ввод данных научной публикации</li>
             </ol>
         </nav>

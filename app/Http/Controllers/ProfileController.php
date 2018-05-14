@@ -71,6 +71,9 @@ class ProfileController extends Controller
 
     public function createArticleForm($idUser = null, CreateResultFormRequest $request){
         //get data from request
+        if(Session::has('fileNameAll')){
+            Session::forget('fileNameAll');
+        }
         $model = new CreateResult();
 
         $title = $request->get('name');
@@ -89,7 +92,7 @@ class ProfileController extends Controller
            $parseFile = new CertificatPdfParse($file);
            $content = $parseFile->getContent();
            if ($content == '0')
-               return redirect('createres')->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
+               return  redirect()->back()->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
 
            //searching our users in text
            $users = $parseFile->searchUserAtPdf();
@@ -157,7 +160,7 @@ class ProfileController extends Controller
     }
 
 
-    public function createEventPage($idUser){
+    public function createEventPage($idUser = null){
         if(is_null($idUser))
             return view('panel/addResultForms/createEvent',
                 array('title' => 'createEvent','description' => '',
@@ -188,7 +191,7 @@ class ProfileController extends Controller
             $parseFile = new CertificatPdfParse($file);
             $content = $parseFile->getContent();
             if ($content == '0')
-                return redirect('createResult')->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
+                return redirect()->back()->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
 
             //searching our users in text
             $users = $parseFile->searchUserAtPdf();
@@ -574,27 +577,27 @@ class ProfileController extends Controller
     public function editPercentToUser(Request $request){
 
         $modelEdit = new EditResults();
-        if($modelEdit->editPercentOfUser( $request->idPublication[0]['idPublication'], $request->idPublication[0]['newValue']))
+        if($modelEdit->editPercentOfUser( $request->get('idPublication'), $request->get('newValue')))
              //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
-            return $request->idPublication[0]['newValue'];
+            return $request->get('newValue');
         else
             return "Ошибка записи";
     }
 
     public function editResultToUser(Request $request){
         $modelEdit = new EditResults();
-        if($modelEdit->editResultToUser( $request->idMember[0]['idMember'], $request->idMember[0]['newValue']))
+        if($modelEdit->editResultToUser( $request->get('idMember'), $request->get('newValue')))
             //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
-            return $request->idMember[0]['newValue'];
+            return $request->get('newValue');
         else
             return "Ошибка записи";
     }
 
     public function editRoleToUser(Request $request){
         $modelEdit = new EditResults();
-        if($modelEdit->editRoleToUser( $request->idMember[0]['idMember'], $request->idMember[0]['newValue']))
+        if($modelEdit->editRoleToUser( $request->get('idMember'), $request->get('newValue')))
             //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
-            return $request->idMember[0]['newValue'];
+            return $request->get('newValue');
         else
             return "Ошибка записи";
     }

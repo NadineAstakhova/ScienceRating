@@ -28,7 +28,7 @@ class CreateResult extends Model
             session()->put('fileNameAll', $fileName);
         }
         else
-            if(Session::has('owners')){
+            if(Session::has('fileNameAll')){
                 Session::forget('fileNameAll');
             }
 
