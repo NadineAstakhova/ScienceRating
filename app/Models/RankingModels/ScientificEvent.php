@@ -54,4 +54,17 @@ class ScientificEvent extends Model
         return $deleted;
     }
 
+    public static function editResultById($id, $newRes, $status){
+        $update = DB::table('members_of_event')
+            ->where('idMember', $id)
+            ->update( ['fk_res' => $newRes, 'status' => $status]);
+        return $update;
+    }
+    public static function editRoleById($id, $newRes, $status){
+        $update = DB::table('members_of_event')
+            ->where('idMember', $id)
+            ->update( ['fk_role' => $newRes, 'status' => $status]);
+        return $update;
+    }
+
 }

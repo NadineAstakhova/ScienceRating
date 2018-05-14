@@ -6,10 +6,13 @@
  * Time: 12:48
  */
 use App\Models\RankingModels\ScientificResult;
+use App\Models\RankingModels\TypeOfRes;
 ?>
 @extends('layouts.main')
 @section('title', 'User Results')
 @section('content')
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script>
     $(document).ready(function (e) {
         $('.delete_btn').on('click', function () {
@@ -17,10 +20,12 @@ use App\Models\RankingModels\ScientificResult;
         });
 
         init();
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
 
 </script>
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
@@ -71,6 +76,8 @@ use App\Models\RankingModels\ScientificResult;
             </tr>
             </thead>
             <tbody>
+            @php $i=0;
+            @endphp
                 @foreach($arrEvents as $res)
                     <tr>
                         <td>
@@ -78,16 +85,37 @@ use App\Models\RankingModels\ScientificResult;
                         </td>
                         <td>{{$res->type}} </td>
                         <td>{{$res->date}}</td>
-                        <td>{{$res->type_of_res}}</td>
-                        <td>{{$res->type_of_role}}</td>
+                        <td>
+                            <div onclick="showInputProviderRes({{$i}})">
+                                <span id="result[{{$i}}]" onclick="showInputProviderRes({{$i}})" class="unic-text-percent" data-toggle="tooltip" title="Нажмите, чтобы отредактировать значение">
+                                    {{$res->type_of_res}}
+                                </span>
+                            </div>
+                            {!! Form::select('arrResult['.$i.']', TypeOfRes::getResultTypes(),  $res->idTypeRes, ['class' => 'form-old-select form-control display-none',
+                                'id' => 'resultInput['.$i.']', 'onBlur' =>"blurInputProviderRes($i,$res->idMember )"]) !!}
+                        </td>
+                        <td>
+                            <div onclick="showInputProviderRole({{$i}})">
+                                <span id="role[{{$i}}]" onclick="showInputProviderRole({{$i}})" class="unic-text-percent" data-toggle="tooltip" title="Нажмите, чтобы отредактировать значение">
+                                   {{$res->type_of_role}}
+                                </span>
+                            </div>
+                            {!! Form::select('arrRole['.$i.']', TypeOfRes::getRolesTypes(),  $res->idTypeRole, ['class' => 'form-old-select form-control display-none',
+                                'id' => 'roleInput['.$i.']', 'onBlur' =>"blurInputProviderRole($i,$res->idMember )"
+                                ]) !!}
+                        </td>
                         <td>{{$res->file}}</td>
                         <td class = "{{$res->status}}">{{ScientificResult::ARRAY_STATUS[$res->status]}}</td>
                         <td>
-                            <a href="{{url("editMemberEvent/$res->idMember")}}">
-                                <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn"></a>
+                            <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
+                                 onclick="showInputProviderRes({{$i}})">
+
                             <a href="{{url("deleteMemberEvent/$res->idMember")}}">
                                 <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
                         </td>
+                        @php
+                            $i++;
+                        @endphp
                     </tr>
                 @endforeach
             </tbody>
@@ -147,17 +175,14 @@ use App\Models\RankingModels\ScientificResult;
                         </td>
                         <td class="type_pub">{{$article->type}} </td>
                         <td class="percent">
-                            <div onclick="showInputProvider({{$i}})">
+                            <div onclick="showInputProvider({{$i}})" data-toggle="tooltip" title="Нажмите, чтобы отредактировать значение">
                             <span id="percent[{{$i}}]" onclick="showInputProvider({{$i}})" class="unic-text-percent" >{{$article->percent_of_writing}}</span>
                             </div>
-
-                                <input type="number" class='form-control' name="arrPercent[{{$i}}]" id="percentInput[{{$i}}]"
+                            <input type="number" class='form-control' name="arrPercent[{{$i}}]" id="percentInput[{{$i}}]"
                                        value="{{$article->percent_of_writing}}"
-                                       onBlur="blurInputProvider({{$i}})"
+                                       onBlur="blurInputProvider({{$i}}, {{$article->idPubAuthor}})"
 
-                                />
-
-
+                            />
                         </td>
                         <td class="pub">{{$article->edition}} </td>
                         <td class="date">{{$article->date}} </td>
@@ -186,6 +211,7 @@ use App\Models\RankingModels\ScientificResult;
 
 <script>
     $(document).ready(function(){
+
         $('#print').click(function(){
             var printing_css = "<style media=print>" +
                 "#print, .breadcrumb, .delete_btn, .update_btn{display: none;}" +
@@ -226,9 +252,9 @@ use App\Models\RankingModels\ScientificResult;
         document.getElementById('percentInput['+ id +']').focus();
     };
 
-    const blurInputProvider = (id) => {
+    const blurInputProvider = (id, idPublication) => {
         showInput([{display:false, id:id}]);
-        blurLogic();
+        blurLogic([{idPublication:idPublication, newValue:document.getElementById('percentInput['+ id +']').value}]);
     };
 
     // state.el = [{id:1, display:true}, {id:2,display:false}]
@@ -236,7 +262,23 @@ use App\Models\RankingModels\ScientificResult;
         state.map(st => setElementVisible(st.id, st.display));
     };
 
-    const blurLogic = () =>{
+    const blurLogic = (idPublication, newValue) =>{
+
+        $.post('http://sciencerating/public/editPercent', {
+            idPublication: idPublication,
+            newValue: newValue,
+                _token: $('meta[name=csrf-token]').attr('content'),
+
+
+            }
+        )
+            .done(function(data) { //meow
+                document.getElementById('percentInput['+ 0 +']').innerHTML = data;
+                console.log(document.getElementById('percentInput['+ 0 +']'));
+            })
+            .fail(function( jqXHR, textStatus ) {
+                console.log( "Request failed: " + textStatus );
+            });
 
     };
 
@@ -248,24 +290,85 @@ use App\Models\RankingModels\ScientificResult;
             .forEach(el => setElementVisible(getNumberFromId(el.id),false))
     };
 
-    function updatePercent(newLat, newLng)
-    {
+    const showInputProviderRes = (id) => {
+        showInputRes([{display:true, id:id}]);
+        document.getElementById('resultInput['+ id +']').focus();
+    };
 
-        // make an ajax request to a PHP file
-        // on our site that will update the database
-        // pass in our lat/lng as parameters
-        $.post('http://plentypeeps.app:8000/testhuhu', {
+    const showInputRes = (state) => {
+        state.map(st => setElementResVisible(st.id, st.display));
+    };
+
+    const setElementResVisible = (elId, display) => {
+        document.getElementById('resultInput['+ elId +']').className = styleInputElem + ((display) ? " display-block" : " display-none");
+        document.getElementById('result['+ elId +']').className = styleTextElem + ((display) ? " display-none" : " display-block");
+    };
+
+    const blurInputProviderRes= (id, idMember) => {
+        showInputRes([{display:false, id:id}]);
+        console.log(idMember);
+        blurLogicRes([{idMember:idMember, newValue:document.getElementById('resultInput['+ id +']').value}]);
+    };
+    const blurLogicRes = (idMember, newValue) =>{
+
+        $.post('http://sciencerating/public/editResult', {
+                idMember: idMember,
+                newValue: newValue,
                 _token: $('meta[name=csrf-token]').attr('content'),
-                newLat: newLat,
-                newLng: newLng
+
+
             }
         )
-            .done(function(data) {
-                alert(data);
+            .done(function(data) { //meow
+             //   document.getElementById('percentInput['+ 0 +']').innerHTML = data;
+               alert("Запись успешно обновлена");
             })
-            .fail(function() {
-                alert( "error" );
+            .fail(function( jqXHR, textStatus ) {
+                console.log( "Request failed: " + textStatus );
             });
-    }
+
+    };
+
+    const showInputProviderRole = (id) => {
+        showInputRole([{display:true, id:id}]);
+        document.getElementById('roleInput['+ id +']').focus();
+    };
+
+    const showInputRole = (state) => {
+        state.map(st => setElementRoleVisible(st.id, st.display));
+    };
+
+    const setElementRoleVisible = (elId, display) => {
+        document.getElementById('roleInput['+ elId +']').className = styleInputElem + ((display) ? " display-block" : " display-none");
+        document.getElementById('role['+ elId +']').className = styleTextElem + ((display) ? " display-none" : " display-block");
+    };
+
+    const blurInputProviderRole= (id, idMember) => {
+        showInputRole([{display:false, id:id}]);
+        console.log(idMember);
+        blurLogicRole([{idMember:idMember, newValue:document.getElementById('roleInput['+ id +']').value}]);
+    };
+    const blurLogicRole = (idMember, newValue) =>{
+
+        $.post('http://sciencerating/public/editRole', {
+                idMember: idMember,
+                newValue: newValue,
+                _token: $('meta[name=csrf-token]').attr('content'),
+
+
+            }
+        )
+            .done(function(data) { //meow
+                //   document.getElementById('percentInput['+ 0 +']').innerHTML = data;
+                alert("Запись успешно обновлена");
+            })
+            .fail(function( jqXHR, textStatus ) {
+                console.log( "Request failed: " + textStatus );
+            });
+
+    };
+
+
+
 </script>
 @endsection

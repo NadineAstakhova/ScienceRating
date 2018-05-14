@@ -138,6 +138,10 @@ Route::get('/editAuthorPub/{idAuthor}','ProfileController@editAuthorOfPublicatio
 
 Route::get('/deleteMemberEvent/{idMember}','ProfileController@deleteMemberOfEvent')->middleware('auth');
 
+Route::post('/editPercent', 'ProfileController@editPercentToUser')->middleware('auth');
+Route::post('/editResult', 'ProfileController@editResultToUser')->middleware('auth');
+Route::post('/editRole', 'ProfileController@editRoleToUser')->middleware('auth');
+
 
 
 Auth::routes();

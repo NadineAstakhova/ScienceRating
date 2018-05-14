@@ -3,6 +3,7 @@
 namespace App\Models\RankingModels;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class EditResults extends Model
 {
@@ -54,6 +55,29 @@ class EditResults extends Model
         $edit = new ScientificPublication($id);
         $edit->editPublicationInfo($title, $date, $fkType,$edition, $pages);
         return true;
+    }
 
+    public function editPercentOfUser($id, $newValue){
+        if(Auth::user()->type == '3')
+            $edit = ScientificPublication::editPercentById($id, $newValue, 'confirmed');
+        else
+            $edit = ScientificPublication::editPercentById($id, $newValue, 'new');
+        return true;
+    }
+
+    public function editResultToUser($id, $newValue){
+        if(Auth::user()->type == '3')
+            $edit = ScientificEvent::editResultById($id, $newValue, 'confirmed');
+        else
+            $edit = ScientificEvent::editResultById($id, $newValue, 'new');
+        return true;
+    }
+
+    public function editRoleToUser($id, $newValue){
+        if(Auth::user()->type == '3')
+            $edit = ScientificEvent::editRoleById($id, $newValue, 'confirmed');
+        else
+            $edit = ScientificEvent::editRoleById($id, $newValue, 'new');
+        return true;
     }
 }

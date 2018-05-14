@@ -571,6 +571,34 @@ class ProfileController extends Controller
         return redirect()->back();
     }
 
+    public function editPercentToUser(Request $request){
+
+        $modelEdit = new EditResults();
+        if($modelEdit->editPercentOfUser( $request->idPublication[0]['idPublication'], $request->idPublication[0]['newValue']))
+             //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
+            return $request->idPublication[0]['newValue'];
+        else
+            return "Ошибка записи";
+    }
+
+    public function editResultToUser(Request $request){
+        $modelEdit = new EditResults();
+        if($modelEdit->editResultToUser( $request->idMember[0]['idMember'], $request->idMember[0]['newValue']))
+            //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
+            return $request->idMember[0]['newValue'];
+        else
+            return "Ошибка записи";
+    }
+
+    public function editRoleToUser(Request $request){
+        $modelEdit = new EditResults();
+        if($modelEdit->editRoleToUser( $request->idMember[0]['idMember'], $request->idMember[0]['newValue']))
+            //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
+            return $request->idMember[0]['newValue'];
+        else
+            return "Ошибка записи";
+    }
+
 
 
 }

@@ -51,4 +51,13 @@ class ScientificPublication extends Model
         $deleted =  DB::table('authors_of_publication')->where('idPubAuthor','=',$idDelete)->delete();
         return $deleted;
     }
+
+    public static function editPercentById($id, $newPercent, $status){
+        $update = DB::table('authors_of_publication')
+            ->where('idPubAuthor', $id)
+            ->update( ['percent_of_writing' => $newPercent, 'status' => $status]);
+        return $update;
+    }
+
+
 }
