@@ -40,9 +40,9 @@
         <ul class="navbar-nav ml-auto">
             @if (Auth::check())
                 @if(Auth::user()->type == \App\User::METHODIST)
-                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("profile")}}>Profile</a></li>
+                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("profile")}}>Главная</a></li>
                 @elseif(Auth::user()->type == \App\User::PROFESSOR)
-                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("professorProfile")}}>Profile</a></li>
+                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("professorProfile")}}>Главная</a></li>
                 @endif
             @endif
             <li class="nav-item"><a class="nav-header-link nav-link" href="{{Auth::check() ? url('auth/logout') : url('auth/login')}}">
