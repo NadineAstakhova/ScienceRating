@@ -13,9 +13,9 @@
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 @if(Auth::user()->type == '1')
-                    <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Back</a></li>
+                    <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Главная</a></li>
                 @elseif(Auth::user()->type == '2')
-                    <li class="breadcrumb-item"><a href={{ url('studentProfile') }}>Back</a></li>
+                    <li class="breadcrumb-item"><a href={{ url('studentProfile') }}>Главная</a></li>
                 @endif
 
                 <li class="breadcrumb-item active">Научные Рейтинги</li>
