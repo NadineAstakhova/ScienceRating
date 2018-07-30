@@ -139,8 +139,50 @@ label{
 
 .panel-cards{
     margin-bottom: 10px;
+    flex: 0 0 100%;
 }
 
 .disabled-card{
     color: #bababa;
 }
+
+.new{
+    color: #0aca36;
+}
+
+
+
+.unconfirmed{
+    color: red;
+}
+
+
+.valid-true {
+    /*background-color: green;*/
+    border-color: green !important;
+}
+
+.valid-false{
+    /*background-color: red;*/
+    border-color: red !important;
+}
+
+.icons{
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.unic-text-percent{
+    cursor: pointer;
+}
+
+.display-none{
+    display: none;
+}
+
+.display-block{
+    display: block;
+}
+
+

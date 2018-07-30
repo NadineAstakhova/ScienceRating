@@ -2,11 +2,13 @@
 
 namespace App\Models\RankingModels;
 
+use App\Models\UsersOwners;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
 class CreateResult extends Model
 {
-    public $name;
+    public $title;
     public $type;
     public $date;
     public $file;
@@ -15,20 +17,49 @@ class CreateResult extends Model
     public $pages;
 
 
-    public function createRes(){
+    public function createEvent($title,$date, $file, $fkType, $forAllUser = null ){
 
         $res = new ScientificResult();
-        $fileName = $this->file->getClientOriginalName();
+        if(!is_null($forAllUser)){
+            $fileName = $file->getClientOriginalName();
+            $unicodefileName = iconv('windows-1256', 'utf-8', $fileName);
+            $path = base_path(). '/public/uploads/';
+            $file->move($path , $unicodefileName);
+            session()->put('fileNameAll', $fileName);
+        }
+        else
+            if(Session::has('fileNameAll')){
+                Session::forget('fileNameAll');
+            }
+
+        return $res->insertEvent($title,$date, $fkType);
+    }
+
+    public function createPublication($title, $publishing, $pages, $date, $file, $fkType){
+        $res = new ScientificResult();
+
+        $fileName = $file->getClientOriginalName();
         $path = base_path(). '/public/uploads/';
-        $this->file->move($path , $fileName);
-
-        return $res->insertResult($this->name, $this->date, $this->type, '/public/uploads/'. $fileName);
+        $file->move($path , $fileName);
+        return $res->insertPublication($title, $publishing, $pages, $date, $fileName, $fkType);
     }
 
-    public function createArticle($idRes){
-        $res = new ScientificResult();
-        return $res->insertArticle($idRes, $this->article, $this->publishing, $this->pages);
+    public function addOneAuthorToArticle($idUser, $last_id){
+        $publication = new UsersOwners();
+        return $publication->setAuthorsForPublication($last_id, $idUser, '100', 'new');
+
     }
+
+    public function addOneMemberToEvent($idUser, $last_id, $file, $result, $role){
+        $event = new UsersOwners();
+        $fileName = $file->getClientOriginalName();
+        $unicodefileName = iconv('windows-1256', 'utf-8', $fileName);
+        $path = base_path(). '/public/uploads/';
+        $file->move($path , $unicodefileName);
+        return $event->setMembersOfEvent($last_id, $idUser, $role, $result,  $fileName, 'new');
+    }
+
+
 
 
 

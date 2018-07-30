@@ -31,6 +31,12 @@
             <th>
                 Кол-во страниц
             </th>
+            <th>
+                Процент
+            </th>
+            <th>
+                Тип
+            </th>
         </tr>
         </thead>
 
@@ -40,10 +46,12 @@
         @if(count($articles) > 0)
             @foreach($articles as $article)
                 <tr class="all">
-                    <td class="name">{{$article->atitle}} </td>
-                    <td class="pub">{{$article->publishing}} </td>
+                    <td class="name">{{$article->title}} </td>
+                    <td class="pub">{{$article->edition}} </td>
                     <td class="date">{{$article->date}} </td>
                     <td class="pages">{{$article->pages}} </td>
+                    <td class="percent">{{$article->percent_of_writing}} </td>
+                    <td class="type_pub">{{$article->type}} </td>
                 </tr>
                 @php
                     $i++;

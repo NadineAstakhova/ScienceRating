@@ -82,11 +82,19 @@ class CreateDocReport extends Model
         foreach($contents as $row)
         {
 
-            $mark = UsersOwners::getCountOfUserRes( $idOwner, $row->idType_certificates) * $row->mark;
+            $mark = 0;
+            if(isset($row->idTypeEvents))
+                $mark = UsersOwners::getCountOfUserEvent( $idOwner, $row->idTypeEvents) * $row->mark;
+            if(isset($row->idTypePub))
+                $mark = UsersOwners::getCountOfUserPublication( $idOwner, $row->idTypePub) * $row->mark;
             $sum += $mark;
 
             $table->addRow(900);
-            $table->addCell(7000, $styleCell)->addText($row->type. $row->type_of_participation, $fontStyle);
+            //TODO: не обязательно в переменную
+            if(isset($row->type_of_res) && strcmp($row->type_of_res, "не обязательно") )
+                $table->addCell(7000, $styleCell)->addText($row->type.' - '. $row->type_of_res, $fontStyle);
+            else
+                $table->addCell(7000, $styleCell)->addText($row->type, $fontStyle);
             $table->addCell(4000, $styleCell)->addText($row->code, $fontStyle);
             $table->addCell(4000, $styleCell)->addText($mark, $fontStyle);
 

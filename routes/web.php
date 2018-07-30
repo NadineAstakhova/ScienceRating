@@ -26,15 +26,17 @@ Route::get('auth/logout', 'Controller@logout');
 
 Route::get('/profile','ProfileController@index')->middleware('auth');
 
-Route::get('/createres','ProfileController@createResultPage')->middleware('auth');
+Route::get('/createArticle','ProfileController@createArticlePage')->middleware('auth');
+Route::post('/createPublicationForm', 'ProfileController@createArticleForm')->middleware('auth');
+Route::get('/addArticleAuthor/{idRes}','ProfileController@createResultOwner')->middleware('auth');
+Route::post('/addPublicationAuthor/{idRes}', 'ProfileController@addPublicationAuthorForm')->middleware('auth');
 
-//Route::get('/createResPdf','ProfileController@createResultPage')->middleware('auth');
+Route::get('/createResult','ProfileController@createEventPage')->middleware('auth');
+Route::post('/createEventForm', 'ProfileController@createEventForm')->middleware('auth');
+Route::get('/addEventAuthor/{idRes}','ProfileController@memberOfEventPage')->middleware('auth');
+Route::post('/addEventMembers/{idRes}', 'ProfileController@addEventMembersForm')->middleware('auth');
 
-Route::post('/createResult', 'ProfileController@createResultForm')->middleware('auth');
 
-Route::get('/createres/{idRes}','ProfileController@createResultOwner')->middleware('auth');
-
-Route::post('/addResultOwner/{idRes}', 'ProfileController@createResultOwnerForm')->middleware('auth');
 
 Route::get('/createrating','ProfileController@createRatingPage')->middleware('auth');
 
@@ -102,5 +104,44 @@ Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->midd
 
 Route::get('/infoProfileMethodist','ProfileController@infoProfile')->middleware('auth');
 Route::post('/editMethodistInfo', 'ProfileController@updateMethodistInfoForm')->middleware('auth');
+
+Route::get('/acceptResults','ProfileController@acceptResultsPage')->middleware('auth');
+Route::post('/changeStatusForNewRes', 'ProfileController@changeStatusForNewResForm')->middleware('auth');
+
+Route::get('/event/{id}','ProfileController@showInfoAboutResult')->middleware('auth');
+Route::post('/editEventInfo/{id}', 'ProfileController@editEventInfoForm')->middleware('auth');
+Route::get('/editEventMembers/{idRes}','ProfileController@memberOfEventPage')->middleware('auth');
+Route::post('/editEventMembersForm/{idRes}', 'ProfileController@editEventMembersForm')->middleware('auth');
+
+Route::get('/publication/{id}','ProfileController@showInfoAboutPublication')->middleware('auth');
+Route::post('/editPublicationInfo/{id}', 'ProfileController@editPublicationInfoForm')->middleware('auth');
+Route::get('/editAuthorMembers/{idRes}','ProfileController@createResultOwner')->middleware('auth');
+Route::post('/editAuthorMembersForm/{idRes}', 'ProfileController@editPubAuthorsForm')->middleware('auth');
+
+Route::get('/showUserResult/{id}','ProfileController@showUserResult')->middleware('auth');
+
+Route::get('/createArticleByUser/{idUser}','ProfileController@createArticlePage')->middleware('auth');
+Route::post('/createPublicationForm/{idUser}', 'ProfileController@createArticleForm')->middleware('auth');
+
+Route::get('/createEventByUser/{idUser}','ProfileController@createEventPage')->middleware('auth');
+Route::post('/createEventForm/{idUser}', 'ProfileController@createEventForm')->middleware('auth');
+
+Route::get('/rankingsPage','ProfileController@showRankingsPage')->middleware('auth');
+
+//TODO: add normal identify for rankings
+Route::get('/pdfRanking/{idTemp}/{idUser}','ProfileController@createPdfReport')->middleware('auth');
+Route::get('/docRanking/{idTemp}/{idUser}','ProfileController@createDocReport')->middleware('auth');
+
+Route::get('/deleteAuthorPub/{idAuthor}','ProfileController@deleteAuthorOfPublication')->middleware('auth');
+//TODO
+Route::get('/editAuthorPub/{idAuthor}','ProfileController@editAuthorOfPublication')->middleware('auth');
+
+Route::get('/deleteMemberEvent/{idMember}','ProfileController@deleteMemberOfEvent')->middleware('auth');
+
+Route::post('/editPercent', 'ProfileController@editPercentToUser')->middleware('auth');
+Route::post('/editResult', 'ProfileController@editResultToUser')->middleware('auth');
+Route::post('/editRole', 'ProfileController@editRoleToUser')->middleware('auth');
+
+
 
 Auth::routes();

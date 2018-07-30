@@ -70,9 +70,18 @@ EOD;
        foreach($content as $row)
        {
            //TODO считается не больше одной статьи на год и т.п.
-           $mark = UsersOwners::getCountOfUserRes( $idOwner, $row->idType_certificates) * $row->mark;
+           $mark = 0;
+           if(isset($row->idTypeEvents))
+               $mark = UsersOwners::getCountOfUserEvent( $idOwner, $row->idTypeEvents) * $row->mark;
+           if(isset($row->idTypePub))
+               $mark = UsersOwners::getCountOfUserPublication( $idOwner, $row->idTypePub) * $row->mark;
            $sum += $mark;
-           $rows .= "<tr><td>$row->type $row->type_of_participation</td><td> $row->code</td><td> $mark</td></tr>";
+           $rows .= "<tr>";
+           if(isset($row->type_of_res) && strcmp($row->type_of_res, "не обязательно") )
+               $rows .= "<td>".$row->type.' - '. $row->type_of_res."</td>";
+           else
+               $rows .=  "<td>".$row->type."</td>";
+           $rows .= "<td> $row->code</td><td> $mark</td></tr>";
        }
 
         $endTable = <<<EOD

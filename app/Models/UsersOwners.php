@@ -47,17 +47,159 @@ class UsersOwners extends BaseModel
         return $arrUser;
     }
 
-    public function setOwnersForResult($idRes, $arrUsers, $arrRoles){
+    public function setAuthorsForPublication($idRes, $arrUsers, $arrRoles, $status ){
         $insert = false;
-        foreach ($arrUsers as $key=>$value){
-            $insert = DB::table('scient_res_owner')->insert([
-                ['fkRes' => $idRes, 'fkOwner' => $arrUsers[$key], 'role' => $arrRoles[$key]]
+        if (is_array($arrUsers) || is_array($arrRoles)){
+            foreach ($arrUsers as $key=>$value){
+                $insert = DB::table('authors_of_publication')->insert([
+                    ['fk_pub' => $idRes, 'fk_user' => $arrUsers[$key], 'percent_of_writing' => $arrRoles[$key], 'status' => $status]
+                ]);
+            }
+        }
+        else
+            $insert = DB::table('authors_of_publication')->insert([
+                ['fk_pub' => $idRes, 'fk_user' => $arrUsers, 'percent_of_writing' => $arrRoles, 'status' => $status]
             ]);
+
+        if ($insert)
+            return true;
+        else
+            return false;
+    }
+
+    public function editAuthorsForPublication($idRes, $arrUsers, $arrRoles ){
+        $insert = false;
+        $oldRow = $this->allRowAtTablePublication($idRes);
+
+        foreach ($oldRow as $old){
+            if(!in_array($old->fk_user, $arrUsers)){
+                $this->deleteRowFromPublication($old->idPubAuthor);
+            }
+            else
+                continue;
+        }
+
+        foreach ($arrUsers as $key=>$value){
+            $existRow = $this->existsPubRow($arrUsers[$key], $idRes);
+            if($existRow != false)
+                $insert = DB::table('authors_of_publication')
+                    ->where('idPubAuthor', $existRow)
+                    ->update( ['percent_of_writing' => $arrRoles[$key]]);
+            else
+                $insert = DB::table('authors_of_publication')->insert([
+                    ['fk_pub' => $idRes, 'fk_user' => $arrUsers[$key], 'percent_of_writing' => $arrRoles[$key], 'status' => 'confirmed']
+                ]);
         }
         if ($insert)
             return true;
         else
             return false;
+    }
+
+    public function setMembersOfEvent($idRes, $arrUsers, $arrRoles, $arrResults, $file, $status){
+        $insert = false;
+        if (is_array($arrUsers)) {
+            foreach ($arrUsers as $key => $value) {
+                $insert = DB::table('members_of_event')->insert([
+                    ['fk_member' => $arrUsers[$key], 'fk_event' => $idRes, 'fk_res' => $arrResults[$key],
+                        'fk_role' => $arrRoles[$key], 'file' => $file[$key], 'status' => $status]
+                ]);
+            }
+        }
+        else
+            $insert = DB::table('members_of_event')->insert([
+                ['fk_member' => $arrUsers, 'fk_event' => $idRes, 'fk_res' => $arrResults,
+                    'fk_role' => $arrRoles, 'file' => $file, 'status' => $status]
+            ]);
+        if ($insert)
+            return true;
+        else
+            return false;
+    }
+
+    public function editMembersOfEvent($idRes, $arrUsers, $arrRoles, $arrResults){
+        $insert = false;
+        $oldRow = $this->allRowAtTable($idRes);
+
+        foreach ($oldRow as $old){
+            if(!in_array($old->fk_member, $arrUsers)){
+               $this->deleteRow($old->idMember);
+            }
+            else
+                continue;
+        }
+
+        foreach ($arrUsers as $key=>$value){
+            $existRow = $this->existsRow($arrUsers[$key], $idRes);
+            if($existRow != false)
+                $insert = DB::table('members_of_event')
+                    ->where('idMember', $existRow)
+                    ->update( ['fk_res' => $arrResults[$key], 'fk_role' => $arrRoles[$key]]);
+            else
+
+                $insert = DB::table('members_of_event')->insert([
+                    ['fk_member' => $arrUsers[$key], 'fk_event' => $idRes, 'fk_res' => $arrResults[$key],
+                        'fk_role' => $arrRoles[$key], 'file' => 'dd',  'status' => 'confirmed']
+                ]);
+        }
+        if ($insert)
+            return true;
+        else
+            return false;
+    }
+
+    public function existsRow($idMember, $idRes){
+        $row = DB::table('members_of_event')
+            ->where([['fk_member', '=', $idMember], ['fk_event', '=', $idRes]])
+            ->first();
+        if (count($row) > 0)
+            return $row->idMember;
+        else
+            return false;
+    }
+
+    public function deleteRow($id){
+        $delete = DB::table('members_of_event')
+            ->where('idMember', '=', $id)
+            ->delete();
+        return $delete;
+    }
+
+    public function allRowAtTable($idRes){
+        $row = DB::table('members_of_event')
+            ->where('fk_event', '=', $idRes)
+            ->get();
+        if (count($row) > 0)
+            return $row;
+        else
+            return false;
+    }
+
+    public function existsPubRow($idMember, $idRes){
+        $row = DB::table('authors_of_publication')
+            ->where([['fk_user', '=', $idMember], ['fk_pub', '=', $idRes]])
+            ->first();
+        if (count($row) > 0)
+            return $row->idPubAuthor;
+        else
+            return false;
+    }
+
+    public function allRowAtTablePublication($idRes){
+        $row = DB::table('authors_of_publication')
+            ->where('fk_pub', '=', $idRes)
+            ->get();
+        if (count($row) > 0)
+            return $row;
+        else
+            return false;
+    }
+
+    public function deleteRowFromPublication($id){
+        $delete = DB::table('authors_of_publication')
+            ->where('idPubAuthor', '=', $id)
+            ->delete();
+        return $delete;
     }
 
     public static function getUserById($id){
@@ -85,11 +227,20 @@ class UsersOwners extends BaseModel
 
     }
 
-    public static function getCountOfUserRes($idUser, $idType){
-        $sum = DB::table('scient_res_owner')
-            ->join('scientific_result', 'scientific_result.idRes', '=', 'scient_res_owner.fkRes')
-            ->where([['scientific_result.fkType', '=', $idType], ['scient_res_owner.fkOwner', '=', $idUser]])
-            ->count('scient_res_owner.idOwner');
+    public static function getCountOfUserEvent($idUser, $idType){
+        $sum = DB::table('members_of_event')
+            ->join('scient_event', 'scient_event.idScientEvent', '=', 'members_of_event.fk_event')
+            ->where([['scient_event.fk_type_res', '=', $idType], ['members_of_event.fk_member', '=', $idUser],
+                    ['members_of_event.status', '=', 'confirmed']])
+            ->count('members_of_event.idMember');
+        return $sum;
+    }
+    public static function getCountOfUserPublication($idUser, $idType){
+        $sum = DB::table('authors_of_publication')
+            ->join('scient_publication', 'scient_publication.idPublication', '=', 'authors_of_publication.fk_pub')
+            ->where([['scient_publication.fk_pub_type', '=', $idType], ['authors_of_publication.fk_user', '=', $idUser],
+                    ['authors_of_publication.status', '=', 'confirmed']])
+            ->count('authors_of_publication.idPubAuthor');
         return $sum;
     }
 
@@ -118,16 +269,7 @@ class UsersOwners extends BaseModel
         return $arrUsersProf;
     }
 
-    public static function userResults($idUser){
-        $arrResults = DB::table('scient_res_owner')
-            ->join('scientific_result', 'scient_res_owner.fkRes', '=', 'scientific_result.idRes')
-            ->join('type_of_scient_res', 'scientific_result.fkType',  '=', 'type_of_scient_res.idType_certificates')
-            ->where('scient_res_owner.fkOwner', '=', $idUser)
-            ->orderBy('scientific_result.date', 'ASC')
-            ->orderBy('type_of_scient_res.type', 'ASC')
-            ->get();
-        return $arrResults;
-    }
+
 
 
     public static function countOfArticles($arrUsers){
@@ -138,24 +280,55 @@ class UsersOwners extends BaseModel
     }
 
     public static function countOfArticlesByID($idUser){
-        $count = DB::table('article_in_res')
-            ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
-            ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
-            ->where('scient_res_owner.fkOwner', '=', $idUser)
+        $count = DB::table('authors_of_publication')
+          //  ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
+         //   ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
+            ->where([['authors_of_publication.fk_user', '=', $idUser], ['authors_of_publication.status', '=', 'confirmed']])
             ->count();
         return $count;
     }
 
-    public static function articlesByID($idUser){
-        $articles =  DB::table('article_in_res')
-            ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
-            ->join('scientific_result', 'article_in_res.fkRes', '=', 'scientific_result.idRes')
-            ->join('scient_res_owner', 'scient_res_owner.fkRes',  '=', 'scientific_result.idRes')
-            ->where('scient_res_owner.fkOwner', '=', $idUser)
-            ->get();
-        return $articles;
+    public static function articlesByID($idUser, $status = null){
+        if (!is_null($status)){
+            $articles =  DB::table('authors_of_publication')
+                // ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
+                ->join('scient_publication', 'authors_of_publication.fk_pub', '=', 'scient_publication.idPublication')
+                ->join('type_of_publication', 'scient_publication.fk_pub_type',  '=', 'type_of_publication.idTypePub')
+                ->where([['authors_of_publication.fk_user', '=', $idUser], ['authors_of_publication.status', '=', $status]])
+                ->orderBy('scient_publication.date', 'DESC')
+                ->get();
+            return $articles;
+        }
+        else{
+            $articles =  DB::table('authors_of_publication')
+                // ->select('article_in_res.title as atitle', 'article_in_res.publishing', 'article_in_res.pages', 'scientific_result.date')
+                ->join('scient_publication', 'authors_of_publication.fk_pub', '=', 'scient_publication.idPublication')
+                ->join('type_of_publication', 'scient_publication.fk_pub_type',  '=', 'type_of_publication.idTypePub')
+                ->where('authors_of_publication.fk_user', '=', $idUser)
+                ->orderBy('scient_publication.date', 'DESC')
+                ->get();
+            return $articles;
+        }
     }
 
+    public static function getUserEvents($idUser){
+        $arrEvents = DB::table('members_of_event')
+            ->join('scient_event', 'members_of_event.fk_event', '=', 'scient_event.idScientEvent')
+            ->join('type_of_result', 'members_of_event.fk_res', '=', 'type_of_result.idTypeRes')
+            ->join('type_of_role', 'members_of_event.fk_role', '=', 'type_of_role.idTypeRole')
+            ->join('type_of_scient_event', 'scient_event.fk_type_res',  '=', 'type_of_scient_event.idTypeEvents')
+            ->where('members_of_event.fk_member', '=', $idUser)
+            ->orderBy('scient_event.date', 'DESC')
+            ->get();
+        return $arrEvents;
+    }
+
+    public static function getUserResults($idUser){
+        $arrEvents = self::getUserEvents($idUser);
+        $arrArticles = self::articlesByID($idUser);
+        $arrResults =  $arrEvents->merge($arrArticles);
+        return $arrResults;
+    }
 
 
 

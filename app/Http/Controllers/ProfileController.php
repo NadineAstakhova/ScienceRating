@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\RankingModels\AddOwnersForm;
 use App\Models\RankingModels\CertificatPdfParse;
 use App\Models\RankingModels\CreateResult;
+use App\Models\RankingModels\EditResults;
+use App\Models\RankingModels\ScientificEvent;
+use App\Models\RankingModels\ScientificPublication;
+use App\Models\RankingModels\ScientificResult;
 use App\Models\RankingModels\TypeOfRes;
 use App\Models\ReportModels\CreateDocReport;
 
@@ -31,7 +35,10 @@ class ProfileController extends Controller
 
 
     public function index() {
-        return view('panel/profile');
+
+        return view('panel/profile',
+            array('title' => 'profile','description' => '',
+                'page' => 'profile', 'countOfNewResults' =>   ScientificResult::getCountOfAllNewResults()));
     }
 
     public function professorProfile() {
@@ -51,59 +58,83 @@ class ProfileController extends Controller
     }
 
 
-    public function createResultPage(){
-        return view('panel/addResultForms/createRes',
-            array('title' => 'createRes','description' => '',
-                'page' => 'createRes', 'arrType' => TypeOfRes::getAll()));
+    public function createArticlePage($idUser = null){
+        if(is_null($idUser))
+            return view('panel/addResultForms/createPublication',
+                array('title' => 'createPublication','description' => '',
+                    'page' => 'createPublication', 'arrType' => TypeOfRes::getPublicationTypes()));
+        else
+            return view('panel/addResultForms/createPublication',
+                array('title' => 'createPublication','description' => '',
+                    'page' => 'createPublication', 'arrType' => TypeOfRes::getPublicationTypes(), 'idUser' => $idUser));
     }
 
-    public function createResultForm(CreateResultFormRequest $request){
+    public function createArticleForm($idUser = null, CreateResultFormRequest $request){
         //get data from request
+        if(Session::has('fileNameAll')){
+            Session::forget('fileNameAll');
+        }
         $model = new CreateResult();
-        $model->name = $request->get('name');
-        $model->type = $request->get('type');
-        $model->file = $request->file('file');
 
-        $model->date = $request->get('date');
+        $title = $request->get('name');
+        $publishing = $request->get('publishing');
+        $pages =  $request->get('pages');
+        $date =  $request->get('date');
+        $file =  $request->file('file');
+        $fkType =  $request->get('type');
 
-        $model->article = $request->get('article');
-        $model->publishing = $request->get('publishing');
-        $model->pages = $request->get('pages');
 
-        $model->parsePDF = $request->get('allField');
+        $parsePDF = $request->get('allField');
 
         //if automatic document parsing is selected
-        if(!is_null($model->parsePDF)){
+        if(!is_null($parsePDF)){
            //parse file
-           $parseFile = new CertificatPdfParse($model->file);
+           $parseFile = new CertificatPdfParse($file);
            $content = $parseFile->getContent();
            if ($content == '0')
-               return redirect('createres')->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
+               return  redirect()->back()->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
 
            //searching our users in text
            $users = $parseFile->searchUserAtPdf();
            $searchDate = $parseFile->searchDate();
            $searchTitle = $parseFile->serachTitle();
 
-            return view('panel/addResultForms/createRes',
-                array('title' => 'createRes','description' => '',
-                    'page' => 'createRes', 'arrType' => TypeOfRes::getAll(),
-                    'pdfText' => $content,
-                    'users' => $users,
-                    'date' => $searchDate,
-                    'searchTitle' => $searchTitle,
-                ));
+           if(is_null($idUser))
+                return view('panel/addResultForms/createPublication',
+                    array('title' => 'createPublication','description' => '',
+                        'page' => 'createPublication', 'arrType' =>TypeOfRes::getPublicationTypes(),
+                        'pdfText' => $content,
+                        'users' => $users,
+                        'date' => $searchDate,
+                        'searchTitle' => $searchTitle,
+                    ));
+           else
+               return view('panel/addResultForms/createPublication',
+                   array('title' => 'createPublication','description' => '',
+                       'page' => 'createPublication', 'arrType' =>TypeOfRes::getPublicationTypes(),
+                       'pdfText' => $content,
+                       'users' => $users,
+                       'date' => $searchDate,
+                       'searchTitle' => $searchTitle,
+                       'idUser' => $idUser
+                   ));
         }
 
-        if ($model->createRes()){
+        if ($model->createPublication($title, $publishing, $pages, $date, $file, $fkType)){
             $last_id = DB::getPdo()->lastInsertId();
-            if(!is_null($model->article)) {
-                $model->createArticle($last_id);
+            if(is_null($idUser))
+                return redirect('addArticleAuthor/'.$last_id)->with('owners', $request->get('owners'));
+            else{
+                //percent????
+                $model->addOneAuthorToArticle($idUser, $last_id);
+                if(Auth::user()->type == '1')
+                    return redirect('professorProfile')->with('save', 'Научный результат успешно добавлен');
+                if(Auth::user()->type == '2')
+                    return redirect('studentProfile')->with('save', 'Научный результат успешно добавлен');
             }
-            return redirect('createres/'.$last_id)->with('owners', $request->get('owners'));
         }
         else
-            return 0;
+           return 0;
     }
 
     public function createResultOwner($idRes){
@@ -115,17 +146,128 @@ class ProfileController extends Controller
                     UsersOwners::getAllUsersForTable(Session::get("owners")) : UsersOwners::getAllUsersForTable()));
     }
 
-    public function createResultOwnerForm($idResult, AddOwnersFormRequest $request){
+
+    public function addPublicationAuthorForm($idResult, AddOwnersFormRequest $request){
         $model = new AddOwnersForm();
         $model->arrOwners = $request->get('arrOwners');
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
-        if($model->addOwners()){
+        if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult)){
             return redirect('profile')->with('save', 'Научный результат успешно добавлен');
         }
         else
             return redirect('profile')->with('error', 'Ошибка записи');
     }
+
+
+    public function createEventPage($idUser = null){
+        if(is_null($idUser))
+            return view('panel/addResultForms/createEvent',
+                array('title' => 'createEvent','description' => '',
+                    'page' => 'createEvent', 'arrType' => TypeOfRes::getEventTypes()));
+        else
+            return view('panel/addResultForms/createEvent',
+                array('title' => 'createEvent','description' => '',
+                    'page' => 'createEvent', 'arrType' => TypeOfRes::getEventTypes(), 'idUser' => $idUser));
+    }
+
+    public function createEventForm($idUser = null, CreateResultFormRequest $request){
+        //get data from request
+        $model = new CreateResult();
+
+        $title = $request->get('name');
+        $date =  $request->get('date');
+        $file =  $request->file('file');
+        $fkType =  $request->get('type');
+        $forAllUser = $request->get('forAllUser');
+
+
+        $parsePDF = $request->get('allField');
+
+
+        //if automatic document parsing is selected
+        if(!is_null($parsePDF)){
+            //parse file
+            $parseFile = new CertificatPdfParse($file);
+            $content = $parseFile->getContent();
+            if ($content == '0')
+                return redirect()->back()->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
+
+            //searching our users in text
+            $users = $parseFile->searchUserAtPdf();
+            $searchDate = $parseFile->searchDate();
+            $searchTitle = $parseFile->serachTitle();
+            if(is_null($idUser))
+                return view('panel/addResultForms/createEvent',
+                    array('title' => 'createRes','description' => '',
+                        'page' => 'createRes', 'arrType' =>  TypeOfRes::getEventTypes(),
+                        'pdfText' => $content,
+                        'users' => $users,
+                        'date' => $searchDate,
+                        'searchTitle' => $searchTitle,
+                    ));
+            else
+                return view('panel/addResultForms/createEvent',
+                    array('title' => 'createRes','description' => '',
+                        'page' => 'createRes', 'arrType' =>  TypeOfRes::getEventTypes(),
+                        'pdfText' => $content,
+                        'users' => $users,
+                        'date' => $searchDate,
+                        'searchTitle' => $searchTitle,
+                        'idUser' => $idUser
+                    ));
+        }
+
+        if ($model->createEvent($title,  $date, $file, $fkType, $forAllUser)){
+            $last_id = DB::getPdo()->lastInsertId();
+            if(is_null($idUser))
+                return redirect('addEventAuthor/'.$last_id)->with('owners', $request->get('owners'));
+            else{
+                $model->addOneMemberToEvent($idUser, $last_id, $file, $request->get('result'), $request->get('role'));
+                if(Auth::user()->type == '1')
+                    return redirect('professorProfile')->with('save', 'Научный результат успешно добавлен');
+                if(Auth::user()->type == '2')
+                    return redirect('studentProfile')->with('save', 'Научный результат успешно добавлен');
+            }
+
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function memberOfEventPage($idRes){
+        return view('panel/addResultForms/createResSetOwners',
+            array('title' => 'createResSetOwners','description' => '',
+                'page' => 'createResSetOwners',
+                'idResult' => $idRes,
+                'arrUsers' => Session::has('owners') ?
+                    UsersOwners::getAllUsersForTable(Session::get("owners")) : UsersOwners::getAllUsersForTable(),
+                'arrRoles' => TypeOfRes::getRolesTypes(),
+                'arrResults' => TypeOfRes::getResultTypes()));
+    }
+
+
+    //TODO validation
+    public function addEventMembersForm($idResult, AddOwnersFormRequest $request){
+        $model = new AddOwnersForm();
+        $model->arrOwners = $request->get('arrOwners');
+        $model->arrRole = $request->get('arrRole');
+        $model->idResult = $idResult;
+        $file = "";
+        if(Session::has('fileNameAll')){
+           $file = Session::get("fileNameAll");
+        }
+        else
+            $file =  $request->file('arrFiles');
+        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'),
+            $request->get('arrResults'), $idResult, $file)){
+            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+
 
     public function createRatingPage(){
         return view('panel/showRankigs/createrating',
@@ -161,11 +303,13 @@ class ProfileController extends Controller
             array('title' => 'showUserResult','description' => '',
                 'page' => 'showUserResult',
                 'user' => UsersOwners::getUserById($idUser),
-                'arrResults' => UsersOwners::userResults($idUser)));
+                'arrArticles' => UsersOwners::articlesByID($idUser),
+                'arrEvents' => UsersOwners::getUserEvents($idUser)
+            ));
     }
 
     public function showArticles($id){
-        $articles = UsersOwners::articlesByID($id);
+        $articles = UsersOwners::articlesByID($id, 'confirmed');
         $user = UsersOwners::getUserById($id);
         return view('panel/showRankigs/articles', compact('articles', 'user'));
     }
@@ -290,6 +434,173 @@ class ProfileController extends Controller
         }
 
     }
+
+    public function acceptResultsPage(){
+        return view('panel/userRating/acceptResults',
+            array('title' => 'createrating','description' => '',
+                'page' => 'createrating',
+                'arrNewEvents' => ScientificResult::getAllNewEvents(),
+                'arrNewPublications' => ScientificResult::getAllNewPublications()
+            )
+        );
+    }
+
+    public  function changeStatusForNewResForm(Request $request){
+        $model = new EditResults();
+
+        if($model->editStatusForNewResults($request->get('arrResults'), $request->get('arrStatusRes'),
+                $request->get('arrPublications'), $request->get('arrStatusPub'))
+
+        ){
+            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+        }
+        //else
+        //    return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function showInfoAboutResult($idEvent){
+        $event = new ScientificEvent($idEvent);
+        $members = $event->getMembers();
+        $arrUser = array();
+        $i = 0;
+        foreach ($members as $user) {
+                $arrUser[$i] = $user->idUsers;
+                $i++;
+        }
+        session()->put('owners', $arrUser);
+        return view('panel/resultsPages/infoRes',
+            array('title' => 'createrating','description' => '',
+                'page' => 'createrating',
+                'event' => $event->identifyEvent(),
+                'members' =>$members ,
+                'arrType' => TypeOfRes::getEventTypes(),
+            )
+        );
+    }
+
+    public  function editEventInfoForm($idEvent, Request $request){
+        $model = new EditResults();
+        if($model->editEventInfoForm($idEvent, $request->get('name'), $request->get('date'),$request->get('type'))
+
+        ){
+            return redirect('profile')->with('save', 'Научный результат успешно обновлён');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function editEventMembersForm($idResult, AddOwnersFormRequest $request){
+        $model = new AddOwnersForm();
+        $model->arrOwners = $request->get('arrOwners');
+        $model->arrRole = $request->get('arrRole');
+        $model->idResult = $idResult;
+        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, "edit")){
+            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function showInfoAboutPublication($idPublication){
+        $publication = new ScientificPublication($idPublication);
+        $members = $publication->getAuthors();
+        $arrUser = array();
+        $i = 0;
+        foreach ($members as $user) {
+            $arrUser[$i] = $user->idUsers;
+            $i++;
+        }
+        session()->put('owners', $arrUser);
+        return view('panel/resultsPages/infoPub',
+            array('title' => 'createrating','description' => '',
+                'page' => 'createrating',
+                'publication' => $publication->identifyPublication(),
+                'members' =>$members ,
+                'arrType' => TypeOfRes::getPublicationTypes(),
+            )
+        );
+    }
+
+    public  function editPublicationInfoForm($idPublication, Request $request){
+        $model = new EditResults();
+        if($model->editPublicationInfoForm($idPublication, $request->get('name'), $request->get('date'),
+            $request->get('type'), $request->get('publishing'), $request->get('pages'))
+
+        ){
+            return redirect('profile')->with('save', 'Научная публикация успешно обновлена');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function editPubAuthorsForm($idResult, AddOwnersFormRequest $request){
+        $model = new AddOwnersForm();
+        $model->arrOwners = $request->get('arrOwners');
+        $model->arrRole = $request->get('arrRole');
+        $model->idResult = $idResult;
+        if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult, "edit")){
+            return redirect('profile')->with('save', 'Научная публикация успешно обновлена');
+        }
+        else
+            return redirect('profile')->with('error', 'Ошибка записи');
+    }
+
+    public function showRankingsPage(){
+        return view('usersPanel/rankingPage',
+            array('title' => 'rankingsPage','description' => 'rankingsPage',
+                'page' => 'rankingsPage' ));
+    }
+
+    public function deleteAuthorOfPublication($idAuthor){
+        ScientificPublication::deleteAuthorOfPublication($idAuthor);
+        return redirect()->back();
+    }
+
+    public function editAuthorOfPublication($idAuthor, Request $request)
+    {
+        if ($request->ajax()) {
+            return view('panel/userRating/editResultPublication',
+                array('title' => 'editResultPublication','description' => 'editResultPublication'));
+        }
+
+        else
+            return view('panel/userRating/editResultPublication',
+                array('title' => 'editResultPublication','description' => 'editResultPublication'));
+
+    }
+
+    public function deleteMemberOfEvent($idMember){
+        ScientificEvent::deleteMemberOfEvent($idMember);
+        return redirect()->back();
+    }
+
+    public function editPercentToUser(Request $request){
+        $modelEdit = new EditResults();
+        if($modelEdit->editPercentOfUser( $request->get('idPublication'), $request->get('newValue')))
+             //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
+            return $request->get('newValue');
+        else
+            return "Ошибка записи";
+    }
+
+    public function editResultToUser(Request $request){
+        $modelEdit = new EditResults();
+        if($modelEdit->editResultToUser( $request->get('idMember'), $request->get('newValue')))
+            //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
+            return $request->get('newValue');
+        else
+            return "Ошибка записи";
+    }
+
+    public function editRoleToUser(Request $request){
+        $modelEdit = new EditResults();
+        if($modelEdit->editRoleToUser( $request->get('idMember'), $request->get('newValue')))
+            //return "Научная публикация успешно обновлена. Обратите внимание, что процент написания должен быть равен 100. Проверьте на странице публикации";
+            return $request->get('newValue');
+        else
+            return "Ошибка записи";
+    }
+
 
 
 }

@@ -5,18 +5,16 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
+            <li class="breadcrumb-item"><a href={{ url('profile') }}>Главная</a></li>
             <li class="breadcrumb-item active">Ввод данных рейтинга</li>
         </ol>
         </nav>
 
         @if ($errors->any())
             <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+                @foreach ($errors->all() as $error)
+                    {{ $error }}
+                @endforeach
             </div>
         @endif
         @php
@@ -47,12 +45,13 @@
         <span id="typeT"></span>
         <br>
         <div class="form-group row">
-        {!! Form::label('date', 'Дата:', array('class' => 'col-sm-1 col-form-label')) !!}
+            {!! Form::label('date', 'Дата:', array('class' => 'col-sm-1 col-form-label')) !!}
             <div class="col-sm-3">
                 <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}">
             </div>
-        <span id="dateT" class="col-sm-10"></span>
+            <span id="dateT" class="col-sm-10"></span>
         </div>
+
 
 
         <br>

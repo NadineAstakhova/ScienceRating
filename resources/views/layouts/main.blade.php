@@ -3,16 +3,17 @@
 <head>
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+    <?php header("Access-Control-Allow-Headers: x-requested-with"); ?>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js "></script>
+    <script src="{{asset('js/modalWindow.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/index.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/filter.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/ratingTabs.js')}}"></script>
@@ -40,9 +41,9 @@
         <ul class="navbar-nav ml-auto">
             @if (Auth::check())
                 @if(Auth::user()->type == \App\User::METHODIST)
-                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("profile")}}>Profile</a></li>
+                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("profile")}}>Главная</a></li>
                 @elseif(Auth::user()->type == \App\User::PROFESSOR)
-                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("professorProfile")}}>Profile</a></li>
+                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url("professorProfile")}}>Главная</a></li>
                 @endif
             @endif
             <li class="nav-item"><a class="nav-header-link nav-link" href="{{Auth::check() ? url('auth/logout') : url('auth/login')}}">

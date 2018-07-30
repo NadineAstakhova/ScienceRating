@@ -4,11 +4,14 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url('profile') }}>Back</a></li>
+                <li class="breadcrumb-item"><a href={{ url('profile') }}>Главная</a></li>
                 <li class="breadcrumb-item active">Построение рейтинга</li>
             </ol>
         </nav>
         <h3 class="font-weight-normal">Выберите тип рейтинга:</h3>
+    </div>
+    <div class="row">
+        <p class="font-weight-normal">Обратите внимание, что в рейтингах учитываются только подтверждённые результаты</p>
     </div>
     <div class="row">
         <div class="col-sm-3">
@@ -39,7 +42,7 @@
                             <option value="" disabled selected>Выберите группу</option>
                         </select>
                 </div>
-                {!! Form::open(['url' => ['pdfMaster/2'], 'class'=>'form',  'method' => 'GET']) !!}
+                {!! Form::open(['url' => ['pdfMaster/2'], 'class'=>'form',  'method' => 'GET', 'target'=>"_blank"]) !!}
                 <p>Выберите студента</p>
                 <div class="form-group">
                         <select id="students" class="form-old-select form-control input" name="owner_id">
@@ -72,7 +75,7 @@
                         <option value="" disabled selected>Выберите группу</option>
                     </select>
                 </div>
-                {!! Form::open(['url' => ['pdfMaster/1'], 'class'=>'form',  'method' => 'GET']) !!}
+                {!! Form::open(['url' => ['pdfMaster/1'], 'class'=>'form',  'method' => 'GET', 'target'=>"_blank"]) !!}
 
                 <p>Выберите студента</p>
                 <div class="form-group">
@@ -89,7 +92,7 @@
 
             <div class="ranking" id="2-content" style="display: none">
                 <p>Выберите преподавателя</p>
-                {!! Form::open(['url' => ['pdfMaster/3'], 'class'=>'form',  'method' => 'GET']) !!}
+                {!! Form::open(['url' => ['pdfMaster/3'], 'class'=>'form',  'method' => 'GET', 'target'=>"_blank"]) !!}
                 <p id="error2"></p>
 
                 <table class="table table-sm">

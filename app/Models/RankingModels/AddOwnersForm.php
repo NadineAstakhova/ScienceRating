@@ -11,14 +11,56 @@ class AddOwnersForm extends Model
     public $arrOwners;
     public $arrRole;
 
-    public function addOwners(){
+    public function addEventMembers($arrOwners, $arrRole, $arrResult, $idResult, $file,  $action = null){
         $arrR = array();
-        foreach ($this->arrRole as $key=>$value){
-            if(array_key_exists($key, $this->arrOwners))
+        $arrRes = array();
+
+        foreach ($arrRole as $key=>$value){
+            if(array_key_exists($key, $arrOwners))
+                $arrR[$key] = $value;
+        }
+
+        foreach ($arrResult as $key=>$value){
+            if(array_key_exists($key, $arrOwners))
+                $arrRes[$key] = $value;
+        }
+        $files = array();
+        if(!is_array($file)){
+            foreach ($arrOwners as $key=>$value){
+                $files[$key] = $file;
+            }
+        }
+        else{
+            foreach ($file as $key=>$value){
+                if(array_key_exists($key, $arrOwners))
+                    $files[$key] = $value;
+                $fileName = $value->getClientOriginalName();
+                $path = base_path(). '/public/uploads/';
+                $value->move($path , $fileName);
+            }
+
+        }
+
+        $insertOwners = new UsersOwners();
+        if(!is_null($action) ){
+            return $insertOwners->editMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
+        }
+        else
+            return $insertOwners->setMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes, $files, 'confirmed');
+
+    }
+
+    public function addPublicationAuthor($arrOwners, $arrRole, $idResult, $action = null){
+        $arrR = array();
+        foreach ($arrRole as $key=>$value){
+            if(array_key_exists($key, $arrOwners))
                 $arrR[$key] = $value;
         }
         $insertOwners = new UsersOwners();
-        return $insertOwners->setOwnersForResult($this->idResult, $this->arrOwners, $arrR);
+        if(!is_null($action) ){
+            return $insertOwners->editAuthorsForPublication($idResult, $arrOwners, $arrR);
+        }
+        return $insertOwners->setAuthorsForPublication($idResult, $arrOwners, $arrR, 'confirmed');
     }
 
 }
