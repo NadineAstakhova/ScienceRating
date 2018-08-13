@@ -9,7 +9,7 @@ use App\Models\RankingModels\TypeOfRes;
 ?>
 @extends('layouts.main')
 @section('title', 'Create Event')
-
+<h1>Убрать копирование кода</h1>
 @section('content')
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
@@ -81,9 +81,13 @@ use App\Models\RankingModels\TypeOfRes;
 
         <br>
         <div class="form-group row">
-            {!! Form::label('date', 'Дата:', array('class' => 'col-sm-2 col-form-label')) !!}
+            <div class="col-sm-2">
+                {!! Form::label('date', 'Дата:', array('class' => 'col-form-label')) !!}
+            </div>
+
             <div class="col-sm-3">
-                <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}">
+                <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}"
+                placeholder="2012 / 31-12-2018">
             </div>
             <span id="dateT" class="col-sm-10"></span>
         </div>
@@ -138,12 +142,14 @@ use App\Models\RankingModels\TypeOfRes;
         $(document).ready(function() {
             $('#allField').change(
                 function(){
+                    const COLOR_AUTO_FILL = "#3A5FCD";
+
                     if ($(this).is(':checked')) {
                         $("#nameT").html("Поле будет заполнено автоматически");
                         $("#dateT").html("Поле будет заполнено автоматически");
                         $("#typeT").html("Поле нужно будет заполнить самостоятельно");
-                        $("#name").css("border-color", "#3A5FCD");
-                        $("#date").css("border-color", "#3A5FCD");
+                        $("#name").css("border-color", COLOR_AUTO_FILL);
+                        $("#date").css("border-color", COLOR_AUTO_FILL);
 
                     }
                     else {
@@ -156,14 +162,34 @@ use App\Models\RankingModels\TypeOfRes;
                 });
 
             $("#date").keyup(function () {
-                let reg = /^(\d{1,2})?-?(\d{1,2})?-?(\d{2,4})?$/;
+
                 //checking if these strings are dates
-                let m = $("#date").val().match(reg);
+                const data = $("#date").val();
+                // var numbers = m.match(/\d+/g);
+                // var date = new Date(m[2], m[0]-1, m[1]);
+                console.log(new Date("2018-09-20T00:00:00") );
+                let mach;
+                let res;
+                if(data.length > 4) {
+                    mach = /^(\d{2})-(\d{2})-(\d{4})$/.exec(data);
+                    res = mach !== null ? new Date(mach[3] + "-" + mach[2] + "-" + mach[1]) : null;
+                }
+                else {
+                    mach = /^(\d{4})$/.exec(data);
+                    res = mach !== null ? new Date(mach[1] + "-01-01") : null;
+                }
 
 
-                if (m === null)
-                    $("#dateT").html("Заполните поле в соответствии с шаблоном и без букв: 12-12-12, 11-10-2012, 2012").
-                    css("color", "red");
+
+                if (res === null || isNaN(res.getTime()))
+                    $("#dateT").html("Заполните поле в соответствии с шаблоном и без букв: 11-10-2012, 2012").
+                        css("color", "red");
+                else if (data.length === 4 && res.getFullYear() > new Date().getFullYear())
+                    $("#dateT").html("Год больше текущего. Вы из будущего?").
+                        css("color", "red");
+                else if (data.length > 4 && res > new Date())
+                    $("#dateT").html("Дата больше текущей. Вы из будущего?").
+                        css("color", "red");
                 else
                     $("#dateT").html("");
             });
@@ -173,11 +199,11 @@ use App\Models\RankingModels\TypeOfRes;
             $('#btn').bind("click",function()
             {
                 let imgVal = $('#file').val();
-                if(imgVal=='')
+                if(imgVal=='') // может ===
                 {
                     $("#error").html("Загрузите файл");
 
-                    return false;
+                    return false; // зачем ?
                 }
 
             });
