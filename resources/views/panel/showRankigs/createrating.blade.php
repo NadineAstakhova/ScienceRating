@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Create Ranking')
+@section('header')
+    <script src="{{asset('js/showModalWindow.js')}}"></script>
+@endsection
 @section('content')
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
