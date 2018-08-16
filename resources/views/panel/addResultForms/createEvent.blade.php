@@ -9,8 +9,8 @@ use App\Models\RankingModels\TypeOfRes;
 ?>
 @extends('layouts.main')
 @section('title', 'Create Event')
-<h1>Убрать копирование кода</h1>
 @section('content')
+
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
@@ -87,7 +87,7 @@ use App\Models\RankingModels\TypeOfRes;
 
             <div class="col-sm-3">
                 <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}"
-                placeholder="2012 / 31-12-2018">
+                data-inputmask-placeholder="31-12-2018">
             </div>
             <span id="dateT" class="col-sm-10"></span>
         </div>
@@ -125,7 +125,6 @@ use App\Models\RankingModels\TypeOfRes;
                 </div>
             </div>
 
-
         @endif
 
 
@@ -140,6 +139,7 @@ use App\Models\RankingModels\TypeOfRes;
     </div>
     <script>
         $(document).ready(function() {
+            $("#date").inputmask("dd-mm-yyyy");
             $('#allField').change(
                 function(){
                     const COLOR_AUTO_FILL = "#3A5FCD";
@@ -167,7 +167,6 @@ use App\Models\RankingModels\TypeOfRes;
                 const data = $("#date").val();
                 // var numbers = m.match(/\d+/g);
                 // var date = new Date(m[2], m[0]-1, m[1]);
-                console.log(new Date("2018-09-20T00:00:00") );
                 let mach;
                 let res;
                 if(data.length > 4) {

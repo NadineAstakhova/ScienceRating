@@ -18,6 +18,8 @@
     <script type="text/javascript" src="{{asset('js/filter.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/ratingTabs.js')}}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
+
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 </head>
 <body>
