@@ -21,6 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
 
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    @yield('header')
 </head>
 <body>
 <header>
