@@ -16,6 +16,9 @@
 ?>
 @extends('layouts.main')
 @section('title', 'Info Profile')
+@section('header')
+    <script src="{{asset('js/passConfirm.js')}}"></script>
+@endsection
 @section('content')
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
@@ -88,23 +91,5 @@
         </div>
 
     </div>
-    <script>
-        $('#passConf').keyup(function() {
-            formval();
-        });
-        $('#passNew').keyup(function() {
-            formval();
-        });
-        function formval() {
-            if($('#passNew').val() != $('#passConf').val()) {
-                $('#conf').html('Пароли не совпдают');
-                $('#btn').prop( "disabled", true );
-            }
-            else {
-                $('#conf').html('');
-                $('#btn').prop( "disabled", false );
-            }
-        }
-    </script>
 @endsection
 

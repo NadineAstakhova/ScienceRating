@@ -8,9 +8,11 @@
 use App\Models\RankingModels\TypeOfRes;
 ?>
 @extends('layouts.main')
-@section('title', 'Create Event')
-
+@section('header')
+    <script src="{{asset('js/createForm.js')}}"></script>
+@endsection
 @section('content')
+
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
@@ -32,12 +34,13 @@ use App\Models\RankingModels\TypeOfRes;
                 @endforeach
             </div>
         @endif
+
         @php
             if(Session::has('errorParse')){
                echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("errorParse")."</div>";
             }
-
         @endphp
+
         @if(Auth::user()->type == '3')
         <div class="alert alert-info" role="alert">
             Если документ общий для всех участников выберите "Использовать для всех", если нет,
@@ -51,8 +54,6 @@ use App\Models\RankingModels\TypeOfRes;
         @else
             {!! Form::open(['url' => ['createEventForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
         @endif
-
-
 
         {!! Form::label('file', 'Загрузить документ:') !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
@@ -81,9 +82,13 @@ use App\Models\RankingModels\TypeOfRes;
 
         <br>
         <div class="form-group row">
-            {!! Form::label('date', 'Дата:', array('class' => 'col-sm-2 col-form-label')) !!}
+            <div class="col-sm-2">
+                {!! Form::label('date', 'Дата:', array('class' => 'col-form-label')) !!}
+            </div>
+
             <div class="col-sm-3">
-                <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}">
+                <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}"
+                data-inputmask-placeholder="31-12-2018">
             </div>
             <span id="dateT" class="col-sm-10"></span>
         </div>
@@ -121,9 +126,7 @@ use App\Models\RankingModels\TypeOfRes;
                 </div>
             </div>
 
-
         @endif
-
 
         {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
 
@@ -132,57 +135,5 @@ use App\Models\RankingModels\TypeOfRes;
 
         {!! Form::close() !!}
 
-
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#allField').change(
-                function(){
-                    if ($(this).is(':checked')) {
-                        $("#nameT").html("Поле будет заполнено автоматически");
-                        $("#dateT").html("Поле будет заполнено автоматически");
-                        $("#typeT").html("Поле нужно будет заполнить самостоятельно");
-                        $("#name").css("border-color", "#3A5FCD");
-                        $("#date").css("border-color", "#3A5FCD");
-
-                    }
-                    else {
-                        $("#nameT").html("");
-                        $("#dateT").html("");
-                        $("#typeT").html("");
-                        $("#name").css("border-color", "#ccc");
-                        $("#date").css("border-color", "#ccc");
-                    }
-                });
-
-            $("#date").keyup(function () {
-                let reg = /^(\d{1,2})?-?(\d{1,2})?-?(\d{2,4})?$/;
-                //checking if these strings are dates
-                let m = $("#date").val().match(reg);
-
-
-                if (m === null)
-                    $("#dateT").html("Заполните поле в соответствии с шаблоном и без букв: 12-12-12, 11-10-2012, 2012").
-                    css("color", "red");
-                else
-                    $("#dateT").html("");
-            });
-
-
-
-            $('#btn').bind("click",function()
-            {
-                let imgVal = $('#file').val();
-                if(imgVal=='')
-                {
-                    $("#error").html("Загрузите файл");
-
-                    return false;
-                }
-
-            });
-        });
-
-    </script>
-
 @endsection
