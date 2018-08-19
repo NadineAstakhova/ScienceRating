@@ -84,8 +84,17 @@ class CertificatPdfParse extends Parser
            return 0;
     }
 
-    public function serachTitle(){
+    public function searchTitle(){
         $arr = explode("\n", $this->content, -1);
         return $arr[0];
+    }
+
+    public function getCountOfPage(){
+        try {
+            $count = count($this->pdf->getPages());
+        } catch (\Exception $e) {
+            return 0;
+        }
+        return $count;
     }
 }

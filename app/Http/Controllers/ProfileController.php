@@ -97,7 +97,8 @@ class ProfileController extends Controller
            //searching our users in text
            $users = $parseFile->searchUserAtPdf();
            $searchDate = $parseFile->searchDate();
-           $searchTitle = $parseFile->serachTitle();
+           $searchTitle = $parseFile->searchTitle();
+           $countOfPage = $parseFile->getCountOfPage();
 
            if(is_null($idUser))
                 return view('panel/addResultForms/createPublication',
@@ -107,6 +108,7 @@ class ProfileController extends Controller
                         'users' => $users,
                         'date' => $searchDate,
                         'searchTitle' => $searchTitle,
+                        'countOfPage' => $countOfPage
                     ));
            else
                return view('panel/addResultForms/createPublication',
@@ -201,7 +203,7 @@ class ProfileController extends Controller
                 //searching our users in text
                 $users = $parseFile->searchUserAtPdf();
                 $searchDate = $parseFile->searchDate();
-                $searchTitle = $parseFile->serachTitle();
+                $searchTitle = $parseFile->searchTitle();
                 if (is_null($idUser))
                     return view('panel/addResultForms/createEvent',
                         array('title' => 'createRes', 'description' => '',

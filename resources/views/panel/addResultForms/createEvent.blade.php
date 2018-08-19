@@ -95,7 +95,7 @@ use App\Models\RankingModels\TypeOfRes;
         <br>
         @if(isset($pdfText))
             {!! Form::label('pdfText', 'Содержание файла:') !!}
-            {!! Form::textArea('pdfText', $pdfText, ['class' => 'form-control', 'style' => 'width:100%']) !!}
+            <textarea name="description" id="pdfText" class="form-control" rows="5">"{{$pdfText}}"</textarea>
             <br> <br>
             <div class="alert alert-info" role="alert">
                 <p>Удалось определить таких студентов/преподавателей. На следующей странице вы можете изменить эту информацию</p>
