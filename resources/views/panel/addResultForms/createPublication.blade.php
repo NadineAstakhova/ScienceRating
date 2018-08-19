@@ -78,20 +78,22 @@
                 <input type="text" id="publishing" class="form-control"
                        name="publishing" >
             </div>
+            <span id="publishingT" class="col-sm-10"></span>
 
         </div>
         <div class="form-group row">
             {!! Form::label('pages', 'Количество страниц:', array('class' => 'col-sm-2 col-form-label')) !!}
             <div class="col-sm-3">
-                <input type="number" id="pages" class="form-control" name="pages" >
+                <input type="number" id="pages" class="form-control" name="pages" value="{{isset($pdfText) && $countOfPage ? $countOfPage : ''}}">
             </div>
+            <span id="pagesT" class="col-sm-10"></span>
 
         </div>
 
         <br>
         @if(isset($pdfText))
             {!! Form::label('pdfText', 'Содержание файла:') !!}
-            {!! Form::textArea('pdfText', $pdfText, ['class' => 'form-control', 'style' => 'width:100%']) !!}
+            <textarea name="description" id="pdfText" class="form-control" rows="5">"{{$pdfText}}"</textarea>
             <br> <br>
             <div class="alert alert-info" role="alert">
                 <p>Удалось определить таких студентов/преподавателей. На следующей странице вы можете изменить эту информацию</p>

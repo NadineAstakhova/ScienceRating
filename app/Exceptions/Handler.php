@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +45,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof TokenMismatchException) {
+            $uri = \Route::current()->uri();
+            if($uri == "login") {
+                return redirect()->route('auth/login')
+                    ->withErrors("Login Form was open too long. 
+                                           Please try to login again");
+            }
+        }
         return parent::render($request, $exception);
     }
 

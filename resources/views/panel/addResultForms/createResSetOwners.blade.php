@@ -19,21 +19,27 @@
 
         <h3 class="font-weight-normal">Выберите участника/ов</h3>
         <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
             @php
                 if(Session::has('fileNameAll')){
                    echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("fileNameAll")."</div>";
                 }
 
+            @endphp
+
+            @php
+                if(Session::has('errorParse')){
+                   echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("errorParse")."</div>";
+                }
             @endphp
 
 
