@@ -30,6 +30,9 @@ class AddOwnersFormRequest extends FormRequest
         if(count($this->request->get('arrRole')) == 0){
             $rules['arrRole.0'] = 'required';
         }
+
+        $rules['arrFiles.*']= 'mimes:pdf,doc,docx,rar,zip';
+
         return $rules;
     }
 
@@ -42,8 +45,9 @@ class AddOwnersFormRequest extends FormRequest
     {
         $messages = [];
 
-        $messages['arrOwners.required'] = 'A field is required';
-        $messages['arrRole.required'] = 'A field is required';
+        $messages['arrOwners.*.required'] = 'Укажите пользователей';
+        $messages['arrRole.*.required'] = 'Укажите роли пользователей';
+        $messages['arrFiles.*.mimes'] = 'Не верный тип файла';
 
         return $messages;
     }

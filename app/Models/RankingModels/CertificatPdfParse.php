@@ -18,8 +18,9 @@ class CertificatPdfParse extends Parser
     public function __construct($file, $attributes = [])
     {
         $this->parser = new \Smalot\PdfParser\Parser();
+        $this->pdf = $this->parser->parseFile($file);
         try {
-            $this->pdf = $this->parser->parseFile($file);
+
             $this->content = $this->pdf->getText();
         }
         catch (\Exception $e) {
@@ -36,6 +37,7 @@ class CertificatPdfParse extends Parser
     }
 
     public function getContent(){
+
         return $this->content;
     }
 

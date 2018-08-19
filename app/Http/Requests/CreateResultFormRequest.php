@@ -36,7 +36,7 @@ class CreateResultFormRequest extends FormRequest
     {
         return [
             'name.required_without' => 'При ручном вводе данных поле Название обязательное',
-            'file.required' => 'A file is required',
+            'file.required' => 'Поле является обязательным',
             'file.mimes' => 'Не верный тип файла',
             'date.required_without' => 'При ручном вводе данных поле Дата обязательное',
         ];

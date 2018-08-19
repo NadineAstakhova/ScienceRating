@@ -56,10 +56,17 @@ $(document).ready(function() {
     $('#btn').bind("click",function()
     {
         let imgVal = $('#file').val();
+        var allowedExtensions = /(\.rar|\.docx|\.doc|\.pdf|\.zip)$/i;
+        var allowedExtensionsAuto = /(\.pdf)$/i;
+
+        if(!allowedExtensions.exec(imgVal) || (!allowedExtensionsAuto.exec(imgVal) && $('#allField').is(':checked'))){
+            $("#error").html("Не верный тип файла");
+            return false;
+        }
+
         if(imgVal === '')
         {
             $("#error").html("Загрузите файл");
-
             return false;
         }
 

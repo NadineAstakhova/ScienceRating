@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 
 class ProfileController extends Controller
@@ -83,14 +84,13 @@ class ProfileController extends Controller
         $file =  $request->file('file');
         $fkType =  $request->get('type');
 
-
         $parsePDF = $request->get('allField');
 
         //if automatic document parsing is selected
         if(!is_null($parsePDF)){
            //parse file
            $parseFile = new CertificatPdfParse($file);
-           $content = $parseFile->getContent();
+           $content =  $parseFile->getContent();
            if ($content == '0')
                return  redirect()->back()->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
 
@@ -134,7 +134,7 @@ class ProfileController extends Controller
             }
         }
         else
-           return 0;
+            return redirect('profile')->with('error', 'Ошибка записи');
     }
 
     public function createResultOwner($idRes){
@@ -173,66 +173,75 @@ class ProfileController extends Controller
 
     public function createEventForm($idUser = null, CreateResultFormRequest $request){
         //get data from request
-        $model = new CreateResult();
+        try {
+            $model = new CreateResult();
 
-        $title = $request->get('name');
-        $date =  $request->get('date');
-        $file =  $request->file('file');
-        $fkType =  $request->get('type');
-        $forAllUser = $request->get('forAllUser');
+            $title = $request->get('name');
+            $date = $request->get('date');
+            $file = $request->file('file');
+            $fkType = $request->get('type');
+            $forAllUser = $request->get('forAllUser');
 
+            $parsePDF = $request->get('allField');
+            //$ext = pathinfo($file->);
 
-        $parsePDF = $request->get('allField');
+            //if automatic document parsing is selected
+            if (!is_null($parsePDF)) {
 
+                //     var_dump($file->clientExtension());
+                //parse file
+                $parseFile = new CertificatPdfParse($file);
+                if (is_null($parseFile))
+                    return redirect()->back()->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
 
-        //if automatic document parsing is selected
-        if(!is_null($parsePDF)){
-            //parse file
-            $parseFile = new CertificatPdfParse($file);
-            $content = $parseFile->getContent();
-            if ($content == '0')
-                return redirect()->back()->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
+                $content = $parseFile->getContent();
+                if ($content == '0')
+                    return redirect()->back()->with('errorParse', 'Что-то не так с вашим файлом. Мы не можем его распознать');
 
-            //searching our users in text
-            $users = $parseFile->searchUserAtPdf();
-            $searchDate = $parseFile->searchDate();
-            $searchTitle = $parseFile->serachTitle();
-            if(is_null($idUser))
-                return view('panel/addResultForms/createEvent',
-                    array('title' => 'createRes','description' => '',
-                        'page' => 'createRes', 'arrType' =>  TypeOfRes::getEventTypes(),
-                        'pdfText' => $content,
-                        'users' => $users,
-                        'date' => $searchDate,
-                        'searchTitle' => $searchTitle,
-                    ));
-            else
-                return view('panel/addResultForms/createEvent',
-                    array('title' => 'createRes','description' => '',
-                        'page' => 'createRes', 'arrType' =>  TypeOfRes::getEventTypes(),
-                        'pdfText' => $content,
-                        'users' => $users,
-                        'date' => $searchDate,
-                        'searchTitle' => $searchTitle,
-                        'idUser' => $idUser
-                    ));
-        }
+                //searching our users in text
+                $users = $parseFile->searchUserAtPdf();
+                $searchDate = $parseFile->searchDate();
+                $searchTitle = $parseFile->serachTitle();
+                if (is_null($idUser))
+                    return view('panel/addResultForms/createEvent',
+                        array('title' => 'createRes', 'description' => '',
+                            'page' => 'createRes', 'arrType' => TypeOfRes::getEventTypes(),
+                            'pdfText' => $content,
+                            'users' => $users,
+                            'date' => $searchDate,
+                            'searchTitle' => $searchTitle,
+                        ));
+                else
+                    return view('panel/addResultForms/createEvent',
+                        array('title' => 'createRes', 'description' => '',
+                            'page' => 'createRes', 'arrType' => TypeOfRes::getEventTypes(),
+                            'pdfText' => $content,
+                            'users' => $users,
+                            'date' => $searchDate,
+                            'searchTitle' => $searchTitle,
+                            'idUser' => $idUser
+                        ));
 
-        if ($model->createEvent($title,  $date, $file, $fkType, $forAllUser)){
-            $last_id = DB::getPdo()->lastInsertId();
-            if(is_null($idUser))
-                return redirect('addEventAuthor/'.$last_id)->with('owners', $request->get('owners'));
-            else{
-                $model->addOneMemberToEvent($idUser, $last_id, $file, $request->get('result'), $request->get('role'));
-                if(Auth::user()->type == '1')
-                    return redirect('professorProfile')->with('save', 'Научный результат успешно добавлен');
-                if(Auth::user()->type == '2')
-                    return redirect('studentProfile')->with('save', 'Научный результат успешно добавлен');
             }
+            if ($model->createEvent($title, $date, $file, $fkType, $forAllUser)) {
+                $last_id = DB::getPdo()->lastInsertId();
+                if (is_null($idUser))
+                    return redirect('addEventAuthor/' . $last_id)->with('owners', $request->get('owners'));
+                else {
+                    $model->addOneMemberToEvent($idUser, $last_id, $file, $request->get('result'), $request->get('role'));
+                    if (Auth::user()->type == '1')
+                        return redirect('professorProfile')->with('save', 'Научный результат успешно добавлен');
+                    if (Auth::user()->type == '2')
+                        return redirect('studentProfile')->with('save', 'Научный результат успешно добавлен');
+                }
+
+            } else
+                return redirect('profile')->with('error', 'Ошибка записи');
+        }
+        catch(\Exception $e){
+            return redirect('profile')->with('error', 'Ошибка записи');
 
         }
-        else
-            return redirect('profile')->with('error', 'Ошибка записи');
     }
 
     public function memberOfEventPage($idRes){
@@ -259,12 +268,18 @@ class ProfileController extends Controller
         }
         else
             $file =  $request->file('arrFiles');
-        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'),
-            $request->get('arrResults'), $idResult, $file)){
-            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+        try{
+            if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'),
+                $request->get('arrResults'), $idResult, $file)){
+                return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+            }
+            else
+                return redirect('profile')->with('error', 'Ошибка записи');
         }
-        else
-            return redirect('profile')->with('error', 'Ошибка записи');
+        catch (\Exception $e){
+            return redirect()->back()->with('errorParse', 'Загрузите файл/ы');
+        }
+
     }
 
 
