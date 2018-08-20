@@ -142,6 +142,6 @@ Route::post('/editPercent', 'ProfileController@editPercentToUser')->middleware('
 Route::post('/editResult', 'ProfileController@editResultToUser')->middleware('auth');
 Route::post('/editRole', 'ProfileController@editRoleToUser')->middleware('auth');
 
-
+Route::get('/admin','AdminController@index')->middleware('auth');
 
 Auth::routes();

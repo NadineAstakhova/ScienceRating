@@ -31,6 +31,10 @@ class Controller extends BaseController
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
             return redirect()->intended('studentProfile');
         }
+        elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::SUPER__ADMIN])) {
+            // if ($this->getUser($request->get('email'),$request->get('password'))) {
+            return redirect()->intended('admin');
+        }
 
         else {
             return redirect()->back()->withInput()->with('message', 'Ошибка входа! Возможно email и/или пароль не верны');
