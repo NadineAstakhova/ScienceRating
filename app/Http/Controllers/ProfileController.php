@@ -347,6 +347,11 @@ class ProfileController extends Controller
                 array('title' => 'infoProfileMethodist','description' => '',
                     'page' => 'infoProfileMethodist', 'user' =>   Auth::user()));
         }
+        if(Auth::user()->type == '4'){
+            return view('adminPanel/infoProfileAdmin',
+                array('title' => 'infoProfileAdmin','description' => '',
+                    'page' => 'infoProfileAdmin', 'user' =>   Auth::user()));
+        }
 
     }
 

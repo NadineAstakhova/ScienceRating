@@ -143,5 +143,7 @@ Route::post('/editResult', 'ProfileController@editResultToUser')->middleware('au
 Route::post('/editRole', 'ProfileController@editRoleToUser')->middleware('auth');
 
 Route::get('/admin','AdminController@index')->middleware('auth');
+Route::get('/infoAdminMethodist','ProfileController@infoProfile')->middleware('auth');
+Route::post('/editAdminInfo', 'AdminController@updateAdminPassForm')->middleware('auth');
 
 Auth::routes();
