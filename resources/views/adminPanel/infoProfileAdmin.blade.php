@@ -44,7 +44,7 @@
             <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">Cancel</a>
 
             {!! Form::close() !!}
-            
+
             </div>
         </div>
 

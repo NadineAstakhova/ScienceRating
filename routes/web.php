@@ -146,4 +146,7 @@ Route::get('/admin','AdminController@index')->middleware('auth');
 Route::get('/infoAdminMethodist','ProfileController@infoProfile')->middleware('auth');
 Route::post('/editAdminInfo', 'AdminController@updateAdminPassForm')->middleware('auth');
 
+Route::get('/createMethodistPage','AdminController@createMethodistPage')->middleware('auth');
+Route::post('/createMethodistForm', 'AdminController@createMethodistForm')->middleware('auth');
+
 Auth::routes();

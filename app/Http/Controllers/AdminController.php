@@ -39,4 +39,13 @@ class AdminController extends Controller
         }
 
     }
+
+    public function createMethodistPage(){
+            return view('adminPanel/users/createMethodist',
+                array());
+    }
+
+    public function createMethodistForm(Request $request){
+        //with email send
+    }
 }
