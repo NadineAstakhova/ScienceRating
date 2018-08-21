@@ -29,9 +29,14 @@
     <a href="{{Auth::check() ?
                        ((Auth::user()->type == \App\User::METHODIST) ?
                              url('profile') :
-                             ((Auth::user()->type == \App\User::PROFESSOR) ?
-                                  url('professorProfile') :
-                                  url('studentProfile')
+                             (
+                                (Auth::user()->type == \App\User::SUPER__ADMIN) ?
+                                    url('admin') :
+                                    (
+                                        (Auth::user()->type == \App\User::PROFESSOR) ?
+                                          url('professorProfile') :
+                                          url('studentProfile')
+                                    )
                              )
                        )
                        : url('auth/login')}}" class="navbar-brand">

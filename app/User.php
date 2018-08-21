@@ -14,6 +14,7 @@ class User extends Authenticatable
     const PROFESSOR = '1';
     const STUDENT = '2';
     const METHODIST = '3';
+    const SUPER__ADMIN = '4';
 
 
 
