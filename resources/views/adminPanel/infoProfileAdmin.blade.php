@@ -1,53 +1,63 @@
-@extends('layouts.main')
-@section('title', 'Info Profile')
+@extends('layouts.adminMain')
+@section('title', 'Профайл')
 @section('header')
     <script src="{{asset('js/passConfirm.js')}}"></script>
 @endsection
 @section('content')
-    <div class="row">
-        <nav aria-label="breadcrumb" style="width: 100%;">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url()->previous() }}>Главная</a></li>
-                <li class="breadcrumb-item active">Анкета</li>
-            </ol>
-        </nav>
-    </div>
-    <div class="row my-2">
-        <div class="col-lg-9">
-
-            {!! Form::open(['url' => ['editAdminInfo'], 'class'=>'form']) !!}
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label form-control-label">Email:</label>
-                <div class="col-lg-9">
-                    <input class="form-control" type="email" value="{{$user->email}}"
-                           name="email" oninvalid="this.setCustomValidity('Это неверный формат Email')"
-                           oninput="setCustomValidity('')">
-                </div>
+    <div class="app-content content container-fluid">
+        <div class="content-wrapper">
+            <div class="content-header row">
             </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label form-control-label">Новый пароль:</label>
-                <div class="col-lg-9">
-                    {!! Form::password('new_password',
-                        ['class' => 'form-control', 'id' => 'passNew', 'minlength' => 6]) !!}
+            <div class="content-body">
+                <div class="row match-height">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title" id="basic-layout-form-center">Редактирование профиля</h4>
+                                <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                            </div>
+                            <div class="card-body collapse in">
+                                <div class="card-block">
+                                    {!! Form::open(['url' => ['editAdminInfo'], 'class'=>'form']) !!}
+                                    <div class="row">
+                                        <div class="col-md-6 offset-md-3">
+                                            <div class="form-body">
+                                                <div class="form-group">
+                                                    {!! Form::label('email', 'Почта') !!}
+                                                    <input class="form-control" type="email" value="{{$user->email}}"
+                                                           name="email" oninvalid="this.setCustomValidity('Это неверный формат Email')"
+                                                           oninput="setCustomValidity('')">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Новый пароль:</label>
+                                                        {!! Form::password('new_password',
+                                                            ['class' => 'form-control', 'id' => 'passNew', 'minlength' => 6]) !!}
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Повторите пароль:</label>
+                                                        {!! Form::password('password_confirm',
+                                                            ['class' => 'form-control', 'id' => 'passConf',  'minlength' => 6]) !!}
+                                                        <span class="error" id="conf"></span>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions center">
+                                        {!! Form::submit('Save', ['class' => 'btn btn-primary', 'id' => 'btn']) !!}
+                                        <a class="btn btn-blue-grey mr-1" href="{{ url()->previous() }}">Cancel</a>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label form-control-label">Повторите пароль:</label>
-                <div class="col-lg-9">
-                    {!! Form::password('password_confirm',
-                        ['class' => 'form-control', 'id' => 'passConf',  'minlength' => 6]) !!}
-                    <span class="error" id="conf"></span>
-                </div>
-            </div>
-
-            {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
-            <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">Cancel</a>
-
-            {!! Form::close() !!}
-
             </div>
         </div>
-
     </div>
 @endsection
 
