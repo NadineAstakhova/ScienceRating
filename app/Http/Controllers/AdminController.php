@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminPanel\CreateMethodistForm;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
@@ -47,5 +48,14 @@ class AdminController extends Controller
 
     public function createMethodistForm(Request $request){
         //with email send
+        $model = new CreateMethodistForm();
+        $username = $request->get('username');
+        $email =  $request->get('email');
+        $password =  $request->get('password');
+        if ($model->createMethodist($username, $email, $password)){
+            return redirect('admin');
+        }
+        else
+            return redirect('admin')->with('error', 'Ошибка записи');
     }
 }

@@ -15,7 +15,7 @@
                             </div>
                             <div class="card-body collapse in">
                                 <div class="card-block">
-                                    {!! Form::open(['url' => ['createMethodistForm'], 'class'=>'form', 'files'=>'true']) !!}
+                                    {!! Form::open(['url' => ['createMethodistForm'], 'class'=>'form']) !!}
                                     <div class="row">
                                         <div class="col-md-6 offset-md-3">
                                             <div class="form-body">
@@ -33,7 +33,7 @@
 
                                                 <div class="form-group">
                                                     {!! Form::label('password', 'Пароль') !!}
-                                                    <input type="text" id="password" class="form-control"
+                                                    <input type="password" id="password" class="form-control"
                                                            placeholder="password" name="password">
                                                 </div>
 
