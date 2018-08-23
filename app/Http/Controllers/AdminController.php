@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AdminPanel\CreateMethodistForm;
+use App\Models\AdminPanel\CreateUserForm;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     public function index() {
-    //TODO design
         return view('adminPanel/dashboard-lite',
             array('title' => 'profile','description' => '',
                 'page' => 'profile'));
@@ -42,13 +41,12 @@ class AdminController extends Controller
     }
 
     public function createMethodistPage(){
-            return view('adminPanel/users/createMethodist',
-                array());
+            return view('adminPanel/users/methodist/createMethodist');
     }
 
     public function createMethodistForm(Request $request){
         //with email send
-        $model = new CreateMethodistForm();
+        $model = new CreateUserForm();
         $username = $request->get('username');
         $email =  $request->get('email');
         $password =  $request->get('password');
@@ -57,5 +55,12 @@ class AdminController extends Controller
         }
         else
             return redirect('admin')->with('error', 'Ошибка записи');
+    }
+
+    public function methodistList(){
+        return view('adminPanel/users/methodist/listMethodist',
+            array(
+                'methodists' => User::all()->where('type', User::METHODIST),
+            ));
     }
 }

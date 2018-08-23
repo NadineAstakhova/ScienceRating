@@ -64,4 +64,14 @@ class User extends Authenticatable
             return false;
     }
 
+    public function createMethodist($username, $email, $password){
+        $insert = DB::table('users')->insert([
+            ['username' => $username, 'email' => $email, 'password' => bcrypt($password), 'type' => self::METHODIST]
+        ]);
+        if ($insert)
+            return true;
+        else
+            return false;
+    }
+
 }

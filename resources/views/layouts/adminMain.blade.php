@@ -99,7 +99,7 @@
                 </a>
                 <ul class="menu-content">
                     <li>
-                        <a href="layout-1-column.html" data-i18n="nav.page_layouts.1_column" class="menu-item">
+                        <a href="{{url("methodistList")}}" data-i18n="nav.page_layouts.1_column" class="menu-item">
                             <i class="icon-list"></i>
                             <span data-i18n="nav.project.main" class="menu-title">Список</span>
                         </a>
