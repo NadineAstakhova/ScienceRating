@@ -151,4 +151,11 @@ Route::post('/createMethodistForm', 'AdminController@createMethodistForm')->midd
 
 Route::get('/methodistList','AdminController@methodistList')->middleware('auth');
 
+
+Route::get('/professorList','AdminController@professorList')->middleware('auth');
+
+Route::get('/createProfessorPage','AdminController@createProfessorPage')->middleware('auth');
+Route::post('/createProfessorForm', 'AdminController@createProfessorForm')->middleware('auth');
+
+
 Auth::routes();

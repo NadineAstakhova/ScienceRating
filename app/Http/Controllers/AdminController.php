@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdminPanel\CreateUserForm;
+use App\Models\UsersOwners;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
@@ -62,5 +63,32 @@ class AdminController extends Controller
             array(
                 'methodists' => User::all()->where('type', User::METHODIST),
             ));
+    }
+
+    public function professorList(){
+        return view('adminPanel/users/professors/listProfessors',
+            array(
+                'professors' => UsersOwners::getProf(),
+            ));
+    }
+
+    public function createProfessorPage(){
+        return view('adminPanel/users/professors/createProfessor');
+    }
+
+    public function createProfessorForm(Request $request){
+        //with email send
+        $model = new CreateUserForm();
+        $username = $request->get('username');
+        $email =  $request->get('email');
+        $password =  $request->get('password');
+        $surname =  $request->get('surname');
+        $name =  $request->get('name');
+        $patronymic =  $request->get('patronymic');
+        if ($model->createProfessor($username, $email, $password, $name, $surname, $patronymic)){
+            return redirect('admin');
+        }
+        else
+            return redirect('admin')->with('error', 'Ошибка записи');
     }
 }

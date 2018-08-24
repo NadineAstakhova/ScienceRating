@@ -121,13 +121,13 @@
                 </a>
                 <ul class="menu-content">
                     <li>
-                        <a href="layout-1-column.html" data-i18n="nav.page_layouts.1_column" class="menu-item">
+                        <a href="{{url("professorList")}}" data-i18n="nav.page_layouts.1_column" class="menu-item">
                             <i class="icon-list"></i>
                             <span data-i18n="nav.project.main" class="menu-title">Список</span>
                         </a>
                     </li>
                     <li>
-                        <a href="layout-2-columns.html" data-i18n="nav.page_layouts.2_columns" class="menu-item">
+                        <a href="{{url("createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
                             <i class="icon-user-plus"></i>
                             <span data-i18n="nav.project.main" class="menu-title">Создание</span>
                         </a>

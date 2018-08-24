@@ -3,6 +3,7 @@
 namespace App\Models\UsersModels;
 
 use App\Models\BaseModel;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -39,6 +40,19 @@ class Professor extends BaseModel
             ->update(['email' => $email]);
         if($update)
             return true;
+        else
+            return false;
+    }
+
+    public function createProfessor($username, $email, $password, $name, $surname, $patronymic){
+        $user = new User();
+        if ($user->createUser($username, $email, $password, User::PROFESSOR)){
+            $last_id = DB::getPdo()->lastInsertId();
+            $insert = DB::table('professor')->insert([
+                ['name' => $name, 'surname' => $surname, 'patronymic' =>$patronymic, 'type_user' => $last_id]
+            ]);
+            return $insert;
+        }
         else
             return false;
     }
