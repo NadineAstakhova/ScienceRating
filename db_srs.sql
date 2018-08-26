@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 01 2018 г., 22:33
+-- Время создания: Авг 26 2018 г., 19:34
 -- Версия сервера: 5.6.37
 -- Версия PHP: 5.6.31
 
@@ -33,15 +33,6 @@ CREATE TABLE `access` (
   `type` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `access`
---
-
-INSERT INTO `access` (`idAccess`, `type`) VALUES
-(1, 'Professor'),
-(2, 'Student'),
-(3, 'Methodist');
-
 -- --------------------------------------------------------
 
 --
@@ -55,13 +46,6 @@ CREATE TABLE `authors_of_publication` (
   `percent_of_writing` int(10) NOT NULL DEFAULT '100',
   `status` enum('new','confirmed','unconfirmed') NOT NULL DEFAULT 'new'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `authors_of_publication`
---
-
-INSERT INTO `authors_of_publication` (`idPubAuthor`, `fk_user`, `fk_pub`, `percent_of_writing`, `status`) VALUES
-(1, 15, 1, 100, 'confirmed');
 
 -- --------------------------------------------------------
 
@@ -78,38 +62,6 @@ CREATE TABLE `event_in_ranking` (
   `code` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `event_in_ranking`
---
-
-INSERT INTO `event_in_ranking` (`idRankEvent`, `fk_rank_type`, `fk_event_type`, `fk_result_type`, `mark`, `code`) VALUES
-(1, 1, 1, 6, 30, 'ДБ2'),
-(2, 1, 2, 1, 15, 'ДБ3'),
-(3, 1, 2, 2, 10, 'ДБ3'),
-(4, 1, 2, 3, 5, 'ДБ3'),
-(5, 1, 3, 1, 20, 'ДБ4'),
-(6, 1, 3, 2, 15, 'ДБ4'),
-(7, 1, 3, 3, 10, 'ДБ4'),
-(8, 1, 6, 6, 5, 'ДБ12'),
-(9, 1, 4, 6, 10, 'ДБ10'),
-(10, 1, 5, 6, 15, 'ДБ11'),
-(11, 1, 7, 6, 2, 'ДБ13'),
-(12, 1, 8, 6, 5, 'ДБ15'),
-(13, 1, 9, 6, 10, 'ДБ16'),
-(14, 1, 10, 6, 5, NULL),
-(15, 2, 1, 1, 20, 'ДБ1'),
-(16, 2, 2, 1, 15, 'ДБ2'),
-(17, 2, 11, 6, 2, 'ДБ6'),
-(18, 2, 4, 6, 1, 'ДБ7'),
-(19, 2, 6, 6, 1, 'ДБ7'),
-(20, 2, 12, 6, 2, 'ДБ6'),
-(21, 2, 13, 6, 10, 'ДБ2'),
-(22, 3, 14, 6, 2, NULL),
-(23, 3, 15, 7, 0, NULL),
-(24, 3, 15, 8, 0, NULL),
-(25, 3, 16, 7, 1, NULL),
-(26, 3, 16, 8, 0, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -123,19 +75,6 @@ CREATE TABLE `group` (
   `full_name` varchar(255) DEFAULT NULL,
   `year` enum('1','2','3','4','5','6') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `group`
---
-
-INSERT INTO `group` (`idgroup`, `name`, `status_group`, `full_name`, `year`) VALUES
-(26, 'ИИТ-2017', 'unlock', '122 \"КНиИТ\" - магистры', '1'),
-(28, '2014-КН-Б', 'unlock', '6.050101 \"КН\" - тестировщики', '4'),
-(30, '2014-КН-А', 'unlock', '6.050101 \"КН\" - программисты', '4'),
-(31, '2014-КН-В', 'unlock', '6.050101 \"КН\" - дизайнеры', '4'),
-(32, '2015-КН-А', 'unlock', '6.050101 \"КН\" - программисты', '3'),
-(33, '2015-КН-Б', 'unlock', '6.050101 \"КН\" - тестировщики', '3'),
-(35, '2015-КН-В', 'unlock', '6.050101 \"КН\" - дизайнеры', '3');
 
 -- --------------------------------------------------------
 
@@ -200,14 +139,6 @@ CREATE TABLE `members_of_event` (
   `status` enum('new','confirmed','unconfirmed') NOT NULL DEFAULT 'new'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `members_of_event`
---
-
-INSERT INTO `members_of_event` (`idMember`, `fk_member`, `fk_event`, `fk_res`, `fk_role`, `file`, `status`) VALUES
-(1, 15, 1, 1, 1, 'jkhk', 'confirmed'),
-(2, 15, 2, 1, 1, 'kj;', 'confirmed');
-
 -- --------------------------------------------------------
 
 --
@@ -245,24 +176,6 @@ CREATE TABLE `professor` (
   `surname_en` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `professor`
---
-
-INSERT INTO `professor` (`id`, `name`, `patronymic`, `surname`, `phone`, `skype`, `status`, `type_user`, `surname_ukr`, `name_ukr`, `patronymic_ukr`, `name_en`, `surname_en`) VALUES
-(1, 'Денис', 'Геннадиевич', 'Богуто', NULL, NULL, 0, 4, NULL, NULL, NULL, NULL, NULL),
-(2, 'Георгий', 'Борисович', 'Галич', NULL, NULL, 0, 5, NULL, NULL, NULL, NULL, NULL),
-(3, 'Марина', 'Александровна', 'Епик', NULL, NULL, 0, 6, NULL, NULL, NULL, NULL, NULL),
-(4, 'Кирилл', 'Константинович', 'Кадомский', NULL, NULL, 0, 7, NULL, NULL, NULL, NULL, NULL),
-(5, 'Николай', 'Владимирович', 'Крачковский', NULL, NULL, 0, 8, NULL, NULL, NULL, NULL, NULL),
-(6, 'Наталья', 'Артуровна', 'Мацецка', NULL, NULL, 0, 9, NULL, NULL, NULL, NULL, NULL),
-(7, 'Петр', 'Карпович', 'Николюк', NULL, NULL, 0, 10, NULL, NULL, NULL, NULL, NULL),
-(8, 'Антон', 'Иванович', 'Парамонов', NULL, NULL, 0, 11, NULL, NULL, NULL, NULL, NULL),
-(9, 'Олег', 'Сергеевич', 'Тимчук', NULL, NULL, 0, 12, NULL, NULL, NULL, NULL, NULL),
-(10, 'Ирина', 'Владимировна', 'Украинец', NULL, NULL, 0, 13, NULL, NULL, NULL, NULL, NULL),
-(11, 'Ярослав', 'Олегович', 'Шмырев', NULL, NULL, 0, 14, NULL, NULL, NULL, NULL, NULL),
-(12, 'Альбус', NULL, 'Дамблдор', NULL, NULL, 0, 1, 'Дамблдор', 'Альбус', NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -273,57 +186,9 @@ CREATE TABLE `publication_in_ranking` (
   `idPubRank` int(10) UNSIGNED NOT NULL,
   `fk_rank_type` int(10) UNSIGNED NOT NULL,
   `fk_type_pub` int(10) UNSIGNED NOT NULL,
-  `mark` int(10) NOT NULL,
+  `mark` float(5,2) NOT NULL,
   `code` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `publication_in_ranking`
---
-
-INSERT INTO `publication_in_ranking` (`idPubRank`, `fk_rank_type`, `fk_type_pub`, `mark`, `code`) VALUES
-(1, 1, 5, 30, 'ДБ6'),
-(2, 1, 6, 5, 'ДБ8'),
-(3, 1, 7, 25, 'ДБ9'),
-(4, 1, 8, 30, 'ДБ14'),
-(5, 2, 1, 6, 'ДБ4'),
-(6, 2, 2, 6, 'ДБ4'),
-(7, 2, 8, 6, 'ДБ4'),
-(8, 2, 3, 3, 'ДБ5'),
-(9, 3, 9, 4, NULL),
-(10, 3, 10, 2, NULL),
-(11, 3, 11, 0, NULL),
-(12, 3, 12, 0, NULL),
-(13, 3, 13, 0, NULL),
-(14, 3, 14, 0, NULL),
-(15, 3, 15, 0, NULL),
-(16, 3, 16, 3, NULL),
-(17, 3, 17, 2, NULL),
-(18, 3, 18, 2, NULL),
-(19, 3, 19, 1, NULL),
-(20, 3, 20, 0, NULL),
-(21, 3, 21, 0, NULL),
-(22, 3, 22, 0, NULL),
-(23, 3, 23, 0, NULL),
-(24, 3, 24, 0, NULL),
-(25, 3, 25, 0, NULL),
-(26, 3, 26, 0, NULL),
-(27, 3, 27, 0, NULL),
-(28, 3, 28, 0, NULL),
-(29, 3, 29, 0, NULL),
-(30, 3, 30, 0, NULL),
-(31, 3, 31, 0, NULL),
-(32, 3, 32, 0, NULL),
-(33, 3, 33, 0, NULL),
-(34, 3, 34, 0, NULL),
-(35, 3, 35, 0, NULL),
-(36, 3, 36, 0, NULL),
-(37, 3, 37, 0, NULL),
-(38, 3, 38, 2, NULL),
-(39, 3, 38, 1, NULL),
-(40, 3, 39, 0, NULL),
-(41, 3, 40, 0, '0.1'),
-(42, 3, 41, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -339,32 +204,6 @@ CREATE TABLE `res_in_template` (
   `code` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `res_in_template`
---
-
-INSERT INTO `res_in_template` (`idRes_in_template`, `fkType`, `fkTemp`, `mark`, `code`) VALUES
-(1, 1, 1, 30, 'ДБ2'),
-(2, 2, 1, 15, 'ДБ3'),
-(5, 3, 1, 20, 'ДБ4'),
-(13, 6, 1, 5, 'ДБ12'),
-(14, 4, 1, 10, 'ДБ10'),
-(15, 5, 1, 15, 'ДБ11'),
-(16, 7, 1, 2, 'ДБ13'),
-(18, 8, 1, 5, 'ДБ15'),
-(19, 9, 1, 10, 'ДБ16'),
-(20, 10, 1, 5, NULL),
-(21, 1, 2, 20, 'ДБ1'),
-(22, 2, 2, 15, 'ДБ2'),
-(27, 11, 2, 2, 'ДБ6'),
-(28, 4, 2, 1, 'ДБ7'),
-(29, 6, 2, 1, 'ДБ7'),
-(30, 12, 2, 2, 'ДБ6'),
-(31, 13, 2, 10, 'ДБ2'),
-(63, 14, 3, 1.5, NULL),
-(65, 15, 3, 0.3, NULL),
-(67, 16, 3, 0.5, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -376,15 +215,6 @@ CREATE TABLE `res_template` (
   `title` varchar(255) NOT NULL,
   `fileTemplate` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `res_template`
---
-
-INSERT INTO `res_template` (`idTemplate`, `title`, `fileTemplate`) VALUES
-(1, 'Науковий рейтинг до аспірантури', ''),
-(2, 'Науковий рейтинг до магістратури', ''),
-(3, 'IНДИКАТОРИ ПЕРСОНАЛЬНОГО РЕЙТИНГУ ВИКЛАДАЧА', '');
 
 -- --------------------------------------------------------
 
@@ -398,14 +228,6 @@ CREATE TABLE `scient_event` (
   `date` varchar(255) NOT NULL,
   `fk_type_res` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `scient_event`
---
-
-INSERT INTO `scient_event` (`idScientEvent`, `titleEvent`, `date`, `fk_type_res`) VALUES
-(1, 'Test', '2017', 1),
-(2, 'Tessy2', '2018', 1);
 
 -- --------------------------------------------------------
 
@@ -422,13 +244,6 @@ CREATE TABLE `scient_publication` (
   `file` varchar(255) NOT NULL,
   `fk_pub_type` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `scient_publication`
---
-
-INSERT INTO `scient_publication` (`idPublication`, `title`, `edition`, `pages`, `date`, `file`, `fk_pub_type`) VALUES
-(1, 'Test Article', 'M', 89, '2018', 'xdg', 8);
 
 -- --------------------------------------------------------
 
@@ -452,13 +267,6 @@ CREATE TABLE `student` (
   `name_en` varchar(255) DEFAULT NULL,
   `surname_en` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `student`
---
-
-INSERT INTO `student` (`id`, `name`, `patronymic`, `surname`, `FK_Group`, `registration_date`, `last_visit`, `status`, `type_user`, `surname_ukr`, `name_ukr`, `patronymic_ukr`, `name_en`, `surname_en`) VALUES
-(1, 'Гарри', 'Джонович', 'Поттер', 26, '2018-05-01 00:00:00', '2018-05-01 00:00:00', 'active', 15, NULL, NULL, NULL, 'Harry', 'Potter');
 
 -- --------------------------------------------------------
 
@@ -484,53 +292,6 @@ CREATE TABLE `type_of_publication` (
   `type` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `type_of_publication`
---
-
-INSERT INTO `type_of_publication` (`idTypePub`, `type`) VALUES
-(1, 'Наукова стаття у фаховому виданні, що має iмпакт-фактор'),
-(2, 'Наукова стаття у фаховому виданні, затвердженному ДАК Укр з фаху'),
-(3, 'Наукова стаття в Вiснику студентського наукового товариства ДонНУ з фаху'),
-(4, 'Наукова стаття у вітчизняному фаховому виданні'),
-(5, 'Наукова стаття у виданні, яке входить до міжнародних науковометричних баз'),
-(6, 'Наукова стаття у вітчизняному нефаховому виданні'),
-(7, 'Наукова стаття у іноземному виданні'),
-(8, 'Патент або авторське свідоцтво'),
-(9, 'Видання за рекомендацiєю Вченої ради ДонНУ iмeнi Василя Стуса пiдручника для ВНЗ'),
-(10, 'Видання за рекомендацiєю Вченої ради ДонНУ iмeнi Василя Стуса навчального посiбника для ВНЗ'),
-(11, 'Розробка робочої навчальної програми нової дисциплiни, практики, затвердженої НМК факультету / Унiверситету (для загальноунiверситетських кафедр), курсу сертифiкатної освiтньої програми, тренiнгової програми.'),
-(12, 'Розробка методичного забезпечення навчального процесу: друкований / електронний лекцiйний курс (з дисциплiни 3-5 кредитiв)'),
-(13, 'Розробка методичного забезпечення навчального процесу: друкований / електронний лекцiйний  курс (з дисциплiни бiльше 5 кредитiв)'),
-(14, 'Розробка методичного забезпечення навчального процесу: друкований / електронний комплекс лабораторних робiт/ практичних, ceмiнapcьких занять (з дисциплiни 3-5 кредитiв) '),
-(15, 'Розробка методичного забезпечення навчального процесу: друкований / електронний комплекс лабораторних робiт/ практичних, ceмiнapcьких занять (з дисциплiни бiльше 5 кредитiв)'),
-(16, 'Розробка дидактичного та методичного забезпечення дисциплiн за технологiями дистанцiйного навчання - МВОК'),
-(17, 'Розробка дидактичного та методичного забезпечення дисциплiн за технологiями дистанцiйного навчання - Moodle'),
-(18, 'Розробка навчальних програм та науковометодичного забезпечення дисциплiн iноземною мовою (окрiм росiйської) для спецiальностей немовної пiдготовки'),
-(19, 'Викладання навчальної дисциплiни iноземною мовою (окрiм росiйської) для спецiальностей немовної пiдготовки'),
-(20, 'Розробка конкурсних завадань до студентських олiмпiад. Обласний рiвень'),
-(21, 'Розробка конкурсних завадань до студентських олiмпiад. Всеукраїнський рiвень'),
-(22, 'Розробка конкурсних завадань до студентських олiмпiад. Мiжнародний рiвень'),
-(23, 'Розробка конкурсних завадань до шкiльних олiмпiад. Обласний рiвень'),
-(24, 'Розробка конкурсних завадань до шкiльних олiмпiад. Всеукраїнський рiвень'),
-(25, 'Розробка конкурсних завадань до шкiльних олiмпiад. Мiжнародний рiвень'),
-(26, 'Розробка конкурсних завадань до конкурсiв МАН. Обласний рiвень'),
-(27, 'Розробка конкурсних завадань до конкурсiв МАН. Всеукраїнський рiвень'),
-(28, 'Рецензування навчально-методичних матерiалiв: пiдручникiв'),
-(29, 'Рецензування навчально-методичних матерiалiв: навчально-методичних посiбникiв'),
-(30, 'Рецензування навчально-методичних матерiалiв: методичних вказiвок (рекомендацiй)'),
-(31, 'Експертиза: нормативних документiв публiчного обговорення: локальнi'),
-(32, 'Експертиза: нормативних документiв публiчного обговорення: загальноукраїнськi'),
-(33, 'Експертиза: конкурсних робiт i проектiв'),
-(34, 'Експертиза: конкурсних робiт МАН та студентських наукових робiт'),
-(35, 'Редагування/лiтературне редагування: пiдручникiв'),
-(36, 'Редагування/лiтературне редагування: навчальних посiбникiв'),
-(37, 'Редагування/лiтературне редагування: монографiй'),
-(38, 'Пiдгтовка документацiї для вiдкритя нових освiтнiх програм або лiцензування/акредитацiї: освiтньої програми/спецiальностi / аспiрантури/докторантури: Голова'),
-(39, 'Розробка навчального плану пiдготовки: - Бакалавр – Магiстр -Аспiрант – Сертифiкатної програми/освiтнього проекту'),
-(40, 'Складання програм та завдань для вступникiв на: - СО «Бакалавр»; - СО «Магiстр»'),
-(41, 'Пiдгтовка документацiї для вiдкритя нових освiтнiх програм або лiцензування/акредитацiї: освiтньої програми/спецiальностi / аспiрантури/докторантури: Член проектної групи');
-
 -- --------------------------------------------------------
 
 --
@@ -541,20 +302,6 @@ CREATE TABLE `type_of_result` (
   `idTypeRes` int(10) UNSIGNED NOT NULL,
   `type_of_res` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `type_of_result`
---
-
-INSERT INTO `type_of_result` (`idTypeRes`, `type_of_res`) VALUES
-(1, 'победитель'),
-(2, '2 место'),
-(3, '3 место'),
-(4, 'призёр'),
-(5, 'лауреат'),
-(6, 'не обязательно'),
-(7, 'голова'),
-(8, 'секретар');
 
 -- --------------------------------------------------------
 
@@ -567,16 +314,6 @@ CREATE TABLE `type_of_role` (
   `type_of_role` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `type_of_role`
---
-
-INSERT INTO `type_of_role` (`idTypeRole`, `type_of_role`) VALUES
-(1, 'участник'),
-(2, 'тренер'),
-(3, 'голова'),
-(4, 'секретарь ');
-
 -- --------------------------------------------------------
 
 --
@@ -588,28 +325,6 @@ CREATE TABLE `type_of_scient_event` (
   `type` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `type_of_scient_event`
---
-
-INSERT INTO `type_of_scient_event` (`idTypeEvents`, `type`) VALUES
-(1, 'Диплом переможця та призера міжнародної студентської олімпіади з фаху'),
-(2, 'Диплом переможця та призера всеукраїнської студентської олімпіади МОН України з фаху '),
-(3, 'Диплом переможця та призера конкурсу наукових студентських робіт МОН України з фаху'),
-(4, 'Участь у науковій міжнародній конференції (за умови опублікування тез доповідей)'),
-(5, 'Участь у науковій конференції за межами України (за умови опублікування тез доповідей та наявності сертифікату про участь)'),
-(6, 'Участь у науковій всеукраїнській конференції (за умови опублікування тез доповідей)'),
-(7, 'Участь у науковій регіональній або вузівській конференції'),
-(8, 'Рекомендація вченої ради факультету до вступу в аспірантуру (за наявності)'),
-(9, 'Диплом магістра/спеціаліста з відзнакою'),
-(10, 'Оцінка за реферат'),
-(11, 'Iншi нагороди у накових конкурсах'),
-(12, 'Сертифiкат та/або довiдка з iноземної мови'),
-(13, 'Диплом переможця та/або призера конкурсу наукових студентських робiт МОН та НАН України, змагань, програм з фаху '),
-(14, 'Викладання навчальної дисциплiни у якостi професора-вiзитера'),
-(15, 'Робота в НМК/НМР: -	факультету'),
-(16, 'Робота в НМК/НМР: -	Унiверситету');
-
 -- --------------------------------------------------------
 
 --
@@ -620,17 +335,6 @@ CREATE TABLE `type_of_works` (
   `idType` int(10) UNSIGNED NOT NULL,
   `Type` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `type_of_works`
---
-
-INSERT INTO `type_of_works` (`idType`, `Type`) VALUES
-(1, 'Лабораторна_робота'),
-(2, 'Індивідуальна_робота'),
-(3, 'Тест'),
-(4, 'Реферат'),
-(5, 'Контрольна_робота');
 
 -- --------------------------------------------------------
 
@@ -644,29 +348,11 @@ CREATE TABLE `users` (
   `password` varchar(225) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `type` int(10) UNSIGNED NOT NULL,
-  `remember_token` varchar(255) DEFAULT NULL
+  `remember_token` varchar(255) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`idUsers`, `username`, `password`, `email`, `type`, `remember_token`) VALUES
-(1, 'admin', '$2y$13$NjPiT83TbVVerShtwB2x5u1q65P4P.jXM0fs.1bu2mWdMZ60XFZKK', 'admin@mail.ru', 1, 'KLC896f8knhCyOrxn21VbBbjBe0wKtBmNWiG3RaF7zn8ib9wFRrufB9LKqcm'),
-(2, 'methodist', '$2y$13$Fyu6rZXDOlAxLOiHUgmNce5nzJO6vFNTQGD0QWDoFCnVgl3r8BBEC', 'methodist@donnu.edu.ua', 3, 'WRWNACYLZWTMQQBQAmmRNFpJkFtx8ZWarJQ3SGCIB4NnRuIoCOi6ORAdgeBb'),
-(3, 'podorozhniak', '$2y$13$Fyu6rZXDOlAxLOiHUgmNce5nzJO6vFNTQGD0QWDoFCnVgl3r8BBEC', 'podorozhniak.a@donnu.edu.ua', 3, NULL),
-(4, 'd.boguto', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'd.boguto@donnu.edu.ua', 1, NULL),
-(5, 'g.galich', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'g.galich@donnu.edu.ua', 1, NULL),
-(6, 'm.yepik', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'm.yepik@donnu.edu.ua', 1, NULL),
-(7, 'k.kadomsky', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'k.kadomsky@donnu.edu.ua', 1, NULL),
-(8, 'm.krachkovskyi', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'm.krachkovskyi@donnu.edu.ua', 1, NULL),
-(9, 'n.pakhomova', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'n.pakhomova@donnu.edu.ua', 1, NULL),
-(10, 'p.nikolyuk', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'p.nikolyuk@donnu.edu.ua', 1, NULL),
-(11, 'a.paramonov', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'a.paramonov@donnu.edu.ua', 1, NULL),
-(12, 'o.tymchuk', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'o.tymchuk@donnu.edu.ua', 1, NULL),
-(13, 'i.ukrainets', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'i.ukrainets@donnu.edu.ua', 1, NULL),
-(14, 'ya.shmyriov', '$2y$10$UFC0pWEgpCIt8l1GSv.x4.W9pb2qayOylWC/w8t6bwApDbdJFtleq', 'ya.shmyriov@donnu.edu.ua', 1, NULL),
-(15, 'harry', '$2y$13$NjPiT83TbVVerShtwB2x5u1q65P4P.jXM0fs.1bu2mWdMZ60XFZKK', 'harry@gmail.com', 2, 'Q8wPMgzkswJKDBbJaMhegzSaUJpDQfZV4E6wZJVSGHnpGurmPVHXI65BcnxW');
 
 --
 -- Индексы сохранённых таблиц
@@ -854,12 +540,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `access`
 --
 ALTER TABLE `access`
-  MODIFY `idAccess` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idAccess` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `authors_of_publication`
 --
 ALTER TABLE `authors_of_publication`
-  MODIFY `idPubAuthor` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idPubAuthor` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT для таблицы `event_in_ranking`
 --
@@ -889,7 +575,7 @@ ALTER TABLE `list_of_task`
 -- AUTO_INCREMENT для таблицы `members_of_event`
 --
 ALTER TABLE `members_of_event`
-  MODIFY `idMember` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idMember` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT для таблицы `messages`
 --
@@ -899,7 +585,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT для таблицы `professor`
 --
 ALTER TABLE `professor`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT для таблицы `publication_in_ranking`
 --
@@ -909,7 +595,7 @@ ALTER TABLE `publication_in_ranking`
 -- AUTO_INCREMENT для таблицы `res_in_template`
 --
 ALTER TABLE `res_in_template`
-  MODIFY `idRes_in_template` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `idRes_in_template` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT для таблицы `res_template`
 --
@@ -919,12 +605,12 @@ ALTER TABLE `res_template`
 -- AUTO_INCREMENT для таблицы `scient_event`
 --
 ALTER TABLE `scient_event`
-  MODIFY `idScientEvent` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idScientEvent` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT для таблицы `scient_publication`
 --
 ALTER TABLE `scient_publication`
-  MODIFY `idPublication` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idPublication` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT для таблицы `student`
 --
@@ -954,7 +640,7 @@ ALTER TABLE `type_of_role`
 -- AUTO_INCREMENT для таблицы `type_of_scient_event`
 --
 ALTER TABLE `type_of_scient_event`
-  MODIFY `idTypeEvents` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `idTypeEvents` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT для таблицы `type_of_works`
 --
@@ -964,7 +650,7 @@ ALTER TABLE `type_of_works`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `idUsers` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idUsers` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
