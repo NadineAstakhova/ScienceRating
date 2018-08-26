@@ -16,6 +16,8 @@ class User extends Authenticatable
     const METHODIST = '3';
     const SUPER__ADMIN = '4';
 
+    const STATUS = [0 => 'UNCONFIRMED', 1 => 'CONFIRMED'];
+
 
 
     /**

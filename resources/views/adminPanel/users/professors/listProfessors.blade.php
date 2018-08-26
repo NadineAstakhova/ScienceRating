@@ -38,7 +38,7 @@
                                             <td>{{$user->surname}} {{$user->name}} {{$user->patronymic}}</td>
                                             <td>{{$user->username}}</td>
                                             <td>{{$user->email}}</td>
-                                            <td>Accepted</td>
+                                            <td>{{\App\User::STATUS[$user->status]}}</td>
                                             <td>
                                                 <a href="{{url("#")}}">
                                                     <i class="icon-pencil3" style="font-size: 20px; color: black"></i>
