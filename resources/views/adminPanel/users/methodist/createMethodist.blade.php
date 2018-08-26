@@ -31,13 +31,6 @@
                                                            placeholder="email@email.ru" name="email">
                                                 </div>
 
-                                                <div class="form-group">
-                                                    {!! Form::label('password', 'Пароль') !!}
-                                                    <input type="password" id="password" class="form-control"
-                                                           placeholder="password" name="password">
-                                                </div>
-
-
                                             </div>
                                         </div>
                                     </div>

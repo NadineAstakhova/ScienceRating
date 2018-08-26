@@ -24,6 +24,8 @@ Route::get('auth/login', 'Controller@login');
 Route::post('auth/login', 'Controller@authenticate');
 Route::get('auth/logout', 'Controller@logout');
 
+Route::get('/user/verify/{token}', 'Controller@verifyUser');
+
 Route::get('/profile','ProfileController@index')->middleware('auth');
 
 Route::get('/createArticle','ProfileController@createArticlePage')->middleware('auth');

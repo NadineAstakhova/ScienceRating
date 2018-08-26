@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VerifyMail;
 use App\Models\AdminPanel\CreateUserForm;
 use App\Models\UsersOwners;
 use App\User;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -50,8 +52,9 @@ class AdminController extends Controller
         $model = new CreateUserForm();
         $username = $request->get('username');
         $email =  $request->get('email');
-        $password =  $request->get('password');
-        if ($model->createMethodist($username, $email, $password)){
+        if ($model->createMethodist($username, $email, $email)){
+            $user = User::where('email', '=', $email)->firstOrFail();
+            Mail::to($email)->send(new VerifyMail($user));
             return redirect('admin');
         }
         else
@@ -81,11 +84,12 @@ class AdminController extends Controller
         $model = new CreateUserForm();
         $username = $request->get('username');
         $email =  $request->get('email');
-        $password =  $request->get('password');
         $surname =  $request->get('surname');
         $name =  $request->get('name');
         $patronymic =  $request->get('patronymic');
-        if ($model->createProfessor($username, $email, $password, $name, $surname, $patronymic)){
+        if ($model->createProfessor($username, $email, $email, $name, $surname, $patronymic)){
+            $user = User::where('email', '=', $email)->firstOrFail();
+            Mail::to($email)->send(new VerifyMail($user));
             return redirect('admin');
         }
         else
