@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DataMail;
 use App\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Controller extends BaseController
 {
@@ -54,4 +56,23 @@ class Controller extends BaseController
             return false;
 
     }
+
+    public function verifyUser($token){
+        $verifyUser = User::where('token', $token)->first();
+        if(isset($verifyUser) ){
+            if($verifyUser['status'] == 0) {
+                $verifyUser['status'] = 1;
+                $verifyUser['token'] = null;
+                $verifyUser->save();
+                $status = "Благодарим за подтверждение. На вашу почту высланы данные для входа";
+                Mail::to($verifyUser['email'])->send(new DataMail($verifyUser));
+            }else{
+                $status = "Ваша почта уже была подтверждена";
+            }
+        }else{
+            return redirect('auth/login')->with('message', "Вашей почты нет в базе данных");
+        }
+        return redirect('auth/login')->with('message', $status);
+    }
+
 }

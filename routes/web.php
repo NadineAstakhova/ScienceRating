@@ -24,6 +24,8 @@ Route::get('auth/login', 'Controller@login');
 Route::post('auth/login', 'Controller@authenticate');
 Route::get('auth/logout', 'Controller@logout');
 
+Route::get('/user/verify/{token}', 'Controller@verifyUser');
+
 Route::get('/profile','ProfileController@index')->middleware('auth');
 
 Route::get('/createArticle','ProfileController@createArticlePage')->middleware('auth');
@@ -147,7 +149,15 @@ Route::get('/infoAdminMethodist','ProfileController@infoProfile')->middleware('a
 Route::post('/editAdminInfo', 'AdminController@updateAdminPassForm')->middleware('auth');
 
 Route::get('/createMethodistPage','AdminController@createMethodistPage')->middleware('auth');
-Route::post('auth/register', 'RegisterController@authenticate');
 Route::post('/createMethodistForm', 'AdminController@createMethodistForm')->middleware('auth');
+
+Route::get('/methodistList','AdminController@methodistList')->middleware('auth');
+
+
+Route::get('/professorList','AdminController@professorList')->middleware('auth');
+
+Route::get('/createProfessorPage','AdminController@createProfessorPage')->middleware('auth');
+Route::post('/createProfessorForm', 'AdminController@createProfessorForm')->middleware('auth');
+
 
 Auth::routes();

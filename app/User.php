@@ -16,6 +16,8 @@ class User extends Authenticatable
     const METHODIST = '3';
     const SUPER__ADMIN = '4';
 
+    const STATUS = [0 => 'UNCONFIRMED', 1 => 'CONFIRMED'];
+
 
 
     /**
@@ -24,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password','type', 'remember_token',
+        'username', 'email', 'password','type', 'remember_token', 'token', 'status', 'updated_at'
     ];
 
     /**
@@ -63,5 +65,18 @@ class User extends Authenticatable
         else
             return false;
     }
+
+    public function createUser($username, $email, $password, $type){
+        $insert = DB::table('users')->insert([
+            ['username' => $username, 'email' => $email, 'password' => bcrypt($password), 'type' => $type,
+                'token' =>  bin2hex(random_bytes(32))]
+        ]);
+        if ($insert)
+            return true;
+        else
+            return false;
+    }
+
+
 
 }

@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AdminPanel\CreateMethodistForm;
+use App\Mail\VerifyMail;
+use App\Models\AdminPanel\CreateUserForm;
+use App\Models\UsersOwners;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
     public function index() {
-    //TODO design
         return view('adminPanel/dashboard-lite',
             array('title' => 'profile','description' => '',
                 'page' => 'profile'));
@@ -42,17 +44,52 @@ class AdminController extends Controller
     }
 
     public function createMethodistPage(){
-            return view('adminPanel/users/createMethodist',
-                array());
+            return view('adminPanel/users/methodist/createMethodist');
     }
 
     public function createMethodistForm(Request $request){
         //with email send
-        $model = new CreateMethodistForm();
+        $model = new CreateUserForm();
         $username = $request->get('username');
         $email =  $request->get('email');
-        $password =  $request->get('password');
-        if ($model->createMethodist($username, $email, $password)){
+        if ($model->createMethodist($username, $email, $email)){
+            $user = User::where('email', '=', $email)->firstOrFail();
+            Mail::to($email)->send(new VerifyMail($user));
+            return redirect('admin');
+        }
+        else
+            return redirect('admin')->with('error', 'Ошибка записи');
+    }
+
+    public function methodistList(){
+        return view('adminPanel/users/methodist/listMethodist',
+            array(
+                'methodists' => User::all()->where('type', User::METHODIST),
+            ));
+    }
+
+    public function professorList(){
+        return view('adminPanel/users/professors/listProfessors',
+            array(
+                'professors' => UsersOwners::getProf(),
+            ));
+    }
+
+    public function createProfessorPage(){
+        return view('adminPanel/users/professors/createProfessor');
+    }
+
+    public function createProfessorForm(Request $request){
+        //with email send
+        $model = new CreateUserForm();
+        $username = $request->get('username');
+        $email =  $request->get('email');
+        $surname =  $request->get('surname');
+        $name =  $request->get('name');
+        $patronymic =  $request->get('patronymic');
+        if ($model->createProfessor($username, $email, $email, $name, $surname, $patronymic)){
+            $user = User::where('email', '=', $email)->firstOrFail();
+            Mail::to($email)->send(new VerifyMail($user));
             return redirect('admin');
         }
         else

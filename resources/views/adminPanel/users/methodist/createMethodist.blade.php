@@ -27,16 +27,9 @@
 
                                                 <div class="form-group">
                                                     {!! Form::label('email', 'Почта') !!}
-                                                    <input type="text" id="email" class="form-control"
+                                                    <input type="email" id="email" class="form-control"
                                                            placeholder="email@email.ru" name="email">
                                                 </div>
-
-                                                <div class="form-group">
-                                                    {!! Form::label('password', 'Пароль') !!}
-                                                    <input type="password" id="password" class="form-control"
-                                                           placeholder="password" name="password">
-                                                </div>
-
 
                                             </div>
                                         </div>
