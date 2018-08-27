@@ -46,7 +46,8 @@
                                                 <div class="form-group">
                                                     {!! Form::label('email', 'Почта') !!}
                                                     <input type="email" id="email" class="form-control"
-                                                           placeholder="email@email.ru" name="email">
+                                                           placeholder="email@email.ru" name="email"
+                                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$">
                                                 </div>
 
 
