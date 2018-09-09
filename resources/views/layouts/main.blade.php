@@ -30,7 +30,7 @@
                        ((Auth::user()->type == \App\User::METHODIST) ?
                              url('profile') :
                              (
-                                (Auth::user()->type == \App\User::SUPER__ADMIN) ?
+                                (Auth::user()->type == \App\User::SUPER_ADMIN) ?
                                     url('admin') :
                                     (
                                         (Auth::user()->type == \App\User::PROFESSOR) ?
