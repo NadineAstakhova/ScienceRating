@@ -68,7 +68,7 @@ class User extends Authenticatable
     }
 
     public function createUser($username, $email, $password, $type){
-        try{
+       // try{
             $insert = DB::table('users')->insert([
                 ['username' => $username, 'email' => $email, 'password' => bcrypt($password), 'type' => $type,
                     'token' =>  bin2hex(random_bytes(32))]
@@ -77,13 +77,13 @@ class User extends Authenticatable
                 return true;
             else
                 return false;
-        }
-        catch (QueryException $e){
-            $errorCode = $e->errorInfo[1];
-            if($errorCode == 1062){
-                return $e;
-            }
-        }
+//        }
+//        catch (QueryException $e){
+//            $errorCode = $e->errorInfo[1];
+//            if($errorCode == 1062){
+//                return $e;
+//            }
+//        }
 
     }
 

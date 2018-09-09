@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MethodistCreatingValidation;
+use App\Http\Requests\ProfessorCreatingValidation;
 use App\Mail\VerifyMail;
 use App\Models\AdminPanel\CreateUserForm;
 use App\Models\UsersOwners;
@@ -47,7 +49,7 @@ class AdminController extends Controller
             return view('adminPanel/users/methodist/createMethodist');
     }
 
-    public function createMethodistForm(Request $request){
+    public function createMethodistForm(MethodistCreatingValidation $request){
         //with email send
         $model = new CreateUserForm();
         $username = $request->get('username');
@@ -79,7 +81,7 @@ class AdminController extends Controller
         return view('adminPanel/users/professors/createProfessor');
     }
 
-    public function createProfessorForm(Request $request){
+    public function createProfessorForm(ProfessorCreatingValidation $request){
         //with email send
         $model = new CreateUserForm();
         $username = $request->get('username');

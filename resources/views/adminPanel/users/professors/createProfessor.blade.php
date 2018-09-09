@@ -15,6 +15,13 @@
                             </div>
                             <div class="card-body collapse in">
                                 <div class="card-block">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger no-border" style="color: #ffffff !important;">
+                                            @foreach ($errors->all() as $error)
+                                                {{ $error }}
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     {!! Form::open(['url' => ['createProfessorForm'], 'class'=>'form']) !!}
                                     <div class="row">
                                         <div class="col-md-6 offset-md-3">
