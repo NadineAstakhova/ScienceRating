@@ -15,6 +15,13 @@
                             </div>
                             <div class="card-body collapse in">
                                 <div class="card-block">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger no-border" style="color: #ffffff !important;">
+                                            @foreach ($errors->all() as $error)
+                                                {{ $error }}
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     {!! Form::open(['url' => ['createMethodistForm'], 'class'=>'form']) !!}
                                     <div class="row">
                                         <div class="col-md-6 offset-md-3">
@@ -28,7 +35,8 @@
                                                 <div class="form-group">
                                                     {!! Form::label('email', 'Почта') !!}
                                                     <input type="email" id="email" class="form-control"
-                                                           placeholder="email@email.ru" name="email">
+                                                           placeholder="email@email.ru" name="email"
+                                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$">
                                                 </div>
 
                                             </div>

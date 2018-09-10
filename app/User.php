@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use DB;
@@ -67,14 +68,23 @@ class User extends Authenticatable
     }
 
     public function createUser($username, $email, $password, $type){
-        $insert = DB::table('users')->insert([
-            ['username' => $username, 'email' => $email, 'password' => bcrypt($password), 'type' => $type,
-                'token' =>  bin2hex(random_bytes(32))]
-        ]);
-        if ($insert)
-            return true;
-        else
-            return false;
+       // try{
+            $insert = DB::table('users')->insert([
+                ['username' => $username, 'email' => $email, 'password' => bcrypt($password), 'type' => $type,
+                    'token' =>  bin2hex(random_bytes(32))]
+            ]);
+            if ($insert)
+                return true;
+            else
+                return false;
+//        }
+//        catch (QueryException $e){
+//            $errorCode = $e->errorInfo[1];
+//            if($errorCode == 1062){
+//                return $e;
+//            }
+//        }
+
     }
 
 
