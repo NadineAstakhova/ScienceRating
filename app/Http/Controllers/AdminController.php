@@ -101,4 +101,9 @@ class AdminController extends Controller
         else
             return redirect('admin')->with('error', 'Ошибка записи');
     }
+
+    public function deleteUser($idMethodist){
+        User::deleteUserById($idMethodist);
+        return redirect()->back();
+    }
 }

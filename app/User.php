@@ -92,4 +92,16 @@ class User extends Authenticatable
         return count($users);
     }
 
+    public static function deleteUserById($id){
+        $users = (new User)->findOrFail($id);
+        try {
+            $users->delete();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+
+
 }

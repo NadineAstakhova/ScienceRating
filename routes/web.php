@@ -159,5 +159,6 @@ Route::get('/professorList','AdminController@professorList')->middleware('auth')
 Route::get('/createProfessorPage','AdminController@createProfessorPage')->middleware('auth');
 Route::post('/createProfessorForm', 'AdminController@createProfessorForm')->middleware('auth');
 
+Route::get('/deleteUser/{idMethodist}','AdminController@deleteUser')->middleware('auth');
 
 Auth::routes();
