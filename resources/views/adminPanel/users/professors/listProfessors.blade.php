@@ -1,6 +1,14 @@
 @extends('layouts.adminMain')
 @section('title', 'Список преподавателей')
+@section('header')
+    <script src="{{asset('js/message_alert.js')}}"></script>
+@endsection
 @section('content')
+    <script>
+        $(document).ready(function (e) {
+            messageAlert('.delete_btn', 'Вы уверены, что хотите удалить пользователя?')
+        });
+    </script>
     <div class="app-content content container-fluid">
         <div class="content-wrapper">
             <div class="content-header row">
@@ -9,7 +17,7 @@
                 <div class="col-xs-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Проподаватели</h4>
+                            <h4 class="card-title">Преподаватели</h4>
                             <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
@@ -43,7 +51,8 @@
                                                 <a href="{{url("#")}}">
                                                     <i class="icon-pencil3" style="font-size: 20px; color: black"></i>
                                                 </a>
-                                                <a href="{{url("#")}}">
+                                                <a href="{{url("deleteUser/$user->idUsers")}}" class="delete_btn"
+                                                   data-toggle="tooltip" title="Удалить пользователя">
                                                     <i class="icon-trash-o" style="font-size: 20px; color: red"></i>
                                                 </a>
                                             </td>

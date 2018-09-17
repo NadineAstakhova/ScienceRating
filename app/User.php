@@ -15,7 +15,7 @@ class User extends Authenticatable
     const PROFESSOR = '1';
     const STUDENT = '2';
     const METHODIST = '3';
-    const SUPER__ADMIN = '4';
+    const SUPER_ADMIN = '4';
 
     const STATUS = [0 => 'UNCONFIRMED', 1 => 'CONFIRMED'];
 
@@ -68,7 +68,6 @@ class User extends Authenticatable
     }
 
     public function createUser($username, $email, $password, $type){
-       // try{
             $insert = DB::table('users')->insert([
                 ['username' => $username, 'email' => $email, 'password' => bcrypt($password), 'type' => $type,
                     'token' =>  bin2hex(random_bytes(32))]
@@ -77,14 +76,30 @@ class User extends Authenticatable
                 return true;
             else
                 return false;
-//        }
-//        catch (QueryException $e){
-//            $errorCode = $e->errorInfo[1];
-//            if($errorCode == 1062){
-//                return $e;
-//            }
-//        }
+    }
 
+    public static function getAllUnconfirmedUsers(){
+        $users = DB::table('users')
+            ->where('users.status', '=', array_search('UNCONFIRMED', self::STATUS))
+            ->get();
+        return count($users);
+    }
+
+    public static function getAllNewStudent(){
+        $users = DB::table('student')
+            ->where('student.status', '=', 'new')
+            ->get();
+        return count($users);
+    }
+
+    public static function deleteUserById($id){
+        $users = (new User)->findOrFail($id);
+        try {
+            $users->delete();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
 

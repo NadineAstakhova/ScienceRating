@@ -33,7 +33,7 @@ class Controller extends BaseController
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
             return redirect()->intended('studentProfile');
         }
-        elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::SUPER__ADMIN])) {
+        elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::SUPER_ADMIN])) {
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
             return redirect()->intended('admin');
         }

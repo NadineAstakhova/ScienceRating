@@ -13,7 +13,7 @@
                                 <div class="card-block">
                                     <div class="media">
                                         <div class="media-body text-xs-left">
-                                            <h3 class="pink">278</h3>
+                                            <h3 class="pink">{{$new_student}}</h3>
                                             <span>Новые студенты</span>
                                         </div>
                                         <div class="media-right media-middle">
@@ -31,7 +31,7 @@
                                     <div class="media">
                                         <div class="media-body text-xs-left">
                                             <h3 class="teal">156</h3>
-                                            <span>Новые группы</span>
+                                            <span>Группы</span>
                                         </div>
                                         <div class="media-right media-middle">
                                             <i class="icon-users2 teal font-large-2 float-xs-right"></i>
@@ -88,7 +88,7 @@
                                     </div>
                                     <div class="p-2 media-body">
                                         <h5>Неподтверждённые пользователи</h5>
-                                        <h5 class="text-bold-400">1,22,356</h5>
+                                        <h5 class="text-bold-400">{{$unconfirm_users}}</h5>
                                     </div>
                                 </div>
                             </div>

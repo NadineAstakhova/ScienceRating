@@ -13,13 +13,17 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-
+//TODO student status reg
 class AdminController extends Controller
 {
     public function index() {
         return view('adminPanel/dashboard-lite',
             array('title' => 'profile','description' => '',
-                'page' => 'profile'));
+                'page' => 'profile',
+                'unconfirm_users' => User::getAllUnconfirmedUsers(),
+                'new_student' => User::getAllNewStudent(),
+            )
+        );
     }
 
     public function updateAdminPassForm(Request $request){
@@ -96,5 +100,10 @@ class AdminController extends Controller
         }
         else
             return redirect('admin')->with('error', 'Ошибка записи');
+    }
+
+    public function deleteUser($idMethodist){
+        User::deleteUserById($idMethodist);
+        return redirect()->back();
     }
 }
