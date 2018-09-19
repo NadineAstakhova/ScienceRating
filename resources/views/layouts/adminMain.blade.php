@@ -111,6 +111,12 @@
                             <span data-i18n="nav.project.main" class="menu-title">Создание</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{url("createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
+                            <i class="icon-android-funnel"></i>
+                            <span data-i18n="nav.project.main" class="menu-title">Меню</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -132,30 +138,14 @@
                             <span data-i18n="nav.project.main" class="menu-title">Создание</span>
                         </a>
                     </li>
-                </ul>
-            </li>
-
-            <li class=" nav-item">
-                <a href="#">
-                    <i class="icon-android-funnel"></i>
-                    <span data-i18n="nav.project.main" class="menu-title">Меню</span>
-                </a>
-                <ul class="menu-content">
                     <li>
-                        <a href="layout-1-column.html" data-i18n="nav.page_layouts.1_column" class="menu-item">
-                            <i class="icon-list3"></i>
-                            <span data-i18n="nav.project.main" class="menu-title">Дерево</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="layout-2-columns.html" data-i18n="nav.page_layouts.2_columns" class="menu-item">
-                            <i class="icon-plus"></i>
-                            <span data-i18n="nav.project.main" class="menu-title">Создание</span>
+                        <a href="{{url("createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
+                            <i class="icon-android-funnel"></i>
+                            <span data-i18n="nav.project.main" class="menu-title">Меню</span>
                         </a>
                     </li>
                 </ul>
             </li>
-
         </ul>
     </div>
 </div>
