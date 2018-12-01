@@ -31,17 +31,17 @@ use App\Models\RankingModels\TypeOfRes;
         </nav>
     </div>
     <div class="row" id='to_print'>
-        <div class="col-xs-6 col-sm-8 col-lg-8">
+        <div class="col-xs-6 col-sm-8 col-lg-8 printed-center">
             <h3>Научные результаты {{$user}} </h3>
         </div>
         <div class="col-xs-8 col-sm-4 col-lg-4" id="listBtn">
             <button class="btn btn-outline-dark" id="print">Печать</button>
         </div>
-        <div class="col-xs-6 col-sm-8 col-lg-8">
+        <div class="col-xs-6 col-sm-8 col-lg-8 printed-center">
             <h3>Научные мероприятия </h3>
         </div>
         <div class="col-xs-6 col-sm-8 col-lg-9">
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-info no-print" role="alert">
               Чтобы отредактировать значение в колонках "Результат", "Роль", "Процент" достаточно нажать на нужную колонку
             </div>
         </div>
@@ -129,7 +129,7 @@ use App\Models\RankingModels\TypeOfRes;
                 Нет результатов
             </div>
         @endif
-        <div class="col-xs-6 col-sm-8 col-lg-8">
+        <div class="col-xs-6 col-sm-8 col-lg-8 printed-center">
             <h3>Научные публикации </h3>
         </div>
 

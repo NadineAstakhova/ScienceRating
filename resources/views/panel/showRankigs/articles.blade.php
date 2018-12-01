@@ -15,7 +15,7 @@
             </button>
         </div>
 <div class="modal-body" id='to_print'>
-    Публикации {{$user}}
+    <p style="text-align: center;">Публикации {{$user}}</p>
     <table class="table table-hover" id="articlesTable">
         <thead>
         <tr>
@@ -80,7 +80,7 @@
         $('#print').click(function(){
             var printing_css = "<style media=print>" +
                 "#print, .breadcrumb, .delete_btn, #update_btn{display: none;}" +
-                "table{text-align: left} </style>";
+                ".table{text-align: left; border-collapse: collapse; margin-top: 15px;}" + ".table th, td{border: 1px solid black; padding: 5px;} </style>";
             var html_to_print=printing_css+$('#to_print').html();
             var iframe=$('<iframe id="print_frame">');
             $('body').append(iframe);
