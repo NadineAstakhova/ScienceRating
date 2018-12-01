@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\LocaleMiddleware;
 use App\Mail\DataMail;
 use App\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -39,12 +40,12 @@ class Controller extends BaseController
         }
 
         else {
-            return redirect()->back()->withInput()->with('message', 'Ошибка входа! Возможно email и/или пароль не верны');
+            return redirect()->back()->withInput()->with('message', 'Email и/или пароль не верны');
         }
     }
     public function logout(Request $request) {
         Auth::logout();
-        return redirect('auth/login');
+        return redirect(LocaleMiddleware::getLocale().'/auth/login');
     }
 
     private function getUser($email, $pass){
@@ -70,9 +71,9 @@ class Controller extends BaseController
                 $status = "Ваша почта уже была подтверждена";
             }
         }else{
-            return redirect('auth/login')->with('message', "Вашей почты нет в базе данных");
+            return redirect(LocaleMiddleware::getLocale().'/auth/login')->with('message', "Вашей почты нет в базе данных");
         }
-        return redirect('auth/login')->with('message', $status);
+        return redirect(LocaleMiddleware::getLocale().'/auth/login')->with('message', $status);
     }
 
 }
