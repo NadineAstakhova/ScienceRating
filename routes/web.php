@@ -13,16 +13,23 @@
 
 
 use Anouar\Fpdf\Fpdf;
+use App\Http\Middleware\LocaleMiddleware;
 use App\Models\UsersOwners;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Route;
+Route::get('/', function () {
+    return redirect('/'. LocaleMiddleware::getLocale());
+});
+Route::get('/auth/login', 'Controller@login');
+Route::post('/auth/login', 'Controller@authenticate');
+Route::get('/auth/logout', 'Controller@logout');
+Route::prefix(LocaleMiddleware::getLocale())->group(function () {
+
 Route::get('/', 'Controller@login');
 
-Route::get('auth/login', 'Controller@login');
-Route::post('auth/login', 'Controller@authenticate');
-Route::get('auth/logout', 'Controller@logout');
+
 
 Route::get('/user/verify/{token}', 'Controller@verifyUser');
 
@@ -160,5 +167,5 @@ Route::get('/createProfessorPage','AdminController@createProfessorPage')->middle
 Route::post('/createProfessorForm', 'AdminController@createProfessorForm')->middleware('auth');
 
 Route::get('/deleteUser/{idMethodist}','AdminController@deleteUser')->middleware('auth');
-
+});
 Auth::routes();

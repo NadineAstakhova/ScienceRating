@@ -16,10 +16,10 @@
 
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
-                    <h5 class="card-header">Добавление научных результатов</h5>
+                    <h5 class="card-header">  {{ trans('messages.add_res')}}</h5>
                     <div class="card-body">
                         <p class="card-text">Формы добавление данных результата для пользователя/ей.</p>
-                        <a href="{{url("createResult")}}" class="btn btn-info" id="listSub">Ввести данные</a>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createResult")}}" class="btn btn-info" id="listSub">Ввести данные</a>
                     </div>
                 </div>
             </div>

@@ -47,6 +47,15 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{App\Http\Middleware\LocaleMiddleware::getLocale()}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{@getLangURI('ru')}}">Русский</a>
+                    <a class="dropdown-item" href="{{@getLangURI('uk')}}">Українська</a>
+                </div>
+            </li>
             @if (Auth::check())
                 @if(Auth::user()->type == \App\User::METHODIST)
                     <li class="nav-item"><a class="nav-header-link nav-link" href={{url("profile")}}>Главная</a></li>
@@ -54,7 +63,7 @@
                     <li class="nav-item"><a class="nav-header-link nav-link" href={{url("professorProfile")}}>Главная</a></li>
                 @endif
             @endif
-            <li class="nav-item"><a class="nav-header-link nav-link" href="{{Auth::check() ? url('auth/logout') : url('auth/login')}}">
+            <li class="nav-item"><a class="nav-header-link nav-link" href="{{Auth::check() ? url('auth/logout') : url(App\Http\Middleware\LocaleMiddleware::getLocale().'/auth/login')}}">
                     <span class="glyphicon glyphicon-log-in"></span>
                     {{Auth::check() ? 'Logout ('.Auth::user()->username.')' : 'Login'}}</a>
             </li>
