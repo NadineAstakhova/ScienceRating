@@ -10,13 +10,13 @@
 @section('title', 'Show Users')
 @section('content')
     <div class="row">
-        {!! Form::open(['url' => ['showUserResult'], 'class'=>'form',  'method' => 'GET', 'style' => 'width:100%; padding-bottom:20px;']) !!}
+        {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/showUserResult'], 'class'=>'form',  'method' => 'GET', 'style' => 'width:100%; padding-bottom:20px;']) !!}
         <h3 class="font-weight-normal">Выберите пользователя</h3>
         <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
 
 
         {!! Form::submit('Просмотреть научный результат', ['class' => 'btn btn-outline-secondary', 'id' => 'btn-u1']) !!}
-        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to('profile') }}">Cancel</a>
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}">Cancel</a>
         <p id="error-u"></p>
         <table class="table" id="ownerTable">
             <thead>

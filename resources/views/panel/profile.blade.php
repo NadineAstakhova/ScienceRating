@@ -54,7 +54,7 @@
                     <h5 class="card-header">Научные достижения</h5>
                     <div class="card-body">
                         <p class="card-text">Просмотр и распечатка текущих научных результатов без учёта рейтинга.</p>
-                        <a href="{{url("results")}}" class="btn btn-info" id="listSub">Просмотр данных</a>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/results")}}" class="btn btn-info" id="listSub">Просмотр данных</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     <h5 class="card-header">Построение рейтингов</h5>
                     <div class="card-body">
                         <p class="card-text">Составить и распечатать рейтинги пользователей по типам.</p>
-                        <a href="{{url("createrating")}}" class="btn btn-info" id="listSub">Просмотр рейтинга</a>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createrating")}}" class="btn btn-info" id="listSub">Просмотр рейтинга</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     <h5 class="card-header">Личные данные</h5>
                     <div class="card-body">
                         <p class="card-text">Просмотр личных данных и их редактирование</p>
-                        <a href="{{url("infoProfileMethodist")}}" class="btn btn-info" id="listSub">Просмотр анкеты</a>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/infoProfileMethodist")}}" class="btn btn-info" id="listSub">Просмотр анкеты</a>
                     </div>
                 </div>
             </div>

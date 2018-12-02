@@ -12,8 +12,8 @@ if (! function_exists('getLangURI')) {
     function getLangURI($lang)
     {
         //   echo url()->current();
-        $referer = url()->current(); //URL предыдущей страницы
-
+        $referer = Request::fullUrl(); //URL предыдущей страницы
+      //  print_r(Request::fullUrl());
         $parse_url = parse_url($referer, PHP_URL_PATH); //URI предыдущей страницы
 
         //разбиваем на массив по разделителю
@@ -34,6 +34,7 @@ if (! function_exists('getLangURI')) {
 
         //формируем полный URL
         $url = Request::root().implode("/", $segments);
+
 
         //если были еще GET-параметры - добавляем их
         if(parse_url($referer, PHP_URL_QUERY)){

@@ -7,7 +7,7 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url('profile') }}>Главная</a></li>
+                <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}>Главная</a></li>
                 <li class="breadcrumb-item active">Построение рейтинга</li>
             </ol>
         </nav>

@@ -24,7 +24,7 @@ class Controller extends BaseController
     public function authenticate(Request $request) {
         if (Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::METHODIST])) {
        // if ($this->getUser($request->get('email'),$request->get('password'))) {
-            return redirect()->intended('profile');
+            return redirect()->intended(LocaleMiddleware::getLocale().'/profile');
         }
         elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::PROFESSOR])) {
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
