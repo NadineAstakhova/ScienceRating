@@ -15,11 +15,11 @@
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 @if(Auth::user()->type == '1')
-                    <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/professorProfile') }}>Главная</a></li>
                 @elseif(Auth::user()->type == '2')
-                    <li class="breadcrumb-item"><a href={{ url('studentProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/studentProfile') }}>Главная</a></li>
                 @elseif(Auth::user()->type == '3')
-                    <li class="breadcrumb-item"><a href={{ url('profile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}>Главная</a></li>
                 @endif
                 <li class="breadcrumb-item active">Ввод данных научной публикации</li>
             </ol>

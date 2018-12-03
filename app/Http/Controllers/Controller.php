@@ -28,15 +28,15 @@ class Controller extends BaseController
         }
         elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::PROFESSOR])) {
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
-            return redirect()->intended('professorProfile');
+            return redirect()->intended(LocaleMiddleware::getLocale().'/professorProfile');
         }
         elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::STUDENT])) {
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
-            return redirect()->intended('studentProfile');
+            return redirect()->intended(LocaleMiddleware::getLocale().'/studentProfile');
         }
         elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::SUPER_ADMIN])) {
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
-            return redirect()->intended('admin');
+            return redirect()->intended(LocaleMiddleware::getLocale().'/admin');
         }
 
         else {

@@ -20,11 +20,11 @@ use App\Models\RankingModels\TypeOfRes;
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 @if(Auth::user()->type == '1')
-                    <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/professorProfile') }}>Главная</a></li>
                 @elseif(Auth::user()->type == '2')
-                    <li class="breadcrumb-item"><a href={{ url('studentProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/studentProfile') }}>Главная</a></li>
                 @elseif(Auth::user()->type == '3')
-                    <li class="breadcrumb-item"><a href={{ url('profile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}>Главная</a></li>
                 @endif
                 <li class="breadcrumb-item active">Научные результаты </li>
             </ol>
@@ -83,7 +83,7 @@ use App\Models\RankingModels\TypeOfRes;
                 @foreach($arrEvents as $res)
                     <tr>
                         <td>
-                            <a href="{{url("event/$res->idScientEvent")}}">{{$res->titleEvent}}</a>
+                            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/event/$res->idScientEvent")}}">{{$res->titleEvent}}</a>
                         </td>
                         <td>{{$res->type}} </td>
                         <td>{{$res->date}}</td>
@@ -174,7 +174,7 @@ use App\Models\RankingModels\TypeOfRes;
                 @foreach($arrArticles as $article)
                     <tr class="all">
                         <td>
-                            <a href="{{url("publication/$article->idPublication")}}">{{$article->title}}</a>
+                            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/publication/$article->idPublication")}}">{{$article->title}}</a>
                         </td>
                         <td class="type_pub">{{$article->type}} </td>
                         <td class="percent">

@@ -119,25 +119,26 @@ class ProfileController extends Controller
                        'users' => $users,
                        'date' => $searchDate,
                        'searchTitle' => $searchTitle,
-                       'idUser' => $idUser
+                       'idUser' => $idUser,
+                       'countOfPage' => $countOfPage
                    ));
         }
 
         if ($model->createPublication($title, $publishing, $pages, $date, $file, $fkType)){
             $last_id = DB::getPdo()->lastInsertId();
             if(is_null($idUser))
-                return redirect('addArticleAuthor/'.$last_id)->with('owners', $request->get('owners'));
+                return redirect(LocaleMiddleware::getLocale().'/addArticleAuthor/'.$last_id)->with('owners', $request->get('owners'));
             else{
                 //percent????
                 $model->addOneAuthorToArticle($idUser, $last_id);
                 if(Auth::user()->type == '1')
-                    return redirect('professorProfile')->with('save', 'Научный результат успешно добавлен');
+                    return redirect(LocaleMiddleware::getLocale().'/professorProfile')->with('save', 'Научный результат успешно добавлен');
                 if(Auth::user()->type == '2')
-                    return redirect('studentProfile')->with('save', 'Научный результат успешно добавлен');
+                    return redirect(LocaleMiddleware::getLocale().'/studentProfile')->with('save', 'Научный результат успешно добавлен');
             }
         }
         else
-            return redirect('profile')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', 'Ошибка записи');
     }
 
     public function createResultOwner($idRes){
@@ -156,10 +157,10 @@ class ProfileController extends Controller
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
         if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult)){
-            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', 'Научный результат успешно добавлен');
         }
         else
-            return redirect('profile')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', 'Ошибка записи');
     }
 
 
@@ -383,14 +384,14 @@ class ProfileController extends Controller
             else
                 $updatePass = 0;
             if(($updateInfoProf && $updateInfoUser) || ($updateInfoProf || $updateInfoUser) || $updatePass){
-                 return redirect('professorProfile')->with('save', 'Данные успешно изменены');
+                 return redirect(LocaleMiddleware::getLocale().'/professorProfile')->with('save', 'Данные успешно изменены');
             }
             else
-                 return redirect('professorProfile')->with('error', 'Ошибка при измении данных');
+                 return redirect(LocaleMiddleware::getLocale().'/professorProfile')->with('error', 'Ошибка при измении данных');
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('professorProfile')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/professorProfile')->with('error', 'Ошибка при измении данных');
         } catch (\Exception $e) {
-            return redirect('professorProfile')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/professorProfile')->with('error', 'Ошибка при измении данных');
         }
     }
 
@@ -423,14 +424,14 @@ class ProfileController extends Controller
             else
                 $updatePass = 0;
             if(($updateInfoProf && $updateInfoUser) || ($updateInfoProf || $updateInfoUser) || $updatePass){
-                return redirect('studentProfile')->with('save', 'Данные успешно изменены');
+                return redirect(LocaleMiddleware::getLocale().'/studentProfile')->with('save', 'Данные успешно изменены');
             }
             else
-                return redirect('studentProfile')->with('error', 'Ошибка при измении данных');
+                return redirect(LocaleMiddleware::getLocale().'/studentProfile')->with('error', 'Ошибка при измении данных');
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('studentProfile')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/studentProfile')->with('error', 'Ошибка при измении данных');
         } catch (\Exception $e) {
-            return redirect('studentProfile')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/studentProfile')->with('error', 'Ошибка при измении данных');
         }
     }
 
@@ -474,7 +475,7 @@ class ProfileController extends Controller
                 $request->get('arrPublications'), $request->get('arrStatusPub'))
 
         ){
-            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', 'Научный результат успешно добавлен');
         }
         //else
         //    return redirect('profile')->with('error', 'Ошибка записи');
@@ -505,10 +506,10 @@ class ProfileController extends Controller
         if($model->editEventInfoForm($idEvent, $request->get('name'), $request->get('date'),$request->get('type'))
 
         ){
-            return redirect('profile')->with('save', 'Научный результат успешно обновлён');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', 'Научный результат успешно обновлён');
         }
         else
-            return redirect('profile')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', 'Ошибка записи');
     }
 
     public function editEventMembersForm($idResult, AddOwnersFormRequest $request){
@@ -517,10 +518,10 @@ class ProfileController extends Controller
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
         if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, "edit")){
-            return redirect('profile')->with('save', 'Научный результат успешно добавлен');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', 'Научный результат успешно добавлен');
         }
         else
-            return redirect('profile')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', 'Ошибка записи');
     }
 
     public function showInfoAboutPublication($idPublication){
@@ -549,10 +550,10 @@ class ProfileController extends Controller
             $request->get('type'), $request->get('publishing'), $request->get('pages'))
 
         ){
-            return redirect('profile')->with('save', 'Научная публикация успешно обновлена');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', 'Научная публикация успешно обновлена');
         }
         else
-            return redirect('profile')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', 'Ошибка записи');
     }
 
     public function editPubAuthorsForm($idResult, AddOwnersFormRequest $request){
@@ -561,10 +562,10 @@ class ProfileController extends Controller
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
         if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult, "edit")){
-            return redirect('profile')->with('save', 'Научная публикация успешно обновлена');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', 'Научная публикация успешно обновлена');
         }
         else
-            return redirect('profile')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', 'Ошибка записи');
     }
 
     public function showRankingsPage(){

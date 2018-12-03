@@ -28,7 +28,7 @@
                     <h5 class="card-header">Добавление научных публикаций</h5>
                     <div class="card-body">
                         <p class="card-text">Формы добавление данных публикации для пользователя/ей.</p>
-                        <a href="{{url("createArticle")}}" class="btn btn-info" id="listSub">Ввести данные</a>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createArticle")}}" class="btn btn-info" id="listSub">Ввести данные</a>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                          <div class="card-body">
                                <p class="card-text">Подтверждение научных результатов, которые присылают пользователи.</p>
                                 @if($countOfNewResults > 0)
-                                    <a href="{{url("acceptResults")}}" class="btn btn-info">Просмотр новых данных ({{$countOfNewResults}})</a>
+                                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/acceptResults")}}" class="btn btn-info">Просмотр новых данных ({{$countOfNewResults}})</a>
                                 @else
                                     <button type="button" class="btn btn-light" disabled="">Нет новых данных</button>
                                 @endif

@@ -25,6 +25,12 @@ Route::get('/', function () {
 
 Route::post('/auth/login', 'Controller@authenticate');
 Route::post('/editMethodistInfo', 'ProfileController@updateMethodistInfoForm')->middleware('auth');
+Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
+Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
+
+//TODO: add normal identify for rankings
+Route::get('/pdfRanking/{idTemp}/{idUser}','ProfileController@createPdfReport')->middleware('auth');
+Route::get('/docRanking/{idTemp}/{idUser}','ProfileController@createDocReport')->middleware('auth');
 
 Route::get('/information/create/ajax-year',function()
 {
@@ -61,6 +67,11 @@ Route::get('/articles/{id}', 'ProfileController@showArticles')->name('articles')
 Route::post('/createEventForm/{idUser?}', 'ProfileController@createEventForm')->middleware('auth');
 Route::post('/addEventMembers/{idRes}', 'ProfileController@addEventMembersForm')->middleware('auth');
 
+Route::post('/createPublicationForm/{idUser?}', 'ProfileController@createArticleForm')->middleware('auth');
+Route::post('/addPublicationAuthor/{idRes}', 'ProfileController@addPublicationAuthorForm')->middleware('auth');
+
+Route::post('/changeStatusForNewRes', 'ProfileController@changeStatusForNewResForm')->middleware('auth');
+
 Route::prefix(LocaleMiddleware::getLocale())->group(function () {
 
     Route::get('/', 'Controller@login');
@@ -73,16 +84,12 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::get('/profile','ProfileController@index')->middleware('auth');
 
     Route::get('/createArticle','ProfileController@createArticlePage')->middleware('auth');
-    Route::post('/createPublicationForm', 'ProfileController@createArticleForm')->middleware('auth');
+
     Route::get('/addArticleAuthor/{idRes}','ProfileController@createResultOwner')->middleware('auth');
-    Route::post('/addPublicationAuthor/{idRes}', 'ProfileController@addPublicationAuthorForm')->middleware('auth');
 
     Route::get('/createResult','ProfileController@createEventPage')->middleware('auth');
 
     Route::get('/addEventAuthor/{idRes}','ProfileController@memberOfEventPage')->middleware('auth');
-
-
-
 
     Route::get('/createrating','ProfileController@createRatingPage')->middleware('auth');
 
@@ -117,16 +124,13 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
 
     Route::get('/professorProfile','ProfileController@professorProfile')->middleware('auth');
     Route::get('/infoProfile','ProfileController@infoProfile')->middleware('auth');
-    Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
 
     Route::get('/studentProfile','ProfileController@studentProfile')->middleware('auth');
-    Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
 
     Route::get('/infoProfileMethodist','ProfileController@infoProfile')->middleware('auth');
 
 
     Route::get('/acceptResults','ProfileController@acceptResultsPage')->middleware('auth');
-    Route::post('/changeStatusForNewRes', 'ProfileController@changeStatusForNewResForm')->middleware('auth');
 
     Route::get('/event/{id}','ProfileController@showInfoAboutResult')->middleware('auth');
     Route::post('/editEventInfo/{id}', 'ProfileController@editEventInfoForm')->middleware('auth');
@@ -148,9 +152,7 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
 
     Route::get('/rankingsPage','ProfileController@showRankingsPage')->middleware('auth');
 
-    //TODO: add normal identify for rankings
-    Route::get('/pdfRanking/{idTemp}/{idUser}','ProfileController@createPdfReport')->middleware('auth');
-    Route::get('/docRanking/{idTemp}/{idUser}','ProfileController@createDocReport')->middleware('auth');
+
 
     Route::get('/deleteAuthorPub/{idAuthor}','ProfileController@deleteAuthorOfPublication')->middleware('auth');
     //TODO

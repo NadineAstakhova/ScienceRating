@@ -25,7 +25,7 @@
                 <h5 class="card-header">Научные достижения пользователя</h5>
                 <div class="card-body">
                     <p class="card-text">Просмотр и распечатка текущих научных результатов без учёта рейтинга.</p>
-                    <a href="{{url("showUserResult/".$user->idUsers)}}" class="btn btn-info" id="listSub">Просмотр данных</a>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/showUserResult/".$user->idUsers)}}" class="btn btn-info" id="listSub">Просмотр данных</a>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 <h5 class="card-header">Добавление научных публикаций</h5>
                 <div class="card-body">
                     <p class="card-text">Формы добавление данных публикации для пользователя/ей.</p>
-                    <a href="{{url("createArticleByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">Внести данные</a>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createArticleByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">Внести данные</a>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 <h5 class="card-header">Добавление научных результатов</h5>
                 <div class="card-body">
                     <p class="card-text">Форма добавления данных вашего научного результата.</p>
-                    <a href="{{url("createEventByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">Внести данные</a>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createEventByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">Внести данные</a>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 <h5 class="card-header">Построение рейтингов</h5>
                 <div class="card-body">
                     <p class="card-text">Просмотр и распечатка доступных научных рейтингов.</p>
-                    <a href="{{url("rankingsPage")}}" class="btn btn-info" id="listSub">Просмотр рейтинга</a>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/rankingsPage")}}" class="btn btn-info" id="listSub">Просмотр рейтинга</a>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <h5 class="card-header">Личные данные</h5>
                 <div class="card-body">
                     <p class="card-text">Просмотр личных данных и их редактирование</p>
-                    <a href="{{url("infoProfile")}}" class="btn btn-info" id="listSub">Просмотр анкеты</a>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/infoProfile")}}" class="btn btn-info" id="listSub">Просмотр анкеты</a>
                 </div>
             </div>
         </div>
