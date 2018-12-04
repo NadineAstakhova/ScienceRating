@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Requests\MethodistCreatingValidation;
 use App\Http\Requests\ProfessorCreatingValidation;
 use App\Mail\VerifyMail;
@@ -37,14 +38,14 @@ class AdminController extends Controller
             else
                 $updatePass = 0;
             if(($updatePass && $updateInfoUser) ||  ($updateInfoUser || $updatePass)){
-                return redirect('admin')->with('save', 'Данные успешно изменены');
+                return redirect(LocaleMiddleware::getLocale().'/admin')->with('save', 'Данные успешно изменены');
             }
             else
-                return redirect('admin')->with('error', 'Ошибка при измении данных');
+                return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка при измении данных');
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('admin')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка при измении данных');
         } catch (\Exception $e) {
-            return redirect('admin')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка при измении данных');
         }
 
     }
@@ -61,10 +62,10 @@ class AdminController extends Controller
         if ($model->createMethodist($username, $email, $email)){
             $user = User::where('email', '=', $email)->firstOrFail();
             Mail::to($email)->send(new VerifyMail($user));
-            return redirect('admin');
+            return redirect(LocaleMiddleware::getLocale().'/admin');
         }
         else
-            return redirect('admin')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка записи');
     }
 
     public function methodistList(){
@@ -96,10 +97,10 @@ class AdminController extends Controller
         if ($model->createProfessor($username, $email, $email, $name, $surname, $patronymic)){
             $user = User::where('email', '=', $email)->firstOrFail();
             Mail::to($email)->send(new VerifyMail($user));
-            return redirect('admin');
+            return redirect(LocaleMiddleware::getLocale().'/admin');
         }
         else
-            return redirect('admin')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка записи');
     }
 
     public function deleteUser($idMethodist){

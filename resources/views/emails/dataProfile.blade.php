@@ -19,7 +19,7 @@
 <br/>
 Пароль: {{$user['email']}}
 <br/>
-<a href="{{url('http://sciencerating/public/')}}">Сайт Научного рейтинга кафедры КТ</a>
+<a href="{{url('http://sciencerating/public/'.App\Http\Middleware\LocaleMiddleware::getLocale())}}">Сайт Научного рейтинга кафедры КТ</a>
 @if($user['type'] == \App\User::PROFESSOR)
     <br/>
     <a href="{{url('http://systemforuniver/web')}}">Сайт системы удалённых работ</a>
