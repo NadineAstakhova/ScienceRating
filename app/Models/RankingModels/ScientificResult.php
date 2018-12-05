@@ -12,10 +12,14 @@ class ScientificResult extends BaseModel
     protected $table = 'scient_event';
     protected $fillable = array('title', 'date', 'fkType', 'file');
 
-    const ARRAY_STATUS = array('new' => 'новый',
+    const ARRAY_STATUS_RU = array('new' => 'новый',
         'confirmed'=> 'подтверждённый',
         'unconfirmed' => 'не подтверждённый',
         );
+    const ARRAY_STATUS_UK = array('new' => 'новий',
+        'confirmed'=> 'підтверджений',
+        'unconfirmed' => 'не підтверджений',
+    );
 
     public function insertEvent($title,$date, $fkType){
         $insert = DB::table('scient_event')->insert([

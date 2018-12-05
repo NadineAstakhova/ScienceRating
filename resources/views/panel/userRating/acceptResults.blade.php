@@ -12,30 +12,30 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile')}}>Главная</a></li>
-                <li class="breadcrumb-item active">Подтверждение научных результатов </li>
+                <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile')}}>{{ trans('messages.main')}}</a></li>
+                <li class="breadcrumb-item active">{{ trans('messages.accept_res')}}</li>
             </ol>
         </nav>
     </div>
     <div class="row">
         <div class="col-xs-6 col-sm-8 col-lg-8">
-            <h3>Новые научные мероприятия </h3>
+            <h3>{{ trans('messages.new_res')}}</h3>
         </div>
         {!! Form::open(['url' => ['changeStatusForNewRes'], 'class'=>'form',  'style' => 'width:100%']) !!}
         @if(count($arrNewEvents) > 0)
-            {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn-top']) !!}
-            <a class="btn btn-outline-secondary btn-close" id="j">Cancel</a>
+            {!! Form::submit(trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn-top']) !!}
+            <a class="btn btn-outline-secondary btn-close" id="j">{{ trans('messages.cancel')}}</a>
             <table class="table table-bordered" style="margin-top: 5px;">
                 <thead>
                 <tr>
                     <th>
-                        Название
+                        {{ trans('messages.pub_name')}}
                     </th>
                     <th>
-                        Тип результата
+                        {{ trans('messages.type_of_res')}}
                     </th>
                     <th>
-                        Участник
+                        {{ trans('messages.participant')}}
                     </th>
                     <th>
                         Дата
@@ -50,7 +50,7 @@
                         Файл
                     </th>
                     <th>
-                        Изменить статус
+                        {{ trans('messages.change_status')}}
                     </th>
                 </tr>
                 </thead>
@@ -67,8 +67,14 @@
                         <td>{{$res->type_of_role}}</td>
                         <td>{{$res->file}}</td>
                         <td>
-                            {!! Form::select('arrStatusRes['.$i.']',
-                            \App\Models\RankingModels\ScientificResult::ARRAY_STATUS,  null, ['class' => 'form-old-select form-control']) !!}
+                            @if (App\Http\Middleware\LocaleMiddleware::getLocale() == 'ru')
+                                {!! Form::select('arrStatusRes['.$i.']',
+                                \App\Models\RankingModels\ScientificResult::ARRAY_STATUS_RU,  null, ['class' => 'form-old-select form-control']) !!}
+                            @elseif (App\Http\Middleware\LocaleMiddleware::getLocale() == 'uk')
+                                {!! Form::select('arrStatusRes['.$i.']',
+                                \App\Models\RankingModels\ScientificResult::ARRAY_STATUS_UK,  null, ['class' => 'form-old-select form-control']) !!}
+                            @endif
+
                         </td>
                         {{ Form::hidden('arrResults['.$i.']', $res->idMember) }}
                     </tr>
@@ -81,11 +87,11 @@
 
         @else
             <div class="col-xs-6 col-sm-8 col-lg-8">
-                Нет новых результатов
+                {{ trans('messages.no_res')}}
             </div>
         @endif
         <div class="col-xs-6 col-sm-8 col-lg-8">
-            <h3>Новые научные публикации </h3>
+            <h3>{{ trans('messages.new_pub')}}</h3>
         </div>
 
         @if(count($arrNewPublications) > 0)
@@ -93,7 +99,7 @@
                 <thead>
                 <tr>
                     <th>
-                        Название
+                        {{ trans('messages.pub_name')}}
                     </th>
                     <th>
                         Тип
@@ -102,13 +108,13 @@
                         Автор
                     </th>
                     <th>
-                        Изд-во
+                        {{ trans('messages.pub_name_short')}}
                     </th>
                     <th>
                         Дата
                     </th>
                     <th>
-                        Кол-во стр
+                        {{ trans('messages.pub_numbers')}}
                     </th>
                     <th>
                         %
@@ -118,7 +124,7 @@
                         Файл
                     </th>
                     <th>
-                        Изменить статус
+                        {{ trans('messages.change_status')}}
                     </th>
                 </tr>
                 </thead>
@@ -138,8 +144,13 @@
                         <td class="percent">{{$article->percent_of_writing}} </td>
                         <td class="file">{{$article->file}} </td>
                         <td class="status">
-                            {!! Form::select('arrStatusPub['.$j.']',
-                            \App\Models\RankingModels\ScientificResult::ARRAY_STATUS,  null, ['class' => 'form-old-select form-control']) !!}
+                            @if (App\Http\Middleware\LocaleMiddleware::getLocale() == 'ru')
+                                {!! Form::select('arrStatusPub['.$j.']',
+                                \App\Models\RankingModels\ScientificResult::ARRAY_STATUS_RU,  null, ['class' => 'form-old-select form-control']) !!}
+                            @elseif (App\Http\Middleware\LocaleMiddleware::getLocale() == 'uk')
+                                {!! Form::select('arrStatusPub['.$j.']',
+                                \App\Models\RankingModels\ScientificResult::ARRAY_STATUS_UK,  null, ['class' => 'form-old-select form-control']) !!}
+                            @endif
                         </td>
                         {{ Form::hidden('arrPublications['.$j.']', $article->idPubAuthor) }}
                     </tr>
@@ -149,11 +160,11 @@
                 @endforeach
                 </tbody>
             </table>
-            {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
-            <a class="btn btn-outline-secondary btn-close" id="j">Cancel</a>
+            {!! Form::submit(trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+            <a class="btn btn-outline-secondary btn-close" id="j">{{trans('messages.cancel')}}</a>
         @else
             <div class="col-xs-6 col-sm-8 col-lg-8">
-                Нет новых публикаций
+                {{ trans('messages.no_new_pub')}}
             </div>
         @endif
         {!! Form::close() !!}

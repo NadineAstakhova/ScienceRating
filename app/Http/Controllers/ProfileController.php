@@ -475,7 +475,7 @@ class ProfileController extends Controller
                 $request->get('arrPublications'), $request->get('arrStatusPub'))
 
         ){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', 'Научный результат успешно добавлен');
+            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', trans('messages.suc_added'));
         }
         //else
         //    return redirect('profile')->with('error', 'Ошибка записи');
