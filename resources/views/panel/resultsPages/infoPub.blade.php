@@ -13,13 +13,13 @@
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
-                <li class="breadcrumb-item active">Научная публикация {{$publication->title}}</li>
+                <li class="breadcrumb-item active">{{ trans('messages.update_scient_pub')}} {{$publication->title}}</li>
             </ol>
         </nav>
     </div>
     <div class="row">
         <div class="col-xs-6 col-sm-8 col-lg-8">
-            <h3>Информация о {{$publication->title}} </h3>
+            <h3>{{ trans('messages.info_scient_res')}} {{$publication->title}} </h3>
         </div>
 
     </div>
@@ -27,11 +27,11 @@
         <div class="col-lg-9">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Информация</a>
+                    <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">{{ trans('messages.info')}}</a>
                 </li>
                 @if(Auth::user()->type == '3')
                     <li class="nav-item">
-                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Редактирование</a>
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">{{ trans('messages.update')}}</a>
                     </li>
                 @endif
             </ul>
@@ -43,11 +43,11 @@
                             <p>
                                 {{$publication->type}}
                             </p>
-                            <h6>Издательство</h6>
+                            <h6>{{ trans('messages.pub_ed')}}</h6>
                             <p>
                                 {{$publication->edition}}
                             </p>
-                            <h6>Кол-во страниц</h6>
+                            <h6>{{ trans('messages.pub_numbers')}}</h6>
                             <p>
                                 {{$publication->pages}}
                             </p>
@@ -59,14 +59,14 @@
                             <p>
                                 {{$publication->file}}
                             </p>
-                            <h6>Участинки</h6>
+                            <h6>{{ trans('messages.participants')}}</h6>
                             @if(Auth::user()->type == '3')
-                                <a href="{{url("editAuthorMembers/".$publication->idPublication)}}" class="btn btn-info btn-sm" id="listSub">Изменить участников</a>
+                                <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/editAuthorMembers/".$publication->idPublication)}}" class="btn btn-info btn-sm" id="listSub">{{ trans('messages.change_participants')}}</a>
                             @endif
                             <table class="table table-sm">
                                 <thead>
                                 <tr>
-                                    <th scope="col">ФИО</th>
+                                    <th scope="col">{{ trans('messages.fio')}}</th>
                                     <th scope="col">Статус</th>
                                 </tr>
                                 </thead>
@@ -92,7 +92,7 @@
 
                 <div class="tab-pane" id="edit">
                     {!! Form::open(['url' => ['editPublicationInfo/'.$publication->idPublication], 'class'=>'form']) !!}
-                    {!! Form::label('name', 'Название публикации:') !!}
+                    {!! Form::label('name', trans('messages.name_public')) !!}
 
                     <input type="text" id="name" class="form-control" name="name" value="{{$publication->title}}">
                     <span id="nameT"></span>
@@ -112,7 +112,7 @@
                     </div>
 
                     <div class="form-group row">
-                        {!! Form::label('publishing', 'Издательство:', array('class' => 'col-sm-2 col-form-label')) !!}
+                        {!! Form::label('publishing',  trans('messages.pub_ed').':', array('class' => 'col-sm-2 col-form-label')) !!}
                         <div class="col-sm-3">
                             <input type="text" id="publishing" class="form-control"
                                    name="publishing" value="{{$publication->edition}}">
@@ -120,15 +120,15 @@
                     </div>
 
                     <div class="form-group row">
-                        {!! Form::label('pages', 'Количество страниц:', array('class' => 'col-sm-2 col-form-label')) !!}
+                        {!! Form::label('pages',  trans('messages.pub_numbers').':', array('class' => 'col-sm-2 col-form-label')) !!}
                         <div class="col-sm-3">
                             <input type="number" id="pages" class="form-control" name="pages" value="{{$publication->pages}}">
                         </div>
                     </div>
                     <br>
 
-                    {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
-                    <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">Cancel</a>
+                    {!! Form::submit(trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+                    <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">{{trans('messages.cancel')}}</a>
                     {!! Form::close() !!}
                 </div>
             </div>

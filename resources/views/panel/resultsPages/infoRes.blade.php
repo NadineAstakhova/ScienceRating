@@ -13,13 +13,13 @@
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
-                <li class="breadcrumb-item active">Научный результат {{$event->titleEvent}}</li>
+                <li class="breadcrumb-item active">{{ trans('messages.update_scient_res')}} {{$event->titleEvent}}</li>
             </ol>
         </nav>
     </div>
     <div class="row">
         <div class="col-xs-6 col-sm-8 col-lg-8">
-            <h3>Информация о {{$event->titleEvent}} </h3>
+            <h3>{{ trans('messages.info_scient_res')}} {{$event->titleEvent}} </h3>
         </div>
 
     </div>
@@ -27,11 +27,11 @@
         <div class="col-lg-9">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Информация</a>
+                    <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">{{ trans('messages.info')}} </a>
                 </li>
                 @if(Auth::user()->type == '3')
                     <li class="nav-item">
-                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Редактирование</a>
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">{{ trans('messages.update')}} </a>
                     </li>
                 @endif
             </ul>
@@ -47,14 +47,14 @@
                             <p>
                                 {{$event->type}}
                             </p>
-                            <h6>Участинки</h6>
+                            <h6>{{ trans('messages.participants')}}</h6>
                             @if(Auth::user()->type == '3')
-                                <a href="{{url("editEventMembers/".$event->idScientEvent)}}" class="btn btn-info" id="listSub">Изменить участников</a>
+                                <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/editEventMembers/".$event->idScientEvent)}}" class="btn btn-info" id="listSub">{{ trans('messages.change_participants')}}</a>
                             @endif
                             <table class="table table-sm">
                                 <thead>
                                 <tr>
-                                    <th scope="col">ФИО</th>
+                                    <th scope="col">{{trans('messages.fio')}}</th>
                                     <th scope="col">Результат</th>
                                     <th scope="col">Роль</th>
                                     <th scope="col">Файл</th>
@@ -91,7 +91,7 @@
 
                 <div class="tab-pane" id="edit">
                     {!! Form::open(['url' => ['editEventInfo/'.$event->idScientEvent], 'class'=>'form']) !!}
-                    {!! Form::label('name', 'Название результата (мероприятия/события):') !!}
+                    {!! Form::label('name', trans('messages.name_event')) !!}
 
                     <input type="text" id="name" class="form-control" name="name" value="{{$event->titleEvent}}">
                     <span id="nameT"></span>
@@ -111,8 +111,8 @@
                     </div>
                     <br>
 
-                    {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
-                    <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">Cancel</a>
+                    {!! Form::submit(trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+                    <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">{{trans('messages.cancel')}}</a>
                     {!! Form::close() !!}
                 </div>
             </div>

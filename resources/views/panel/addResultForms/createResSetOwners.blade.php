@@ -45,7 +45,7 @@
 
         {!! Form::submit( trans('messages.save'), ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
 
-        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to('profile') }}">{{ trans('messages.cancel')}}</a>
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}">{{ trans('messages.cancel')}}</a>
         <br> <br>
             <p id="error"></p>
         <table class="table table-sm" id="ownerTable">

@@ -11,22 +11,22 @@
 @section('content')
     <div class="row">
         {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/showUserResult'], 'class'=>'form',  'method' => 'GET', 'style' => 'width:100%; padding-bottom:20px;']) !!}
-        <h3 class="font-weight-normal">Выберите пользователя</h3>
-        <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
+        <h3 class="font-weight-normal">{{ trans('messages.choose_user')}}</h3>
+        <h4 class="font-weight-normal">{{ trans('messages.choose_participants_msg')}}</h4>
 
 
-        {!! Form::submit('Просмотреть научный результат', ['class' => 'btn btn-outline-secondary', 'id' => 'btn-u1']) !!}
-        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}">Cancel</a>
+        {!! Form::submit(trans('messages.show_res_user'), ['class' => 'btn btn-outline-secondary', 'id' => 'btn-u1']) !!}
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}">{{ trans('messages.cancel')}}</a>
         <p id="error-u"></p>
         <table class="table" id="ownerTable">
             <thead>
             <tr>
                 <th>
-                    <input type="text" id="search" placeholder="Поиск по ФИО..." class='form-control'/>
+                    <input type="text" id="search" placeholder="{{ trans('messages.search_by_name')}}..." class='form-control'/>
                 </th>
                 <th>
                     <select id="selectFilter" class='form-control'>
-                        <option id="all">Все пользователи</option>
+                        <option id="all">{{ trans('messages.all_users')}}</option>
                         <option id="student">Student</option>
                         <option id="professor">Professor</option>
                     </select>
@@ -35,7 +35,7 @@
                     Email
                 </th>
                 <th>
-                    Добавить
+                    {{ trans('messages.add')}}
                 </th>
             </tr>
             </thead>
@@ -62,8 +62,8 @@
 
             </tbody>
         </table>
-        {!! Form::submit('Просмотреть научный результат', ['class' => 'btn btn-outline-secondary', 'id' => 'btn-u']) !!}
-        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to('profile') }}">Cancel</a>
+        {!! Form::submit(trans('messages.show_res_user'), ['class' => 'btn btn-outline-secondary', 'id' => 'btn-u']) !!}
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}">{{ trans('messages.cancel')}}</a>
         {!! Form::close() !!}
 
     </div>

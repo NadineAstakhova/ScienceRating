@@ -20,29 +20,29 @@ use App\Models\RankingModels\TypeOfRes;
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 @if(Auth::user()->type == '1')
-                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/professorProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/professorProfile') }}>{{ trans('messages.main')}}</a></li>
                 @elseif(Auth::user()->type == '2')
-                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/studentProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/studentProfile') }}>{{ trans('messages.main')}}</a></li>
                 @elseif(Auth::user()->type == '3')
-                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}>{{ trans('messages.main')}}</a></li>
                 @endif
-                <li class="breadcrumb-item active">Научные результаты </li>
+                <li class="breadcrumb-item active">{{ trans('messages.scient_res_user')}} </li>
             </ol>
         </nav>
     </div>
     <div class="row" id='to_print'>
         <div class="col-xs-6 col-sm-8 col-lg-8 printed-center">
-            <h3>Научные результаты {{$user}} </h3>
+            <h3>{{ trans('messages.scient_res_user')}} {{$user}} </h3>
         </div>
         <div class="col-xs-8 col-sm-4 col-lg-4" id="listBtn">
-            <button class="btn btn-outline-dark" id="print">Печать</button>
+            <button class="btn btn-outline-dark" id="print">{{ trans('messages.print_1')}}</button>
         </div>
         <div class="col-xs-6 col-sm-8 col-lg-8 printed-center">
-            <h3>Научные мероприятия </h3>
+            <h3>{{ trans('messages.scient_event_user')}} </h3>
         </div>
         <div class="col-xs-6 col-sm-8 col-lg-9">
             <div class="alert alert-info no-print" role="alert">
-              Чтобы отредактировать значение в колонках "Результат", "Роль", "Процент" достаточно нажать на нужную колонку
+                {{ trans('messages.edit_pub_msg')}}
             </div>
         </div>
         @if(count($arrEvents) > 0)
@@ -50,10 +50,10 @@ use App\Models\RankingModels\TypeOfRes;
             <thead>
             <tr>
                 <th>
-                    Название
+                    {{ trans('messages.pub_name')}}
                 </th>
                 <th>
-                    Тип результата
+                    {{ trans('messages.type_of_res')}}
                 </th>
                 <th>
                     Дата
@@ -72,7 +72,7 @@ use App\Models\RankingModels\TypeOfRes;
                 </th>
                 @if(Auth::user()->type == '3')
                     <th class="no-print">
-                        Действие
+                        {{ trans('messages.actions')}}
                     </th>
                 @endif
             </tr>
@@ -89,7 +89,7 @@ use App\Models\RankingModels\TypeOfRes;
                         <td>{{$res->date}}</td>
                         <td>
                             <div onclick="showInputProviderRes({{$i}})">
-                                <span id="result[{{$i}}]" onclick="showInputProviderRes({{$i}})" class="unic-text-percent" data-toggle="tooltip" title="Нажмите, чтобы отредактировать значение">
+                                <span id="result[{{$i}}]" onclick="showInputProviderRes({{$i}})" class="unic-text-percent" data-toggle="tooltip" title="{{ trans('messages.msg_update')}}">
                                     {{$res->type_of_res}}
                                 </span>
                             </div>
@@ -98,7 +98,7 @@ use App\Models\RankingModels\TypeOfRes;
                         </td>
                         <td>
                             <div onclick="showInputProviderRole({{$i}})">
-                                <span id="role[{{$i}}]" onclick="showInputProviderRole({{$i}})" class="unic-text-percent" data-toggle="tooltip" title="Нажмите, чтобы отредактировать значение">
+                                <span id="role[{{$i}}]" onclick="showInputProviderRole({{$i}})" class="unic-text-percent" data-toggle="tooltip" title="{{ trans('messages.msg_update')}}">
                                    {{$res->type_of_role}}
                                 </span>
                             </div>
@@ -107,14 +107,17 @@ use App\Models\RankingModels\TypeOfRes;
                                 ]) !!}
                         </td>
                         <td class="no-print">{{$res->file}}</td>
-                        <td class = "{{$res->status}}">{{ScientificResult::ARRAY_STATUS[$res->status]}}</td>
+                        <td class = "{{$res->status}}">
+                            @if (App\Http\Middleware\LocaleMiddleware::getLocale() == 'ru')
+                                {{ScientificResult::ARRAY_STATUS_RU[$res->status]}}
+                            @elseif (App\Http\Middleware\LocaleMiddleware::getLocale() == 'uk')
+                                {{ScientificResult::ARRAY_STATUS_UK[$res->status]}}
+                            @endif
+                        </td>
                         @if(Auth::user()->type == '3')
                         <td class="no-print">
-
-
                                 <a href="{{url("deleteMemberEvent/$res->idMember")}}">
                                     <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
-
                         </td>
                         @endif
                         @php
@@ -126,11 +129,11 @@ use App\Models\RankingModels\TypeOfRes;
         </table>
         @else
             <div class="col-xs-6 col-sm-8 col-lg-8">
-                Нет результатов
+                {{ trans('messages.no_res_1')}}
             </div>
         @endif
         <div class="col-xs-6 col-sm-8 col-lg-8 printed-center">
-            <h3>Научные публикации </h3>
+            <h3>{{ trans('messages.scient_pub_user')}} </h3>
         </div>
 
         @if(count($arrArticles) > 0)
@@ -144,16 +147,16 @@ use App\Models\RankingModels\TypeOfRes;
                     Тип
                 </th>
                 <th>
-                    Процент
+                    {{ trans('messages.percent')}}
                 </th>
                 <th>
-                    Из-во
+                    {{ trans('messages.pub_name_short')}}
                 </th>
                 <th>
                     Дата
                 </th>
                 <th>
-                    Кол-во стр
+                    {{ trans('messages.pub_numbers')}}
                 </th>
 
                 <th class="no-print">
@@ -163,7 +166,7 @@ use App\Models\RankingModels\TypeOfRes;
                     Статус
                 </th>
                 <th class="no-print">
-                    Действие
+                    {{ trans('messages.actions')}}
                 </th>
             </tr>
             </thead>
@@ -178,7 +181,7 @@ use App\Models\RankingModels\TypeOfRes;
                         </td>
                         <td class="type_pub">{{$article->type}} </td>
                         <td class="percent">
-                            <div onclick="showInputProvider({{$i}})" data-toggle="tooltip" title="Нажмите, чтобы отредактировать значение">
+                            <div onclick="showInputProvider({{$i}})" data-toggle="tooltip" title="{{ trans('messages.msg_update')}}">
                             <span id="percent[{{$i}}]" onclick="showInputProvider({{$i}})" class="unic-text-percent" >{{$article->percent_of_writing}}</span>
                             </div>
                             <input type="number" class='form-control' name="arrPercent[{{$i}}]" id="percentInput[{{$i}}]"
@@ -193,7 +196,13 @@ use App\Models\RankingModels\TypeOfRes;
                         <td class="date">{{$article->date}} </td>
                         <td class="pages">{{$article->pages}} </td>
                         <td class="file no-print">{{$article->file}} </td>
-                        <td class = "{{$article->status}}">{{ScientificResult::ARRAY_STATUS[$article->status]}}</td>
+                        <td class = "{{$article->status}}">
+                            @if (App\Http\Middleware\LocaleMiddleware::getLocale() == 'ru')
+                                {{ScientificResult::ARRAY_STATUS_RU[$article->status]}}
+                            @elseif (App\Http\Middleware\LocaleMiddleware::getLocale() == 'uk')
+                                {{ScientificResult::ARRAY_STATUS_UK[$article->status]}}
+                            @endif
+                        </td>
                         <td class="no-print">
                             <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
                                  onclick="showInputProvider({{$i}})">
@@ -211,7 +220,7 @@ use App\Models\RankingModels\TypeOfRes;
         </table>
         @else
             <div class="col-xs-6 col-sm-8 col-lg-8">
-                 Нет публикаций
+                {{ trans('messages.no_user_pub')}}
             </div>
         @endif
     </div>
