@@ -122,7 +122,7 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
         return App::make('App\Http\Controllers\ProfileController')->$action(Input::get('owner_id'));
     });
 
-    Route::resource('/articles', 'ProfileController@showArticles');
+    Route::get('/articles/{id}', 'ProfileController@showArticles');
 
     Route::get('/professorProfile','ProfileController@professorProfile')->middleware('auth');
     Route::get('/infoProfile','ProfileController@infoProfile')->middleware('auth');

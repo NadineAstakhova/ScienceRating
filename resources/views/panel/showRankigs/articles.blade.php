@@ -9,27 +9,27 @@
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Просмотр публикаций</h5>
+            <h5 class="modal-title">{{ trans('messages.show_pub')}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 <div class="modal-body" id='to_print'>
-    <p style="text-align: center;">Публикации {{$user}}</p>
+    <p style="text-align: center;">{{ trans('messages.publications')}} {{$user}}</p>
     <table class="table table-hover" id="articlesTable">
         <thead>
         <tr>
             <th>
-                Название
+                {{ trans('messages.pub_name')}}
             </th>
             <th>
-                Издательство
+                {{ trans('messages.pub_ed')}}
             </th>
             <th>
                 Дата
             </th>
             <th>
-                Кол-во страниц
+                {{ trans('messages.pub_numbers')}}
             </th>
             <th>
                 Процент
@@ -60,16 +60,16 @@
 
         @else
             <tr class="all">
-                <td>Нет публикаций</td>
+                <td>{{ trans('messages.no_pub')}}</td>
             </tr>
         @endif
         </tbody>
     </table>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('messages.cancel')}}</button>
 
-    <button type="button" class="btn btn-success" data-slug="" id="print">Распечатать</button>
+    <button type="button" class="btn btn-success" data-slug="" id="print">{{ trans('messages.print')}}</button>
 </div>
 
     </div>
