@@ -7,22 +7,22 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}>Главная</a></li>
-                <li class="breadcrumb-item active">Построение рейтинга</li>
+                <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}>{{ trans('messages.main')}}</a></li>
+                <li class="breadcrumb-item active">{{ trans('messages.title_rank')}}</li>
             </ol>
         </nav>
-        <h3 class="font-weight-normal">Выберите тип рейтинга:</h3>
+        <h3 class="font-weight-normal">{{ trans('messages.choose_rank')}}:</h3>
     </div>
     <div class="row">
-        <p class="font-weight-normal">Обратите внимание, что в рейтингах учитываются только подтверждённые результаты</p>
+        <p class="font-weight-normal">{{ trans('messages.rank_msg')}}</p>
     </div>
     <div class="row">
         <div class="col-sm-3">
             <ul>
-                <li><a id="0" onclick="showTabs(0)" class="header-active">Научный рейтинг. Магистратура</a></li>
-                <li><a id="1" onclick="showTabs(1)">Научный рейтинг. Аспирантура</a></li>
-                <li><a id="2" onclick="showTabs(2)">Текущий рейтинг преподавателя</a></li>
-                <li><a id="3" onclick="showTabs(3)">Сортировка по публикациям</a></li>
+                <li><a id="0" onclick="showTabs(0)" class="header-active">{{ trans('messages.rank_mag')}}</a></li>
+                <li><a id="1" onclick="showTabs(1)">{{ trans('messages.rank_asp')}}</a></li>
+                <li><a id="2" onclick="showTabs(2)">{{ trans('messages.rank_prof')}}</a></li>
+                <li><a id="3" onclick="showTabs(3)">{{ trans('messages.sort_pub')}}</a></li>
             </ul>
 
         </div>
@@ -30,71 +30,71 @@
         <div class="col-sm-9">
             <div class="ranking" id="0-content">
 
-                <p>Курс </p>
+                <p>{{ trans('messages.course')}} </p>
                 <div class="form-group">
                     <select name="year" id="year" class="form-old-select form-control">
-                        <option value="" disabled selected>Выберите курс</option>
+                        <option value="" disabled selected>{{ trans('messages.choose_course')}}</option>
                         @for($i=1; $i < 5; $i++)
                             <option value="{{$i}}"> {{ $i}} </option>
                         @endfor
                     </select>
                 </div>
-                <p>Выберите группу</p>
+                <p>{{ trans('messages.choose_group')}}</p>
                 <div class="form-group">
                         <select id="groups" class="form-old-select form-control input" name="groups_id">
-                            <option value="" disabled selected>Выберите группу</option>
+                            <option value="" disabled selected>{{ trans('messages.choose_group')}}</option>
                         </select>
                 </div>
                 {!! Form::open(['url' => ['pdfMaster/2'], 'class'=>'form',  'method' => 'GET', 'target'=>"_blank"]) !!}
-                <p>Выберите студента</p>
+                <p>{{ trans('messages.choose_student')}}</p>
                 <div class="form-group">
                         <select id="students" class="form-old-select form-control input" name="owner_id">
-                            <option value="" disabled selected>Выберите студента</option>
+                            <option value="" disabled selected>{{ trans('messages.choose_student')}}</option>
                         </select>
                 </div>
                 <p id="error"></p>
                 <br><br>
-                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn', 'name' => 'pdf']) !!}
-                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc', 'name' => 'doc']) !!}
+                {!! Form::submit(trans('messages.pdf_doc'), ['class' => 'btn btn-primary', 'id' => 'btn', 'name' => 'pdf']) !!}
+                {!! Form::submit(trans('messages.doc_doc'), ['class' => 'btn btn-primary', 'id' => 'btn-doc', 'name' => 'doc']) !!}
 
 
                 {!! Form::close() !!}
             </div>
 
             <div class="ranking" id="1-content" style="display: none">
-                <p>Курс</p>
+                <p>{{ trans('messages.course')}}</p>
                 <div class="form-group">
                     <select name="year" id="year1" class="form-old-select form-control">
-                        <option value="" disabled selected>Выберите курс</option>
+                        <option value="" disabled selected>{{ trans('messages.choose_course')}}</option>
                         @for($i=1; $i < 5; $i++)
                             <option value="{{$i}}"> {{ $i}} </option>
                         @endfor
                     </select>
 
                 </div>
-                <p>Выберите группу</p>
+                <p>{{ trans('messages.choose_group')}}</p>
                 <div class="form-group">
                     <select id="groups1" class="form-old-select form-control input" name="groups_id">
-                        <option value="" disabled selected>Выберите группу</option>
+                        <option value="" disabled selected>{{ trans('messages.choose_group')}}</option>
                     </select>
                 </div>
                 {!! Form::open(['url' => ['pdfMaster/1'], 'class'=>'form',  'method' => 'GET', 'target'=>"_blank"]) !!}
 
-                <p>Выберите студента</p>
+                <p>{{ trans('messages.choose_student')}}</p>
                 <div class="form-group">
                     <select id="students1" class="form-old-select form-control input" name="owner_id">
-                        <option value="" disabled selected>Выберите студента</option>
+                        <option value="" disabled selected>{{ trans('messages.choose_student')}}</option>
                     </select>
                 </div>
                 <p id="error1"></p>
                 <br><br>
-                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn1', 'name' => 'pdf']) !!}
-                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc1', 'name' => 'doc']) !!}
+                {!! Form::submit(trans('messages.pdf_doc'), ['class' => 'btn btn-primary', 'id' => 'btn1', 'name' => 'pdf']) !!}
+                {!! Form::submit(trans('messages.doc_doc'), ['class' => 'btn btn-primary', 'id' => 'btn-doc1', 'name' => 'doc']) !!}
                 {!! Form::close() !!}
             </div>
 
             <div class="ranking" id="2-content" style="display: none">
-                <p>Выберите преподавателя</p>
+                <p>{{ trans('messages.choose_prof')}}</p>
                 {!! Form::open(['url' => ['pdfMaster/3'], 'class'=>'form',  'method' => 'GET', 'target'=>"_blank"]) !!}
                 <p id="error2"></p>
 
@@ -102,13 +102,13 @@
                     <thead>
                     <tr>
                         <th>
-                            <input type="text" id="searchOne" placeholder="Поиск по ФИО..." class='form-control form-control-sm'/>
+                            <input type="text" id="searchOne" placeholder="{{ trans('messages.search_by_name')}}..." class='form-control form-control-sm'/>
                         </th>
                         <th>
                             Email
                         </th>
                         <th>
-                            Добавить
+                            {{ trans('messages.add')}}
                         </th>
                     </tr>
                     </thead>
@@ -136,8 +136,8 @@
 
                     </tbody>
                 </table>
-                {!! Form::submit('Сформировать pdf-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn2', 'name' => 'pdf']) !!}
-                {!! Form::submit('Сформировать doc-отчёт', ['class' => 'btn btn-primary', 'id' => 'btn-doc2', 'name' => 'doc']) !!}
+                {!! Form::submit(trans('messages.pdf_doc'), ['class' => 'btn btn-primary', 'id' => 'btn2', 'name' => 'pdf']) !!}
+                {!! Form::submit(trans('messages.doc_doc'), ['class' => 'btn btn-primary', 'id' => 'btn-doc2', 'name' => 'doc']) !!}
                 {!! Form::close() !!}
                 <br>
 
@@ -151,18 +151,18 @@
     </div>
     <script>
         $('#year').on('change', function(e){
-            fillFields(e, '#groups', '{{ url('information') }}/create/ajax-year?year_id', "Выберите группу");
+            fillFields(e, '#groups', '{{ url('information') }}/create/ajax-year?year_id', "{{ trans('messages.choose_group')}}");
         });
 
         $('#groups').on('change', function(e){
-            fillFields(e, '#students', '{{ url('information') }}/create/ajax-group?group_id', "Выберите студента");
+            fillFields(e, '#students', '{{ url('information') }}/create/ajax-group?group_id', "{{ trans('messages.choose_student')}}");
         });
         $('#year1').on('change', function(e){
-            fillFields(e, '#groups1', '{{ url('information') }}/create/ajax-year?year_id', "Выберите группу");
+            fillFields(e, '#groups1', '{{ url('information') }}/create/ajax-year?year_id', "{{ trans('messages.choose_group')}}");
         });
 
         $('#groups1').on('change', function(e){
-            fillFields(e, '#students1', '{{ url('information') }}/create/ajax-group?group_id', "Выберите студента");
+            fillFields(e, '#students1', '{{ url('information') }}/create/ajax-group?group_id', "{{ trans('messages.choose_student')}}");
         });
     </script>
 
