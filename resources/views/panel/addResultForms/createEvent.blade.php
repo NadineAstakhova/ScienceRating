@@ -54,7 +54,7 @@ use App\Models\RankingModels\TypeOfRes;
             {!! Form::open(['url' => ['createEventForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
         @endif
 
-        {!! Form::label('file', 'Загрузить документ:') !!}
+        {!! Form::label('file',  trans('messages.upload_doc')) !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
         <p id="error"></p>
         <div class="custom-control custom-checkbox">
@@ -127,9 +127,9 @@ use App\Models\RankingModels\TypeOfRes;
 
         @endif
 
-        {!! Form::submit( trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+        {!! Form::submit(trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
 
-        <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">{{ trans('messages.cancel')}}</a>
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">{{trans('messages.cancel')}}</a>
         <br><br>
 
         {!! Form::close() !!}
