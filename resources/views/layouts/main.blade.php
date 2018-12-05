@@ -40,7 +40,7 @@
                              )
                        )
                        : url(App\Http\Middleware\LocaleMiddleware::getLocale().'/auth/login')}}" class="navbar-brand">
-        Научный рейтинг кафеды КТ</a>
+        {{ trans('messages.main_title')}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -58,9 +58,9 @@
             </li>
             @if (Auth::check())
                 @if(Auth::user()->type == \App\User::METHODIST)
-                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/profile")}}>Главная</a></li>
+                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/profile")}}>{{ trans('messages.main')}}</a></li>
                 @elseif(Auth::user()->type == \App\User::PROFESSOR)
-                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/professorProfile")}}>Главная</a></li>
+                    <li class="nav-item"><a class="nav-header-link nav-link" href={{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/professorProfile")}}>{{ trans('messages.main')}}</a></li>
                 @endif
             @endif
             <li class="nav-item"><a class="nav-header-link nav-link" href="{{Auth::check() ? url(App\Http\Middleware\LocaleMiddleware::getLocale().'/auth/logout') : url(App\Http\Middleware\LocaleMiddleware::getLocale().'/auth/login')}}">
