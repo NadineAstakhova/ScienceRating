@@ -11,6 +11,8 @@ use App\Models\RankingModels\TypeOfRes;
 @extends('layouts.main')
 @section('title', 'User Results')
 @section('header')
+    <script src="{{asset('js/printResults.js')}}"></script>
+
     <script src="{{asset('js/editPercentOfArticle.js')}}"></script>
 @endsection
 @section('content')
