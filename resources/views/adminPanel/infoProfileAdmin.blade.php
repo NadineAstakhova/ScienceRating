@@ -18,7 +18,7 @@
                             </div>
                             <div class="card-body collapse in">
                                 <div class="card-block">
-                                    {!! Form::open(['url' => ['editAdminInfo'], 'class'=>'form']) !!}
+                                    {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editAdminInfo'], 'class'=>'form']) !!}
                                     <div class="row">
                                         <div class="col-md-6 offset-md-3">
                                             <div class="form-body">

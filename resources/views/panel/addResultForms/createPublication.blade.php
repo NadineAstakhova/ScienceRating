@@ -39,9 +39,9 @@
         @endphp
 
         @if(!isset($idUser))
-            {!! Form::open(['url' => ['createPublicationForm'], 'class'=>'form', 'files'=>'true']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/createPublicationForm'], 'class'=>'form', 'files'=>'true']) !!}
         @else
-            {!! Form::open(['url' => ['createPublicationForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/createPublicationForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
         @endif
 
         {!! Form::label('file', trans('messages.upload_doc')) !!}

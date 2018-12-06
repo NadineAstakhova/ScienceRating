@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="tab-pane" id="edit">
-                    {!! Form::open(['url' => ['editMethodistInfo'], 'class'=>'form']) !!}
+                    {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editMethodistInfo'], 'class'=>'form']) !!}
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Email:</label>
                         <div class="col-lg-9">

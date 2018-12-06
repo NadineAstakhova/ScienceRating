@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="tab-pane" id="edit">
-                    {!! Form::open(['url' => ['editPublicationInfo/'.$publication->idPublication], 'class'=>'form']) !!}
+                    {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editPublicationInfo/'.$publication->idPublication], 'class'=>'form']) !!}
                     {!! Form::label('name', trans('messages.name_public')) !!}
 
                     <input type="text" id="name" class="form-control" name="name" value="{{$publication->title}}">

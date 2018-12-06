@@ -22,7 +22,7 @@
                                             @endforeach
                                         </div>
                                     @endif
-                                    {!! Form::open(['url' => ['createMethodistForm'], 'class'=>'form']) !!}
+                                    {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/createMethodistForm'], 'class'=>'form']) !!}
                                     <div class="row">
                                         <div class="col-md-6 offset-md-3">
                                             <div class="form-body">

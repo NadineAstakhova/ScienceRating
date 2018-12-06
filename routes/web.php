@@ -28,7 +28,7 @@ Route::post('/auth/login', 'Controller@authenticate');
 /**
  * Routes for editing information about user
  */
-Route::post('/editMethodistInfo', 'ProfileController@updateMethodistInfoForm')->middleware('auth');
+
 Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
 Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
 
@@ -68,20 +68,6 @@ Route::get('/pdfMaster/{idTemp}', function($idTemp) {
 
 Route::get('/articles/{id}', 'ProfileController@showArticles')->name('articles');
 
-Route::post('/createEventForm/{idUser?}', 'ProfileController@createEventForm')->middleware('auth');
-Route::post('/addEventMembers/{idRes}', 'ProfileController@addEventMembersForm')->middleware('auth');
-
-Route::post('/createPublicationForm/{idUser?}', 'ProfileController@createArticleForm')->middleware('auth');
-Route::post('/addPublicationAuthor/{idRes}', 'ProfileController@addPublicationAuthorForm')->middleware('auth');
-
-Route::post('/changeStatusForNewRes', 'ProfileController@changeStatusForNewResForm')->middleware('auth');
-
-Route::post('/editEventInfo/{id}', 'ProfileController@editEventInfoForm')->middleware('auth');
-Route::post('/editEventMembersForm/{idRes}', 'ProfileController@editEventMembersForm')->middleware('auth');
-
-Route::post('/editPublicationInfo/{id}', 'ProfileController@editPublicationInfoForm')->middleware('auth');
-Route::post('/editAuthorMembersForm/{idRes}', 'ProfileController@editPubAuthorsForm')->middleware('auth');
-
 Route::post('/editPercent', 'ProfileController@editPercentToUser')->middleware('auth');
 Route::post('/editResult', 'ProfileController@editResultToUser')->middleware('auth');
 Route::post('/editRole', 'ProfileController@editRoleToUser')->middleware('auth');
@@ -89,10 +75,6 @@ Route::post('/editRole', 'ProfileController@editRoleToUser')->middleware('auth')
 /**
  * Routes for admin
  */
-Route::post('/editAdminInfo', 'AdminController@updateAdminPassForm')->middleware('auth');
-
-Route::post('/createMethodistForm', 'AdminController@createMethodistForm')->middleware('auth');
-Route::post('/createProfessorForm', 'AdminController@createProfessorForm')->middleware('auth');
 Route::get('/deleteUser/{idMethodist}','AdminController@deleteUser')->middleware('auth');
 
 /**
@@ -106,12 +88,23 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::get('/user/verify/{token}', 'Controller@verifyUser');
 
     Route::get('/profile','ProfileController@index')->middleware('auth');
+    /**
+     * Route for editing information about user
+     */
+    Route::post('/editMethodistInfo', 'ProfileController@updateMethodistInfoForm')->middleware('auth');
 
     Route::get('/createArticle','ProfileController@createArticlePage')->middleware('auth');
     Route::get('/addArticleAuthor/{idRes}','ProfileController@createResultOwner')->middleware('auth');
+    Route::post('/createPublicationForm/{idUser?}', 'ProfileController@createArticleForm')->middleware('auth');
+    Route::post('/addPublicationAuthor/{idRes}', 'ProfileController@addPublicationAuthorForm')->middleware('auth');
 
+    /**
+     * Create Event
+     */
     Route::get('/createResult','ProfileController@createEventPage')->middleware('auth');
     Route::get('/addEventAuthor/{idRes}','ProfileController@memberOfEventPage')->middleware('auth');
+    Route::post('/createEventForm/{idUser?}', 'ProfileController@createEventForm')->middleware('auth');
+    Route::post('/addEventMembers/{idRes}', 'ProfileController@addEventMembersForm')->middleware('auth');
 
     Route::get('/createrating','ProfileController@createRatingPage')->middleware('auth');
 
@@ -124,6 +117,9 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
 
     Route::get('/articles/{id}', 'ProfileController@showArticles');
 
+    /**
+     * Cretae articles
+     */
     Route::get('/professorProfile','ProfileController@professorProfile')->middleware('auth');
     Route::get('/infoProfile','ProfileController@infoProfile')->middleware('auth');
     Route::get('/studentProfile','ProfileController@studentProfile')->middleware('auth');
@@ -134,8 +130,12 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::get('/event/{id}','ProfileController@showInfoAboutResult')->middleware('auth');
 
     Route::get('/editEventMembers/{idRes}','ProfileController@memberOfEventPage')->middleware('auth');
+    Route::post('/editEventInfo/{id}', 'ProfileController@editEventInfoForm')->middleware('auth');
+    Route::post('/editEventMembersForm/{idRes}', 'ProfileController@editEventMembersForm')->middleware('auth');
 
     Route::get('/publication/{id}','ProfileController@showInfoAboutPublication')->middleware('auth');
+    Route::post('/editPublicationInfo/{id}', 'ProfileController@editPublicationInfoForm')->middleware('auth');
+    Route::post('/editAuthorMembersForm/{idRes}', 'ProfileController@editPubAuthorsForm')->middleware('auth');
 
     Route::get('/editAuthorMembers/{idRes}','ProfileController@createResultOwner')->middleware('auth');
 
@@ -156,6 +156,8 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::get('/admin','AdminController@index')->middleware('auth');
     Route::get('/infoAdminMethodist','ProfileController@infoProfile')->middleware('auth');
 
+    Route::post('/changeStatusForNewRes', 'ProfileController@changeStatusForNewResForm')->middleware('auth');
+
     /**
      * Admin Panel
      */
@@ -163,5 +165,11 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::get('/methodistList','AdminController@methodistList')->middleware('auth');
     Route::get('/professorList','AdminController@professorList')->middleware('auth');
     Route::get('/createProfessorPage','AdminController@createProfessorPage')->middleware('auth');
+
+    Route::post('/editAdminInfo', 'AdminController@updateAdminPassForm')->middleware('auth');
+
+    Route::post('/createMethodistForm', 'AdminController@createMethodistForm')->middleware('auth');
+    Route::post('/createProfessorForm', 'AdminController@createProfessorForm')->middleware('auth');
+
 });
 Auth::routes();

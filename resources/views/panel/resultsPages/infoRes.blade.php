@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="tab-pane" id="edit">
-                    {!! Form::open(['url' => ['editEventInfo/'.$event->idScientEvent], 'class'=>'form']) !!}
+                    {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editEventInfo/'.$event->idScientEvent], 'class'=>'form']) !!}
                     {!! Form::label('name', trans('messages.name_event')) !!}
 
                     <input type="text" id="name" class="form-control" name="name" value="{{$event->titleEvent}}">

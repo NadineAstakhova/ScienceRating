@@ -21,7 +21,7 @@
         <div class="col-xs-6 col-sm-8 col-lg-8">
             <h3>{{ trans('messages.new_res')}}</h3>
         </div>
-        {!! Form::open(['url' => ['changeStatusForNewRes'], 'class'=>'form',  'style' => 'width:100%']) !!}
+        {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/changeStatusForNewRes'], 'class'=>'form',  'style' => 'width:100%']) !!}
         @if(count($arrNewEvents) > 0)
             {!! Form::submit(trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn-top']) !!}
             <a class="btn btn-outline-secondary btn-close" id="j">{{ trans('messages.cancel')}}</a>

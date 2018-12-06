@@ -49,9 +49,9 @@ use App\Models\RankingModels\TypeOfRes;
         @endif
 
         @if(!isset($idUser))
-            {!! Form::open(['url' => ['createEventForm'], 'class'=>'form', 'files'=>'true']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/createEventForm'], 'class'=>'form', 'files'=>'true']) !!}
         @else
-            {!! Form::open(['url' => ['createEventForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/createEventForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
         @endif
 
         {!! Form::label('file',  trans('messages.upload_doc')) !!}

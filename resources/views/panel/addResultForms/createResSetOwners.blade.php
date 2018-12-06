@@ -7,13 +7,13 @@
     <div class="row">
 
         @if(strpos($_SERVER['REQUEST_URI'], 'editEventMembers') !== false)
-            {!! Form::open(['url' => ['editEventMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editEventMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @elseif(strpos($_SERVER['REQUEST_URI'], 'editAuthorMembers') !== false)
-                {!! Form::open(['url' => ['editAuthorMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+                {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editAuthorMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @elseif(isset($arrRoles))
-            {!! Form::open(['url' => ['addEventMembers/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/addEventMembers/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @else
-            {!! Form::open(['url' => ['addPublicationAuthor/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/addPublicationAuthor/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @endif
 
 
