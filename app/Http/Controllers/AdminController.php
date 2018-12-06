@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Requests\MethodistCreatingValidation;
 use App\Http\Requests\ProfessorCreatingValidation;
 use App\Mail\VerifyMail;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 //TODO student status reg
 class AdminController extends Controller
@@ -37,14 +39,14 @@ class AdminController extends Controller
             else
                 $updatePass = 0;
             if(($updatePass && $updateInfoUser) ||  ($updateInfoUser || $updatePass)){
-                return redirect('admin')->with('save', 'Данные успешно изменены');
+                return redirect(LocaleMiddleware::getLocale().'/admin')->with('save', Lang::get('messages.data_changed_succ'));
             }
             else
-                return redirect('admin')->with('error', 'Ошибка при измении данных');
+                return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.data_changed_err'));
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('admin')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.data_changed_err'));
         } catch (\Exception $e) {
-            return redirect('admin')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.data_changed_err'));
         }
 
     }
@@ -61,10 +63,10 @@ class AdminController extends Controller
         if ($model->createMethodist($username, $email, $email)){
             $user = User::where('email', '=', $email)->firstOrFail();
             Mail::to($email)->send(new VerifyMail($user));
-            return redirect('admin');
+            return redirect(LocaleMiddleware::getLocale().'/admin');
         }
         else
-            return redirect('admin')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.err_writing'));
     }
 
     public function methodistList(){
@@ -96,10 +98,10 @@ class AdminController extends Controller
         if ($model->createProfessor($username, $email, $email, $name, $surname, $patronymic)){
             $user = User::where('email', '=', $email)->firstOrFail();
             Mail::to($email)->send(new VerifyMail($user));
-            return redirect('admin');
+            return redirect(LocaleMiddleware::getLocale().'/admin');
         }
         else
-            return redirect('admin')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.err_writing'));
     }
 
     public function deleteUser($idMethodist){

@@ -7,18 +7,18 @@
     <div class="row">
 
         @if(strpos($_SERVER['REQUEST_URI'], 'editEventMembers') !== false)
-            {!! Form::open(['url' => ['editEventMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editEventMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @elseif(strpos($_SERVER['REQUEST_URI'], 'editAuthorMembers') !== false)
-                {!! Form::open(['url' => ['editAuthorMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+                {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editAuthorMembersForm/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @elseif(isset($arrRoles))
-            {!! Form::open(['url' => ['addEventMembers/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/addEventMembers/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @else
-            {!! Form::open(['url' => ['addPublicationAuthor/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/addPublicationAuthor/'.$idResult], 'class'=>'form', 'files'=>'true', 'style' => 'width:100%']) !!}
         @endif
 
 
-        <h3 class="font-weight-normal">Выберите участника/ов</h3>
-        <h4 class="font-weight-normal">Можете воспользоваться фильтрами в заголовках таблицы</h4>
+        <h3 class="font-weight-normal">{{ trans('messages.choose_participants')}}</h3>
+        <h4 class="font-weight-normal">{{ trans('messages.choose_participants_msg')}}</h4>
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -43,20 +43,20 @@
             @endphp
 
 
-        {!! Form::submit('Save', ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
+        {!! Form::submit( trans('messages.save'), ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
 
-        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to('profile') }}">Cancel</a>
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->to(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}">{{ trans('messages.cancel')}}</a>
         <br> <br>
             <p id="error"></p>
         <table class="table table-sm" id="ownerTable">
             <thead>
                 <tr>
                     <th>
-                        <input type="text" id="search" placeholder="Поиск по ФИО..." class='form-control'/>
+                        <input type="text" id="search" placeholder="{{ trans('messages.search_by_name')}}..." class='form-control'/>
                     </th>
                     <th>
                         <select id="selectFilter" class='form-control'>
-                            <option id="all">Все пользователи</option>
+                            <option id="all">{{ trans('messages.all_users')}}</option>
                             <option id="student">Student</option>
                             <option id="professor">Professor</option>
                         </select>
@@ -78,12 +78,12 @@
                         @endif
                     @else
                         <th>
-                            Процент написания
+                            {{ trans('messages.percent_writing')}}
                         </th>
                     @endif
 
                     <th>
-                        Добавить
+                        {{ trans('messages.add')}}
                     </th>
                 </tr>
             </thead>
@@ -138,9 +138,9 @@
 
             </tbody>
         </table>
-        {!! Form::submit('Save', ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
+        {!! Form::submit( trans('messages.save'), ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
 
-        <a class="btn btn-outline-secondary btn-close" id="j">Cancel</a>
+        <a class="btn btn-outline-secondary btn-close" id="j">{{ trans('messages.cancel')}}</a>
 
         {!! Form::close() !!}
         <br>

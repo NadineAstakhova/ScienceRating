@@ -1,24 +1,5 @@
 $(document).ready(function(){
-    $('.delete_btn').on('click', function () {
-        return confirm('Вы уверены, что хотите удалить научный результат для пользователя?');
-    });
-
     init();
-
-    $('#print').click(function(){
-        var printing_css = "<style media=print>" +
-            "#print, .breadcrumb, .delete_btn, .update_btn, .form-control, .no-print{display: none;}" +
-            "table{text-align: left} </style>";
-        var html_to_print=printing_css+$('#to_print').html();
-        var iframe=$('<iframe id="print_frame">');
-        $('body').append(iframe);
-        var doc = $('#print_frame')[0].contentDocument || $('#print_frame')[0].contentWindow.document;
-        var win = $('#print_frame')[0].contentWindow || $('#print_frame')[0];
-        doc.getElementsByTagName('body')[0].innerHTML=html_to_print;
-        win.print();
-        $('iframe').remove();
-    });
-
 });
 
 const styleTextElem = "unic-text-percent";

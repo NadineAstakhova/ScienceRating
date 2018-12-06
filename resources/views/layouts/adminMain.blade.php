@@ -57,23 +57,26 @@
                 <ul class="nav navbar-nav float-xs-right">
                     <li class="dropdown dropdown-language nav-item">
                         <a id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link">
-                            <i class="flag-icon flag-icon-ru"></i><span class="selected-language">Русский</span></a>
+                            @if (App\Http\Middleware\LocaleMiddleware::getLocale() == 'ru')
+                                <i class="flag-icon flag-icon-ru"></i><span class="selected-language">Русский</span></a>
+                            @elseif(App\Http\Middleware\LocaleMiddleware::getLocale() == 'uk')
+                                <i class="flag-icon flag-icon-ua"></i><span class="selected-language">Українська</span></a>
+                            @endif
                         <div aria-labelledby="dropdown-flag" class="dropdown-menu">
-                            <a href="#" class="dropdown-item"><i class="flag-icon flag-icon-ru"></i> Русский</a>
-                            <a href="#" class="dropdown-item"><i class="flag-icon flag-icon-ua"></i> Українська</a>
-                            <a href="#" class="dropdown-item"><i class="flag-icon flag-icon-gb"></i> English</a>
+                            <a href="{{@getLangURI('ru')}}" class="dropdown-item"><i class="flag-icon flag-icon-ru"></i> Русский</a>
+                            <a href="{{@getLangURI('uk')}}" class="dropdown-item"><i class="flag-icon flag-icon-ua"></i> Українська</a>
                         </div>
                     </li>
                     <li class="dropdown dropdown-user nav-item">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link"><span class="avatar avatar-online">
-                    <img src="../public/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span>
+                    <img src="../app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span>
                             <span class="user-name">{{Auth::user()->username}}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="{{url("infoProfileMethodist")}}" class="dropdown-item"><i class="icon-head"></i> Edit Profile</a>
+                            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/infoProfileMethodist")}}" class="dropdown-item"><i class="icon-head"></i>{{ trans('messages.update_profile')}}</a>
                             <a href="#" class="dropdown-item"><i class="icon-calendar5"></i> Calender</a>
                             <div class="dropdown-divider"></div>
-                            <a href="{{ url('auth/logout')}}" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
+                            <a href="{{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/auth/logout')}}" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -86,7 +89,7 @@
     <div class="main-menu-content">
         <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
             <li class=" nav-item">
-                <a href="{{url("admin")}}">
+                <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/admin")}}">
                     <i class="icon-home3"></i>
                     <span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Dashboard</span>
                 </a>
@@ -95,24 +98,24 @@
             <li class=" nav-item">
                 <a href="#">
                     <i class="icon-user"></i>
-                    <span data-i18n="nav.page_layouts.main" class="menu-title">Методисты</span>
+                    <span data-i18n="nav.page_layouts.main" class="menu-title">{{ trans('messages.methodists')}}</span>
                 </a>
                 <ul class="menu-content">
                     <li>
-                        <a href="{{url("methodistList")}}" data-i18n="nav.page_layouts.1_column" class="menu-item">
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/methodistList")}}" data-i18n="nav.page_layouts.1_column" class="menu-item">
                             <i class="icon-list"></i>
                             <span data-i18n="nav.project.main" class="menu-title">Список</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{url("createMethodistPage")}}" data-i18n="nav.page_layouts.2_columns"
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createMethodistPage")}}" data-i18n="nav.page_layouts.2_columns"
                            class="menu-item">
                             <i class="icon-user-plus"></i>
-                            <span data-i18n="nav.project.main" class="menu-title">Создание</span>
+                            <span data-i18n="nav.project.main" class="menu-title">{{ trans('messages.create')}}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{url("createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
                             <i class="icon-android-funnel"></i>
                             <span data-i18n="nav.project.main" class="menu-title">Меню</span>
                         </a>
@@ -123,23 +126,23 @@
             <li class=" nav-item">
                 <a href="#">
                     <i class="icon-study"></i>
-                    <span data-i18n="nav.project.main" class="menu-title">Преподаватели</span>
+                    <span data-i18n="nav.project.main" class="menu-title">{{ trans('messages.profs')}}</span>
                 </a>
                 <ul class="menu-content">
                     <li>
-                        <a href="{{url("professorList")}}" data-i18n="nav.page_layouts.1_column" class="menu-item">
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/professorList")}}" data-i18n="nav.page_layouts.1_column" class="menu-item">
                             <i class="icon-list"></i>
                             <span data-i18n="nav.project.main" class="menu-title">Список</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{url("createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
                             <i class="icon-user-plus"></i>
-                            <span data-i18n="nav.project.main" class="menu-title">Создание</span>
+                            <span data-i18n="nav.project.main" class="menu-title">{{ trans('messages.create')}}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{url("createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
                             <i class="icon-android-funnel"></i>
                             <span data-i18n="nav.project.main" class="menu-title">Меню</span>
                         </a>
@@ -155,25 +158,25 @@
 </footer>
 
 <!-- BEGIN VENDOR JS-->
-<script src="../public/app-assets/js/core/libraries/jquery.min.js" type="text/javascript"></script>
-<script src="../public/app-assets/vendors/js/ui/tether.min.js" type="text/javascript"></script>
-<script src="../public/app-assets/js/core/libraries/bootstrap.min.js" type="text/javascript"></script>
-<script src="../public/app-assets/vendors/js/ui/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-<script src="../public/app-assets/vendors/js/ui/unison.min.js" type="text/javascript"></script>
-<script src="../public/app-assets/vendors/js/ui/blockUI.min.js" type="text/javascript"></script>
-<script src="../public/app-assets/vendors/js/ui/jquery.matchHeight-min.js" type="text/javascript"></script>
-<script src="../public/app-assets/vendors/js/ui/screenfull.min.js" type="text/javascript"></script>
-<script src="../public/app-assets/vendors/js/extensions/pace.min.js" type="text/javascript"></script>
+<script src="../app-assets/js/core/libraries/jquery.min.js" type="text/javascript"></script>
+<script src="../app-assets/vendors/js/ui/tether.min.js" type="text/javascript"></script>
+<script src="../app-assets/js/core/libraries/bootstrap.min.js" type="text/javascript"></script>
+<script src="../app-assets/vendors/js/ui/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<script src="../app-assets/vendors/js/ui/unison.min.js" type="text/javascript"></script>
+<script src="../app-assets/vendors/js/ui/blockUI.min.js" type="text/javascript"></script>
+<script src="../app-assets/vendors/js/ui/jquery.matchHeight-min.js" type="text/javascript"></script>
+<script src="../app-assets/vendors/js/ui/screenfull.min.js" type="text/javascript"></script>
+<script src="../app-assets/vendors/js/extensions/pace.min.js" type="text/javascript"></script>
 <!-- BEGIN VENDOR JS-->
 <!-- BEGIN PAGE VENDOR JS-->
-<script src="../public/app-assets/vendors/js/charts/chart.min.js" type="text/javascript"></script>
+<script src="../app-assets/vendors/js/charts/chart.min.js" type="text/javascript"></script>
 <!-- END PAGE VENDOR JS-->
 <!-- BEGIN ROBUST JS-->
-<script src="../public/app-assets/js/core/app-menu.js" type="text/javascript"></script>
-<script src="../public/app-assets/js/core/app.js" type="text/javascript"></script>
+<script src="../app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="../app-assets/js/core/app.js" type="text/javascript"></script>
 <!-- END ROBUST JS-->
 <!-- BEGIN PAGE LEVEL JS-->
-<script src="../public/app-assets/js/scripts/pages/dashboard-lite.js" type="text/javascript"></script>
+<script src="../app-assets/js/scripts/pages/dashboard-lite.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL JS-->
 </body>
 </html>

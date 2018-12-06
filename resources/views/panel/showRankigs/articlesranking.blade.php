@@ -11,11 +11,11 @@
     <thead>
     <tr>
         <th>
-            <input type="text" id="search" placeholder="Поиск по ФИО..." class='form-control form-control-sm'/>
+            <input type="text" id="search" placeholder="{{ trans('messages.search_by_name')}}..." class='form-control form-control-sm'/>
         </th>
         <th>
             <select id="selectFilter" class='form-control form-control-sm'>
-                <option id="all">Все пользователи</option>
+                <option id="all">{{ trans('messages.all_users')}}</option>
                 <option id="student">Student</option>
                 <option id="professor">Professor</option>
             </select>
@@ -24,10 +24,10 @@
             Email
         </th>
         <th>
-            Количество
+            {{ trans('messages.numbers')}}
         </th>
         <th>
-            Просмотреть публикации
+            {{ trans('messages.show_publications')}}
         </th>
     </tr>
     </thead>
@@ -42,7 +42,7 @@
             <td class="email">{{$user->email}}</td>
             <td>{{$user->countA}}</td>
             <td>
-                <a href="{{ url('articles', $user->idUsers) }}" data-toggle="modal" data-target="#modalArt" class="btn btn-outline-dark btn-sm">Просмотреть публикации</a>
+                <a href="{{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/articles', $user->idUsers) }}" data-toggle="modal" data-target="#modalArt" class="btn btn-outline-dark btn-sm">{{ trans('messages.show_publications')}}</a>
             </td>
         </tr>
         @php

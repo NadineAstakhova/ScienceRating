@@ -16,19 +16,20 @@
 
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
-                    <h5 class="card-header">Добавление научных результатов</h5>
+                    <h5 class="card-header">{{ trans('messages.add_res')}}</h5>
                     <div class="card-body">
-                        <p class="card-text">Формы добавление данных результата для пользователя/ей.</p>
-                        <a href="{{url("createResult")}}" class="btn btn-info" id="listSub">Ввести данные</a>
+                        <p class="card-text">{{ trans('messages.add_res_text')}}</p>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createResult")}}" class="btn btn-info" id="listSub">
+                            {{ trans('messages.add_res_btn')}}</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
-                    <h5 class="card-header">Добавление научных публикаций</h5>
+                    <h5 class="card-header">{{ trans('messages.add_pub')}}</h5>
                     <div class="card-body">
-                        <p class="card-text">Формы добавление данных публикации для пользователя/ей.</p>
-                        <a href="{{url("createArticle")}}" class="btn btn-info" id="listSub">Ввести данные</a>
+                        <p class="card-text">{{ trans('messages.add_pub_text')}}</p>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createArticle")}}" class="btn btn-info" id="listSub">{{ trans('messages.add_res_btn')}}</a>
                     </div>
                 </div>
             </div>
@@ -38,50 +39,52 @@
                 @else
                     <div class="card disabled-card">
                 @endif
-                         <h5 class="card-header">Подтверждение научных показателей</h5>
+                         <h5 class="card-header">{{ trans('messages.accept_res')}}</h5>
                          <div class="card-body">
-                               <p class="card-text">Подтверждение научных результатов, которые присылают пользователи.</p>
+                               <p class="card-text">{{ trans('messages.accept_res_text')}}</p>
                                 @if($countOfNewResults > 0)
-                                    <a href="{{url("acceptResults")}}" class="btn btn-info">Просмотр новых данных ({{$countOfNewResults}})</a>
+                                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/acceptResults")}}" class="btn btn-info">{{ trans('messages.accept_res_btn')}} ({{$countOfNewResults}})</a>
                                 @else
-                                    <button type="button" class="btn btn-light" disabled="">Нет новых данных</button>
+                                    <button type="button" class="btn btn-light" disabled="">{{ trans('messages.accept_res_btn1')}}</button>
                                 @endif
                           </div>
                      </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
-                    <h5 class="card-header">Научные достижения</h5>
+                    <h5 class="card-header">{{ trans('messages.scient_res')}}</h5>
                     <div class="card-body">
-                        <p class="card-text">Просмотр и распечатка текущих научных результатов без учёта рейтинга.</p>
-                        <a href="{{url("results")}}" class="btn btn-info" id="listSub">Просмотр данных</a>
+                        <p class="card-text">{{ trans('messages.scient_res_text')}}</p>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/results")}}" class="btn btn-info" id="listSub">{{ trans('messages.scient_res_btn')}}</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
-                    <h5 class="card-header">Построение рейтингов</h5>
+                    <h5 class="card-header">{{ trans('messages.scient_rank')}}</h5>
                     <div class="card-body">
-                        <p class="card-text">Составить и распечатать рейтинги пользователей по типам.</p>
-                        <a href="{{url("createrating")}}" class="btn btn-info" id="listSub">Просмотр рейтинга</a>
+                        <p class="card-text">{{ trans('messages.scient_rank_text')}}</p>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createrating")}}" class="btn btn-info" id="listSub">
+                            {{ trans('messages.scient_rank_btn')}}</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card">
-                    <h5 class="card-header">Личные данные</h5>
+                    <h5 class="card-header">{{ trans('messages.profile_data')}}</h5>
                     <div class="card-body">
-                        <p class="card-text">Просмотр личных данных и их редактирование</p>
-                        <a href="{{url("infoProfileMethodist")}}" class="btn btn-info" id="listSub">Просмотр анкеты</a>
+                        <p class="card-text">{{ trans('messages.profile_data_text')}}</p>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/infoProfileMethodist")}}" class="btn btn-info" id="listSub">
+                            {{ trans('messages.profile_data_btn')}}</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
                 <div class="card disabled-card">
-                    <h5 class="card-header">Шаблоны рейтингов</h5>
+                    <h5 class="card-header">{{ trans('messages.temp_rank')}}</h5>
                     <div class="card-body">
-                        <p class="card-text">Создание научных рейтингов с весовыми коэффициентами и типами результатов.</p>
-                        <button type="button" class="btn btn-light" disabled="">Создать шаблон рейтинга</button>
+                        <p class="card-text">{{ trans('messages.temp_rank_text')}}</p>
+                        <button type="button" class="btn btn-light" disabled="">{{ trans('messages.temp_rank_btn')}}</button>
                     </div>
                 </div>
             </div>

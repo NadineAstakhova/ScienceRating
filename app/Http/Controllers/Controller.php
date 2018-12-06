@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\LocaleMiddleware;
 use App\Mail\DataMail;
 use App\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -23,28 +24,28 @@ class Controller extends BaseController
     public function authenticate(Request $request) {
         if (Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::METHODIST])) {
        // if ($this->getUser($request->get('email'),$request->get('password'))) {
-            return redirect()->intended('profile');
+            return redirect()->intended(LocaleMiddleware::getLocale().'/profile');
         }
         elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::PROFESSOR])) {
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
-            return redirect()->intended('professorProfile');
+            return redirect()->intended(LocaleMiddleware::getLocale().'/professorProfile');
         }
         elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::STUDENT])) {
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
-            return redirect()->intended('studentProfile');
+            return redirect()->intended(LocaleMiddleware::getLocale().'/studentProfile');
         }
         elseif(Auth::attempt(['email' =>$request->get('email'), 'password' => $request->get('password'), 'type' => User::SUPER_ADMIN])) {
             // if ($this->getUser($request->get('email'),$request->get('password'))) {
-            return redirect()->intended('admin');
+            return redirect()->intended(LocaleMiddleware::getLocale().'/admin');
         }
 
         else {
-            return redirect()->back()->withInput()->with('message', 'Ошибка входа! Возможно email и/или пароль не верны');
+            return redirect()->back()->withInput()->with('message', 'Email и/или пароль не верны');
         }
     }
     public function logout(Request $request) {
         Auth::logout();
-        return redirect('auth/login');
+        return redirect(LocaleMiddleware::getLocale().'/auth/login');
     }
 
     private function getUser($email, $pass){
@@ -70,9 +71,9 @@ class Controller extends BaseController
                 $status = "Ваша почта уже была подтверждена";
             }
         }else{
-            return redirect('auth/login')->with('message', "Вашей почты нет в базе данных");
+            return redirect(LocaleMiddleware::getLocale().'/auth/login')->with('message', "Вашей почты нет в базе данных");
         }
-        return redirect('auth/login')->with('message', $status);
+        return redirect(LocaleMiddleware::getLocale().'/auth/login')->with('message', $status);
     }
 
 }

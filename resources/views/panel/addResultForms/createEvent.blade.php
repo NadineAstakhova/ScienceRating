@@ -17,13 +17,13 @@ use App\Models\RankingModels\TypeOfRes;
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 @if(Auth::user()->type == '1')
-                    <li class="breadcrumb-item"><a href={{ url('professorProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/professorProfile') }}>{{ trans('messages.main')}}</a></li>
                 @elseif(Auth::user()->type == '2')
-                    <li class="breadcrumb-item"><a href={{ url('studentProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/studentProfile') }}>{{ trans('messages.main')}}</a></li>
                 @elseif(Auth::user()->type == '3')
-                    <li class="breadcrumb-item"><a href={{ url('profile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile') }}>{{ trans('messages.main')}}</a></li>
                 @endif
-                <li class="breadcrumb-item active">Ввод данных научного результата</li>
+                <li class="breadcrumb-item active">{{ trans('messages.title_create_event')}}</li>
             </ol>
         </nav>
 
@@ -43,34 +43,33 @@ use App\Models\RankingModels\TypeOfRes;
 
         @if(Auth::user()->type == '3')
         <div class="alert alert-info" role="alert">
-            Если документ общий для всех участников выберите "Использовать для всех", если нет,
-            то на следующей странице вы можете для каждого участника загрузить свой файл.
-            <br>Если хотите воспользоваться функцией автоматического распознавания, то "Использовать для всех" выберите на следующем этапе.
+            {{ trans('messages.create_event_msg')}}
+            <br>{{ trans('messages.create_event_msg_br')}}
         </div>
         @endif
 
         @if(!isset($idUser))
-            {!! Form::open(['url' => ['createEventForm'], 'class'=>'form', 'files'=>'true']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/createEventForm'], 'class'=>'form', 'files'=>'true']) !!}
         @else
-            {!! Form::open(['url' => ['createEventForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
+            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/createEventForm/'.$idUser], 'class'=>'form', 'files'=>'true']) !!}
         @endif
 
-        {!! Form::label('file', 'Загрузить документ:') !!}
+        {!! Form::label('file',  trans('messages.upload_doc')) !!}
         {!! Form::file('file', null, ['class' => 'form-control']) !!}
         <p id="error"></p>
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="allField" name="allField" value="allField">
-            <label class="custom-control-label" for="allField">Заполнить автоматически</label>
+            <label class="custom-control-label" for="allField">{{ trans('messages.automatic')}}</label>
         </div>
         @if(Auth::user()->type == '3')
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="forAllUser" name="forAllUser" value="forAllUser">
-                <label class="custom-control-label" for="forAllUser">Использовать для всех</label>
+                <label class="custom-control-label" for="forAllUser">{{ trans('messages.use_all')}}</label>
             </div>
         @endif
 
         <br>
-        {!! Form::label('name', 'Название результата (мероприятия/события):') !!}
+        {!! Form::label('name', trans('messages.name_event')) !!}
 
         <input type="text" id="name" class="form-control" name="name" value="{{isset($pdfText) && $searchTitle ? $searchTitle : ''}}">
         <span id="nameT"></span>
@@ -94,11 +93,11 @@ use App\Models\RankingModels\TypeOfRes;
         </div>
         <br>
         @if(isset($pdfText))
-            {!! Form::label('pdfText', 'Содержание файла:') !!}
+            {!! Form::label('pdfText', trans('messages.file_text')) !!}
             <textarea name="description" id="pdfText" class="form-control" rows="5">"{{$pdfText}}"</textarea>
             <br> <br>
             <div class="alert alert-info" role="alert">
-                <p>Удалось определить таких студентов/преподавателей. На следующей странице вы можете изменить эту информацию</p>
+                <p>{{trans('messages.after_text')}}</p>
                 @if($users != 0)
                     @php $i=0; @endphp
                     @foreach ($users as $user)
@@ -107,7 +106,7 @@ use App\Models\RankingModels\TypeOfRes;
                         @php $i++; @endphp
                     @endforeach
                 @else
-                    Совпадений не найдено.
+                    {{trans('messages.after_text_no')}}
                 @endif
             </div>
         @endif
@@ -128,9 +127,9 @@ use App\Models\RankingModels\TypeOfRes;
 
         @endif
 
-        {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+        {!! Form::submit(trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
 
-        <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">Cancel</a>
+        <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">{{trans('messages.cancel')}}</a>
         <br><br>
 
         {!! Form::close() !!}

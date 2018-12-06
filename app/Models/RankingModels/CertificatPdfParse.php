@@ -20,13 +20,11 @@ class CertificatPdfParse extends Parser
         $this->parser = new \Smalot\PdfParser\Parser();
         $this->pdf = $this->parser->parseFile($file);
         try {
-
             $this->content = $this->pdf->getText();
         }
         catch (\Exception $e) {
             $this->content = '0';
         }
-
         parent::__construct();
     }
 

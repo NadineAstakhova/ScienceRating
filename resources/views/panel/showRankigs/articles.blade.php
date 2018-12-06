@@ -9,27 +9,27 @@
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Просмотр публикаций</h5>
+            <h5 class="modal-title">{{ trans('messages.show_pub')}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 <div class="modal-body" id='to_print'>
-    Публикации {{$user}}
+    <p style="text-align: center;">{{ trans('messages.publications')}} {{$user}}</p>
     <table class="table table-hover" id="articlesTable">
         <thead>
         <tr>
             <th>
-                Название
+                {{ trans('messages.pub_name')}}
             </th>
             <th>
-                Издательство
+                {{ trans('messages.pub_ed')}}
             </th>
             <th>
                 Дата
             </th>
             <th>
-                Кол-во страниц
+                {{ trans('messages.pub_numbers')}}
             </th>
             <th>
                 Процент
@@ -60,16 +60,16 @@
 
         @else
             <tr class="all">
-                <td>Нет публикаций</td>
+                <td>{{ trans('messages.no_pub')}}</td>
             </tr>
         @endif
         </tbody>
     </table>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('messages.cancel')}}</button>
 
-    <button type="button" class="btn btn-success" data-slug="" id="print">Распечатать</button>
+    <button type="button" class="btn btn-success" data-slug="" id="print">{{ trans('messages.print')}}</button>
 </div>
 
     </div>
@@ -80,7 +80,7 @@
         $('#print').click(function(){
             var printing_css = "<style media=print>" +
                 "#print, .breadcrumb, .delete_btn, #update_btn{display: none;}" +
-                "table{text-align: left} </style>";
+                ".table{text-align: left; border-collapse: collapse; margin-top: 15px;}" + ".table th, td{border: 1px solid black; padding: 5px;} </style>";
             var html_to_print=printing_css+$('#to_print').html();
             var iframe=$('<iframe id="print_frame">');
             $('body').append(iframe);

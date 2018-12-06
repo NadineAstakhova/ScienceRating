@@ -1,5 +1,5 @@
 @extends('layouts.adminMain')
-@section('title', 'Главная')
+@section('title', trans('messages.main'))
 @section('content')
     <div class="app-content content container-fluid">
         <div class="content-wrapper">
@@ -14,7 +14,7 @@
                                     <div class="media">
                                         <div class="media-body text-xs-left">
                                             <h3 class="pink">{{$new_student}}</h3>
-                                            <span>Новые студенты</span>
+                                            <span>{{ trans('messages.new_student')}}</span>
                                         </div>
                                         <div class="media-right media-middle">
                                             <i class="icon-user1 pink font-large-2 float-xs-right"></i>
@@ -31,7 +31,7 @@
                                     <div class="media">
                                         <div class="media-body text-xs-left">
                                             <h3 class="teal">156</h3>
-                                            <span>Группы</span>
+                                            <span>{{ trans('messages.groups')}}</span>
                                         </div>
                                         <div class="media-right media-middle">
                                             <i class="icon-users2 teal font-large-2 float-xs-right"></i>
@@ -48,7 +48,7 @@
                                     <div class="media">
                                         <div class="media-body text-xs-left">
                                             <h3 class="deep-orange">64</h3>
-                                            <span>Новые предметы</span>
+                                            <span>{{ trans('messages.new_sub')}}</span>
                                         </div>
                                         <div class="media-right media-middle">
                                             <i class="icon-bag2 deep-orange font-large-2 float-xs-right"></i>
@@ -65,7 +65,7 @@
                                     <div class="media">
                                         <div class="media-body text-xs-left">
                                             <h3 class="cyan">423</h3>
-                                            <span>Научные рейтинги</span>
+                                            <span>{{ trans('messages.rankings')}}</span>
                                         </div>
                                         <div class="media-right media-middle">
                                             <i class="icon-diagram cyan font-large-2 float-xs-right"></i>
@@ -87,7 +87,7 @@
                                         <i class="icon-user1 font-large-2 white"></i>
                                     </div>
                                     <div class="p-2 media-body">
-                                        <h5>Неподтверждённые пользователи</h5>
+                                        <h5>{{ trans('messages.unconf_users')}}</h5>
                                         <h5 class="text-bold-400">{{$unconfirm_users}}</h5>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="p-2 media-body text-xs-left">
-                                        <h5>Новые научные публикации</h5>
+                                        <h5>{{ trans('messages.new_pub')}}</h5>
                                         <h5 class="text-bold-400">1,22,356</h5>
                                     </div>
                                     <div class="p-2 text-xs-center bg-gradient-directional-purple media-right media-middle">
@@ -113,7 +113,7 @@
                                         <i class="icon-ios-glasses-outline font-large-2 white"></i>
                                     </div>
                                     <div class="p-2 media-body">
-                                        <h5>Новые научные результаты</h5>
+                                        <h5>{{ trans('messages.new_res')}}</h5>
                                         <h5 class="text-bold-400">28</h5>
                                     </div>
                                 </div>
