@@ -25,12 +25,6 @@ Route::get('/', function () {
 });
 
 Route::post('/auth/login', 'Controller@authenticate');
-/**
- * Routes for editing information about user
- */
-
-Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
-Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
 
 //TODO: add normal identify for rankings
 Route::get('/pdfRanking/{idTemp}/{idUser}','ProfileController@createPdfReport')->middleware('auth');
@@ -157,6 +151,13 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::get('/infoAdminMethodist','ProfileController@infoProfile')->middleware('auth');
 
     Route::post('/changeStatusForNewRes', 'ProfileController@changeStatusForNewResForm')->middleware('auth');
+
+    /**
+     * Routes for editing information about user
+     */
+
+    Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
+    Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
 
     /**
      * Admin Panel

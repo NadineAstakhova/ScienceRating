@@ -22,46 +22,46 @@
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
             <div class="card">
-                <h5 class="card-header">Научные достижения пользователя</h5>
+                <h5 class="card-header">{{ trans('messages.user_results')}}</h5>
                 <div class="card-body">
-                    <p class="card-text">Просмотр и распечатка текущих научных результатов без учёта рейтинга.</p>
-                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/showUserResult/".$user->idUsers)}}" class="btn btn-info" id="listSub">Просмотр данных</a>
+                    <p class="card-text">{{ trans('messages.scient_res_text')}}</p>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/showUserResult/".$user->idUsers)}}" class="btn btn-info" id="listSub">{{ trans('messages.scient_res_btn')}}</a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
             <div class="card">
-                <h5 class="card-header">Добавление научных публикаций</h5>
+                <h5 class="card-header">{{ trans('messages.add_pub')}}</h5>
                 <div class="card-body">
-                    <p class="card-text">Формы добавление данных публикации для пользователя/ей.</p>
-                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createArticleByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">Внести данные</a>
+                    <p class="card-text">{{ trans('messages.add_pub_text_user')}}</p>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createArticleByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">{{ trans('messages.add_res_btn')}}</a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
             <div class="card">
-                <h5 class="card-header">Добавление научных результатов</h5>
+                <h5 class="card-header">{{ trans('messages.add_res')}}</h5>
                 <div class="card-body">
-                    <p class="card-text">Форма добавления данных вашего научного результата.</p>
-                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createEventByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">Внести данные</a>
+                    <p class="card-text">{{ trans('messages.add_res_text_user')}}</p>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createEventByUser/".$user->idUsers)}}" class="btn btn-info" id="listSub">{{ trans('messages.add_res_btn')}}</a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
             <div class="card">
-                <h5 class="card-header">Построение рейтингов</h5>
+                <h5 class="card-header">{{ trans('messages.scient_rank')}}</h5>
                 <div class="card-body">
-                    <p class="card-text">Просмотр и распечатка доступных научных рейтингов.</p>
-                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/rankingsPage")}}" class="btn btn-info" id="listSub">Просмотр рейтинга</a>
+                    <p class="card-text">{{ trans('messages.scient_rank_text_user')}}</p>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/rankingsPage")}}" class="btn btn-info" id="listSub">{{ trans('messages.scient_rank_btn')}}</a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
             <div class="card">
-                <h5 class="card-header">Личные данные</h5>
+                <h5 class="card-header">{{ trans('messages.profile_data')}}</h5>
                 <div class="card-body">
-                    <p class="card-text">Просмотр личных данных и их редактирование</p>
-                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/infoProfile")}}" class="btn btn-info" id="listSub">Просмотр анкеты</a>
+                    <p class="card-text">{{ trans('messages.profile_data_text')}}</p>
+                    <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/infoProfile")}}" class="btn btn-info" id="listSub">{{ trans('messages.profile_data_btn')}}</a>
                 </div>
             </div>
         </div>

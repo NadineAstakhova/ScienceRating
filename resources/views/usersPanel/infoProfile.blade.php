@@ -16,9 +16,9 @@
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
                 @if(Auth::user()->type == '1')
-                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/professorProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/professorProfile') }}>{{ trans('messages.main')}}</a></li>
                 @elseif(Auth::user()->type == '2')
-                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/studentProfile') }}>Главная</a></li>
+                    <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/studentProfile') }}>{{ trans('messages.main')}}</a></li>
                 @endif
 
                 <li class="breadcrumb-item active">Анкета</li>
@@ -29,39 +29,39 @@
             <div class="col-lg-9">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Информация</a>
+                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">{{ trans('messages.info')}}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Редактирование</a>
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">{{ trans('messages.update')}}</a>
                     </li>
                 </ul>
                 <div class="tab-content py-4">
                     <div class="tab-pane active" id="profile">
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>ФИО</h6>
+                                <h6>{{ trans('messages.fio')}}</h6>
                                 <p>
                                     {{$user->surname}} {{$user->name}} {{$user->patronymic}}
                                 </p>
-                                <h6>ФИО (укр)</h6>
+                                <h6>{{ trans('messages.fio')}} (укр)</h6>
                                 <p>
                                     {{$user->surname_ukr}} {{$user->name_ukr}} {{$user->patronymic_ukr}}
                                 </p>
-                                <h6>ФИО (en)</h6>
+                                <h6>{{ trans('messages.fio')}} (en)</h6>
                                 <p>
                                     {{$user->surname_en}} {{$user->name_en}}
                                 </p>
                                 @if(Auth::user()->type == '2')
-                                    <h6>Группа</h6>
+                                    <h6>{{ trans('messages.group')}}</h6>
                                     <p>
                                         {{$user->groupName}} ({{$user->groupFullName}})
                                     </p>
                                 @endif
-                                <h6>Логин</h6>
+                                <h6>{{ trans('messages.login')}}</h6>
                                 <p>
                                     {{$user->username}}
                                 </p>
-                                <h6>Почта</h6>
+                                <h6>{{ trans('messages.email')}}</h6>
                                 <p>
                                     {{$user->email}}
                                 </p>
@@ -74,50 +74,50 @@
 
                     <div class="tab-pane" id="edit">
                         @if(Auth::user()->type == '1')
-                            {!! Form::open(['url' => ['editProfInfo'], 'class'=>'form']) !!}
+                            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editProfInfo'], 'class'=>'form']) !!}
                         @elseif(Auth::user()->type == '2')
-                            {!! Form::open(['url' => ['editStudentInfo'], 'class'=>'form']) !!}
+                            {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/editStudentInfo'], 'class'=>'form']) !!}
                         @endif
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Фамилия:</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.surname')}}:</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" value="{{$user->surname}}" name="surname">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Имя:</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.name')}}:</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" value="{{$user->name}}" name="name">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Отчество:</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.patronymic')}}:</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" value="{{$user->patronymic}}" name="patronymic">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Фамилия (укр):</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.surname')}} (укр):</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" value="{{$user->surname_ukr}}" name="surname_ukr">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Имя (укр):</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.name')}} (укр):</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" value="{{$user->name_ukr}}" name="name_ukr">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Отчество (укр):</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.patronymic')}} (укр):</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" value="{{$user->patronymic_ukr}}" name="patronymic_ukr">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Фамилия (en):</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.surname')}} (en):</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" value="{{$user->surname_en}}"
                                        name="surname_en" pattern="[a-zA-Z]+" oninvalid="this.setCustomValidity('Введите фамилию латиницей')"
@@ -125,7 +125,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Имя (en):</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.name')}} (en):</label>
                             <div class="col-lg-9">
                                 <input class="form-control" type="text" value="{{$user->name_en}}"
                                        name="name_en"  pattern="[a-zA-Z]+" oninvalid="this.setCustomValidity('Введите имя латиницей')"
@@ -142,14 +142,14 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Новый пароль:</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.new_pass')}}:</label>
                             <div class="col-lg-9">
                                 {!! Form::password('new_password',
                                     ['class' => 'form-control', 'id' => 'passNew', 'minlength' => 6]) !!}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Повторите пароль:</label>
+                            <label class="col-lg-3 col-form-label form-control-label">{{ trans('messages.repeat_pass')}}:</label>
                             <div class="col-lg-9">
                                 {!! Form::password('password_confirm',
                                     ['class' => 'form-control', 'id' => 'passConf',  'minlength' => 6]) !!}
@@ -157,8 +157,8 @@
                             </div>
                         </div>
 
-                        {!! Form::submit('Save', ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
-                        <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">Cancel</a>
+                        {!! Form::submit(trans('messages.save'), ['class' => 'btn btn-outline-success', 'id' => 'btn']) !!}
+                        <a class="btn btn-outline-secondary btn-close" href="{{ url()->previous() }}">{{ trans('messages.cancel')}}</a>
 
                         {!! Form::close() !!}
 
