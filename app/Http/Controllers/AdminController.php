@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 //TODO student status reg
 class AdminController extends Controller
@@ -38,14 +39,14 @@ class AdminController extends Controller
             else
                 $updatePass = 0;
             if(($updatePass && $updateInfoUser) ||  ($updateInfoUser || $updatePass)){
-                return redirect(LocaleMiddleware::getLocale().'/admin')->with('save', 'Данные успешно изменены');
+                return redirect(LocaleMiddleware::getLocale().'/admin')->with('save', Lang::get('messages.data_changed_succ'));
             }
             else
-                return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка при измении данных');
+                return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.data_changed_err'));
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.data_changed_err'));
         } catch (\Exception $e) {
-            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка при измении данных');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.data_changed_err'));
         }
 
     }
@@ -65,7 +66,7 @@ class AdminController extends Controller
             return redirect(LocaleMiddleware::getLocale().'/admin');
         }
         else
-            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.err_writing'));
     }
 
     public function methodistList(){
@@ -100,7 +101,7 @@ class AdminController extends Controller
             return redirect(LocaleMiddleware::getLocale().'/admin');
         }
         else
-            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', 'Ошибка записи');
+            return redirect(LocaleMiddleware::getLocale().'/admin')->with('error', Lang::get('messages.err_writing'));
     }
 
     public function deleteUser($idMethodist){
