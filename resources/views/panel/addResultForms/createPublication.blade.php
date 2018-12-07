@@ -65,10 +65,14 @@
 
         <br>
         <div class="form-group row">
+            <div class="col-sm-12">
+                <label class="col-form-label">{{trans('messages.msg_date')}} 11-10-2012 ({{trans('messages.msg_date_add')}}), 2012</label>
+            </div>
+        </div>
+        <div class="form-group row">
             {!! Form::label('date', 'Дата:', array('class' => 'col-sm-2 col-form-label')) !!}
             <div class="col-sm-3">
-                <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}"
-                       data-inputmask-placeholder="31-12-2018">
+                <input type="text" id="date" class="form-control" name="date" value="{{isset($pdfText) && $date[0] ? $date[0] : ''}}">
             </div>
             <span id="dateT" class="col-sm-10"></span>
         </div>

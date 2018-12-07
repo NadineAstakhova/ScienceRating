@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    $("#date").inputmask("dd-mm-yyyy");
+    $("#date").inputmask("(9999)|(99-99-9999)");
+
     $('#allField').change(
         function(){
             const COLOR_AUTO_FILL = "#3A5FCD";
@@ -79,6 +80,11 @@ $(document).ready(function() {
         else if (data.length === 4 && res.getFullYear() > new Date().getFullYear()){
             $("#dateT").html("Год больше текущего. Вы из будущего?").
                 css("color", "red");
+            return false;
+        }
+        else if (data.length === 4 && res.getFullYear() < '1970'){
+            $("#dateT").html("Дата имеет слишком давний год").
+            css("color", "red");
             return false;
         }
         else if (data.length > 4 && res > new Date()){
