@@ -42,6 +42,7 @@ class AddOwnersForm extends Model
         }
 
         $insertOwners = new UsersOwners();
+
         if(!is_null($action) ){
             return $insertOwners->editMembersOfEvent($idResult, $arrOwners, $arrR, $arrRes);
         }

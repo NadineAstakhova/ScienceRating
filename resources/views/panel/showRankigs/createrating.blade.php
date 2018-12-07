@@ -151,18 +151,18 @@
     </div>
     <script>
         $('#year').on('change', function(e){
-            fillFields(e, '#groups', '{{ url('information') }}/create/ajax-year?year_id', "{{ trans('messages.choose_group')}}");
+            fillFields(e, '#groups', '{{ url('information') }}/create/ajax-year?year_id', "{{ trans('messages.choose_group_list')}}");
         });
 
         $('#groups').on('change', function(e){
-            fillFields(e, '#students', '{{ url('information') }}/create/ajax-group?group_id', "{{ trans('messages.choose_student')}}");
+            fillFields(e, '#students', '{{ url('information') }}/create/ajax-group?group_id', "{{ trans('messages.choose_student_list')}}");
         });
         $('#year1').on('change', function(e){
-            fillFields(e, '#groups1', '{{ url('information') }}/create/ajax-year?year_id', "{{ trans('messages.choose_group')}}");
+            fillFields(e, '#groups1', '{{ url('information') }}/create/ajax-year?year_id', "{{ trans('messages.choose_group_list')}}");
         });
 
         $('#groups1').on('change', function(e){
-            fillFields(e, '#students1', '{{ url('information') }}/create/ajax-group?group_id', "{{ trans('messages.choose_student')}}");
+            fillFields(e, '#students1', '{{ url('information') }}/create/ajax-group?group_id', "{{ trans('messages.choose_student_list')}}");
         });
     </script>
 

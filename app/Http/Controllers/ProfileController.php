@@ -32,6 +32,13 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 
+/* to C:\OSPanel\domains\ScienceRating\vendor\phpoffice\phpword\src\PhpWord\Writer\Word2007\Part\Settings.php
+ *  $this->settings['w:compat'] = array('@attributes' => array(
+                'w:name'    => 'compatibilityMode',
+                'w:uri'     => 'http://schemas.microsoft.com/office/word',
+                'w:val'     => $compatibility->getOoxmlVersion(),
+            ));
+ */
 
 class ProfileController extends Controller
 {
@@ -317,6 +324,7 @@ class ProfileController extends Controller
     }
 
     public function showUserResult($idUser){
+        session()->put('idUserRes', $idUser);
         return view('panel/userRating/showUserResult',
             array('title' => 'showUserResult','description' => '',
                 'page' => 'showUserResult',
@@ -504,12 +512,11 @@ class ProfileController extends Controller
     public  function editEventInfoForm($idEvent, Request $request){
         $model = new EditResults();
         if($model->editEventInfoForm($idEvent, $request->get('name'), $request->get('date'),$request->get('type'))
-
         ){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', Lang::get('messages.update_res_suc'));
+            return redirect()->back()->with('save', Lang::get('messages.update_res_suc'));
         }
         else
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', Lang::get('messages.err_writing'));
+            return redirect(LocaleMiddleware::getLocale().'/event/'.$idEvent)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function editEventMembersForm($idResult, AddOwnersFormRequest $request){
@@ -517,11 +524,11 @@ class ProfileController extends Controller
         $model->arrOwners = $request->get('arrOwners');
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
-        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, "edit")){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', Lang::get('messages.suc_added'));
+        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, '', "edit")){
+            return redirect(LocaleMiddleware::getLocale().'/event/'.$idResult)->with('save', Lang::get('messages.suc_added'));
         }
         else
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', Lang::get('messages.err_writing'));
+            return redirect(LocaleMiddleware::getLocale().'/event/'.$idResult)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function showInfoAboutPublication($idPublication){
@@ -550,10 +557,10 @@ class ProfileController extends Controller
             $request->get('type'), $request->get('publishing'), $request->get('pages'))
 
         ){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', Lang::get('messages.update_pub_suc'));
+            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idPublication)->with('save', Lang::get('messages.update_pub_suc'));
         }
         else
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', Lang::get('messages.err_writing'));
+            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idPublication)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function editPubAuthorsForm($idResult, AddOwnersFormRequest $request){
@@ -562,10 +569,10 @@ class ProfileController extends Controller
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
         if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult, "edit")){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', Lang::get('messages.update_pub_suc'));
+            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idResult)->with('save', Lang::get('messages.update_pub_suc'));
         }
         else
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', Lang::get('messages.err_writing'));
+            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idResult)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function showRankingsPage(){

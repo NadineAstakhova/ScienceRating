@@ -131,6 +131,7 @@ class UsersOwners extends BaseModel
 
         foreach ($arrUsers as $key=>$value){
             $existRow = $this->existsRow($arrUsers[$key], $idRes);
+
             if($existRow != false)
                 $insert = DB::table('members_of_event')
                     ->where('idMember', $existRow)

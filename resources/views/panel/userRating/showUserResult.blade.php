@@ -118,7 +118,7 @@ use App\Models\RankingModels\TypeOfRes;
                         </td>
                         @if(Auth::user()->type == '3')
                         <td class="no-print">
-                                <a href="{{url("deleteMemberEvent/$res->idMember")}}">
+                                <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/deleteMemberEvent/$res->idMember")}}">
                                     <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
                         </td>
                         @endif

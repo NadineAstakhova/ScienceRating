@@ -59,5 +59,12 @@ class ScientificPublication extends Model
         return $update;
     }
 
+    public static function getPercentOfAuthor($idPub, $idAuthor){
+        $percent = DB::table('authors_of_publication')
+            ->where([['authors_of_publication.fk_pub', '=',  $idPub], ['authors_of_publication.fk_user', '=',  $idAuthor]] )
+            ->first();
+        return $percent->percent_of_writing;
+    }
+
 
 }
