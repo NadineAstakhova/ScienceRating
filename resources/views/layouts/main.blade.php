@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/fonts/flag-icon-css/css/flag-icon.min.css')}}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -49,11 +50,15 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{App\Http\Middleware\LocaleMiddleware::getLocale()}}
+                    @if (App\Http\Middleware\LocaleMiddleware::getLocale() == 'ru')
+                        <i class="flag-icon flag-icon-ru"></i><span class="selected-language"> Русский</span></a>
+                @elseif(App\Http\Middleware\LocaleMiddleware::getLocale() == 'uk')
+                    <i class="flag-icon flag-icon-ua"></i><span class="selected-language"> Українська</span></a>
+                    @endif
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{@getLangURI('ru')}}">Русский</a>
-                    <a class="dropdown-item" href="{{@getLangURI('uk')}}">Українська</a>
+                    <a class="dropdown-item" href="{{@getLangURI('ru')}}"><i class="flag-icon flag-icon-ru"></i> Русский</a>
+                    <a class="dropdown-item" href="{{@getLangURI('uk')}}"><i class="flag-icon flag-icon-ua"></i> Українська</a>
                 </div>
             </li>
             @if (Auth::check())

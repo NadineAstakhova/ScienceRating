@@ -6,11 +6,11 @@ $(document).ready(function() {
             const COLOR_AUTO_FILL = "#3A5FCD";
 
             if ($(this).is(':checked')) {
-                $("#nameT").html("Поле будет заполнено автоматически");
-                $("#dateT").html("Поле будет заполнено автоматически");
-                $("#typeT").html("Поле нужно будет заполнить самостоятельно");
+                $("#nameT").html("Поле буде заповнено автоматично");
+                $("#dateT").html("Поле буде заповнено автоматично");
+                $("#typeT").html("Поле потрібно буде заповнити самостійно");
                 $("#pagesT").html("Поле будет заполнено автоматически");
-                $("#publishingT").html("Поле нужно будет заполнить самостоятельно");
+                $("#publishingT").html("Поле потрібно буде заповнити самостійно");
                 $("#name").css("border-color", COLOR_AUTO_FILL);
                 $("#date").css("border-color", COLOR_AUTO_FILL);
                 $("#pages").css("border-color", COLOR_AUTO_FILL);
