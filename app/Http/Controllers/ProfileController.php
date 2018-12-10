@@ -527,8 +527,8 @@ class ProfileController extends Controller
         if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, '', "edit")){
             return redirect(LocaleMiddleware::getLocale().'/event/'.$idResult)->with('save', Lang::get('messages.suc_added'));
         }
-        else
-            return redirect(LocaleMiddleware::getLocale().'/event/'.$idResult)->with('error', Lang::get('messages.err_writing'));
+//        else
+//            return redirect(LocaleMiddleware::getLocale().'/event/'.$idResult)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function showInfoAboutPublication($idPublication){
@@ -571,8 +571,8 @@ class ProfileController extends Controller
         if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult, "edit")){
             return redirect(LocaleMiddleware::getLocale().'/publication/'.$idResult)->with('save', Lang::get('messages.update_pub_suc'));
         }
-        else
-            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idResult)->with('error', Lang::get('messages.err_writing'));
+//        else
+//            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idResult)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function showRankingsPage(){

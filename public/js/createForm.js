@@ -1,4 +1,4 @@
-$(document).ready(function() {
+﻿$(document).ready(function() {
     $("#date").inputmask("(9999)|(99-99-9999)");
 
     $('#allField').change(

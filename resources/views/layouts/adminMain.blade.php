@@ -114,12 +114,7 @@
                             <span data-i18n="nav.project.main" class="menu-title">{{ trans('messages.create')}}</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
-                            <i class="icon-android-funnel"></i>
-                            <span data-i18n="nav.project.main" class="menu-title">Меню</span>
-                        </a>
-                    </li>
+
                 </ul>
             </li>
 
@@ -139,12 +134,6 @@
                         <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
                             <i class="icon-user-plus"></i>
                             <span data-i18n="nav.project.main" class="menu-title">{{ trans('messages.create')}}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/createProfessorPage")}}" data-i18n="nav.page_layouts.2_columns" class="menu-item">
-                            <i class="icon-android-funnel"></i>
-                            <span data-i18n="nav.project.main" class="menu-title">Меню</span>
                         </a>
                     </li>
                 </ul>

@@ -45,7 +45,7 @@
                             <option value="" disabled selected>{{ trans('messages.choose_group')}}</option>
                         </select>
                 </div>
-                {!! Form::open(['url' => ['pdfMaster/2'], 'class'=>'form',  'method' => 'GET']) !!}
+                {!! Form::open(['url' => ['pdfMaster/2'], 'class'=>'form',  'method' => 'GET', 'target'=>"_blank"]) !!}
                 <p>{{ trans('messages.choose_student')}}</p>
                 <div class="form-group">
                         <select id="students" class="form-old-select form-control input" name="owner_id">

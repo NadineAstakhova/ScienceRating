@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created by Nadine on 01.11.2017.
  * Functions for sort in the user table
  */

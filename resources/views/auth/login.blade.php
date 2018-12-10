@@ -9,8 +9,8 @@
                 echo "<div class='alert alert-danger' id='mesSuccessAdd' role='alert'>".Session::get("message")."</div>";
         @endphp
         <img src="{{asset('images/logo-2.png')}}" alt="" width="102" height="102">
-        <h3 class="h3 mb-3 font-weight-normal">Введите данные для входа</h3>
-            <label for="email" class="sr-only">Почта</label>
+        <h3 class="h3 mb-3 font-weight-normal">{{ trans('messages.login_msg')}}</h3>
+            <label for="email" class="sr-only">{{ trans('messages.email')}}</label>
             {!! Form::email('email', $value = null,
                 $attributes = array('class' => 'form-control', 'placeholder'=>"Почта", 'id'=>"inputEmail")) !!}
             <label for="password" class="sr-only">Password</label>

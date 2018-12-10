@@ -1,4 +1,4 @@
-var DOMAIN;
+﻿var DOMAIN;
 $(document).ready(function(){
     console.log(window.location.host.includes("paramonov"));
     if(window.location.host.includes("paramonov"))
@@ -57,9 +57,14 @@ const setValue = (id, newVal, field, fieldInput) => {
 const blurLogic = (obj) =>{
 
     $.post(DOMAIN + 'editPercent', {
+            crossDomain: true,
             idPublication: obj.idPublication,
             newValue: obj.newValue,
             _token: $('meta[name=csrf-token]').attr('content'),
+            headers: {
+                "accept": "application/json",
+                "Access-Control-Allow-Origin":"*"
+            }
         }
     )
         .done(function(data) {
@@ -101,9 +106,14 @@ const blurInputProviderRes= (id, idMember) => {
 const blurLogicRes = (obj) =>{
 
     $.post(DOMAIN + 'editResult', {
+            crossDomain: true,
             idMember: obj.idMember,
             newValue: obj.newValue,
             _token: $('meta[name=csrf-token]').attr('content'),
+            headers: {
+                "accept": "application/json",
+                "Access-Control-Allow-Origin":"*"
+            }
         }
     )
         .done(function(data) { //meow
@@ -139,9 +149,14 @@ const blurInputProviderRole= (id, idMember) => {
 const blurLogicRole = (obj) =>{
 
     $.post(DOMAIN + 'editRole', {
+            crossDomain: true,
             idMember: obj.idMember,
             newValue: obj.newValue,
             _token: $('meta[name=csrf-token]').attr('content'),
+            headers: {
+                "accept": "application/json",
+                "Access-Control-Allow-Origin":"*"
+            }
         }
     )
         .done(function(data) { //meow

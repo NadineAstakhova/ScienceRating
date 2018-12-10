@@ -1,4 +1,4 @@
-const isValidateTrue = () => {
+﻿const isValidateTrue = () => {
     let whoUse = [];
 
     const sum =

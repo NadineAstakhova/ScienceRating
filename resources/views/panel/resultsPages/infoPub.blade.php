@@ -21,15 +21,14 @@
         <div class="col-xs-6 col-sm-8 col-lg-8">
             <h3>{{ trans('messages.info_scient_res')}} {{$publication->title}} </h3>
         </div>
-
     </div>
+    @php
+        if(Session::has('save'))
+           echo "<div class='alert alert-success' id='mesSuccessAdd'>".Session::get("save")."</div>";
+       if(Session::has('error'))
+           echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("error")."</div>";
+    @endphp
     <div class="row my-2">
-        @php
-            if(Session::has('save'))
-               echo "<div class='alert alert-success' id='mesSuccessAdd'>".Session::get("save")."</div>";
-           if(Session::has('error'))
-               echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("error")."</div>";
-        @endphp
         <div class="col-lg-9">
             <ul class="nav nav-tabs">
                 <li class="nav-item">

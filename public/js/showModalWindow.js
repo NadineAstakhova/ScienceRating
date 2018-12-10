@@ -1,4 +1,4 @@
-$(document).ready(function() {
+﻿$(document).ready(function() {
     // Vary modal content based on trigger button
     $("#modalArt").on('shown.bs.modal', function (event) {
         var button = $(event.relatedTarget);
