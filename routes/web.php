@@ -159,6 +159,9 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
     Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
 
+    Route::get('/temps','ProfileController@tempsIndex')->middleware('auth');
+    Route::get('/editRanking/{idRanking}','ProfileController@showRanking')->middleware('auth');
+
     /**
      * Admin Panel
      */

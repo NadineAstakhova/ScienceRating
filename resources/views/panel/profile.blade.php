@@ -80,11 +80,12 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-9 panel-cards">
-                <div class="card disabled-card">
+                <div class="card">
                     <h5 class="card-header">{{ trans('messages.temp_rank')}}</h5>
                     <div class="card-body">
                         <p class="card-text">{{ trans('messages.temp_rank_text')}}</p>
-                        <button type="button" class="btn btn-light" disabled="">{{ trans('messages.temp_rank_btn')}}</button>
+                        <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/temps")}}" class="btn btn-info" id="listSub">
+                            {{ trans('messages.scient_res_btn')}}</a>
                     </div>
                 </div>
             </div>

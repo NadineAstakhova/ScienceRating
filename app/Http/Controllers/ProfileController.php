@@ -6,7 +6,9 @@ use App\Http\Middleware\LocaleMiddleware;
 use App\Models\RankingModels\AddOwnersForm;
 use App\Models\RankingModels\CertificatPdfParse;
 use App\Models\RankingModels\CreateResult;
+use App\Models\RankingModels\DataInRanking;
 use App\Models\RankingModels\EditResults;
+use App\Models\RankingModels\Rankings;
 use App\Models\RankingModels\ScientificEvent;
 use App\Models\RankingModels\ScientificPublication;
 use App\Models\RankingModels\ScientificResult;
@@ -631,6 +633,21 @@ class ProfileController extends Controller
             return "Ошибка записи";
     }
 
+    public function tempsIndex(){
+        return view('panel/rankings/index',
+            array(
+                'rankings' => Rankings::all(),
+            ));
+    }
 
+    public function showRanking($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/showRanking',
+            array(
+                'ranking' => $ranking,
+                'events' => $ranking->getEventsAtTemp(),
+                'publications' =>$ranking->getPublicationAtTemp()
+            ));
+    }
 
 }

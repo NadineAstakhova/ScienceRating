@@ -5,7 +5,10 @@ namespace App\Models\RankingModels;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use DB;
-
+/**
+ * Class DataInRanking or identify data in ranking
+ * @package App\Models\RankingModels
+ */
 class DataInRanking extends BaseModel
 {
     protected $primaryKey = 'idTemplate';
@@ -14,12 +17,21 @@ class DataInRanking extends BaseModel
 
     private $idTemp;
 
+    /**
+     * DataInRanking constructor.
+     * @param $idTemp
+     * @param array $attributes
+     */
     public function __construct($idTemp, $attributes = [])
     {
         $this->idTemp = $idTemp;
         parent::__construct($attributes);
     }
 
+    /**
+     * Get types of publications in ranking
+     * @return mixed
+     */
     public function getPublicationAtTemp(){
         $publications = DB::table('publication_in_ranking')
             ->join('type_of_publication', 'type_of_publication.idTypePub', '=', 'publication_in_ranking.fk_type_pub')
@@ -28,6 +40,10 @@ class DataInRanking extends BaseModel
         return $publications;
     }
 
+    /**
+     * Get types of events in ranking
+     * @return mixed
+     */
     public function getEventsAtTemp(){
         $events = DB::table('event_in_ranking')
             ->join('type_of_scient_event', 'type_of_scient_event.idTypeEvents', '=', 'event_in_ranking.fk_event_type')
@@ -37,7 +53,10 @@ class DataInRanking extends BaseModel
         return $events;
     }
 
-    //get all types in rankings
+    /**
+     * Get all types in rankings
+     * @return mixed
+     */
     public function getTypesAtTemp(){
         $publications = $this->getPublicationAtTemp();
         $events = $this->getEventsAtTemp();
@@ -45,7 +64,10 @@ class DataInRanking extends BaseModel
         return $arrTypes;
     }
 
-    //title of ranking
+    /**
+     * Get title of ranking
+     * @return mixed
+     */
     public function getTitle(){
         $rank = DB::table($this->table)
             ->where('idTemplate', '=', $this->idTemp)
