@@ -102,6 +102,15 @@ class DataInRanking extends BaseModel
         return $deleted;
     }
 
+    /**
+     * Create new type of event and add to ranking
+     * @param $title
+     * @param $idRank
+     * @param $idRes
+     * @param $mark
+     * @param $code
+     * @return bool
+     */
     public function createNewEventTypeInRank($title, $idRank, $idRes, $mark, $code){
         $newType = new TypeOfRes();
         if($newType->createEventType($title)){
@@ -115,6 +124,14 @@ class DataInRanking extends BaseModel
             return false;
     }
 
+    /**
+     *  Create new type of publication and add to ranking
+     * @param $title
+     * @param $idRank
+     * @param $mark
+     * @param $code
+     * @return bool
+     */
     public function createNewPubTypeInRank($title, $idRank, $mark, $code){
         $newType = new TypeOfRes();
         if($newType->createPubType($title)){

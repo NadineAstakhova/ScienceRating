@@ -738,6 +738,27 @@ class ProfileController extends Controller
             return redirect(LocaleMiddleware::getLocale().'/editRanking'.$idRanking)->with('errorParse', Lang::get('messages.err_writing'));
     }
 
+    /**
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function addExistedTypeOfPub($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/addExistedTypeOfPub',
+            array(
+                'ranking' => $ranking,
+                'types' => TypeOfRes::getPublicationTypesNotInRank($idRanking),
+            ));
+    }
+
+
+    public function addExistedPubTypes($idRanking, Request $request){
+        $model = new CreateEventType();
+        if($model->addTypesOfPub($request->get('arrTypes'), $request->get('arrMarks'), $request->get('arrCodes'), $idRanking)){
+            return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
+        }
+    }
+
 
 
 }

@@ -45,5 +45,9 @@ class CreateEventType extends Model
         return $temp->createNewPubTypeInRank($title, $tempId, $mark, $code);
     }
 
+    public function addTypesOfPub($arrTypes, $arrMarks, $arrCodes, $idRanking){
+
+    }
+
 
 }

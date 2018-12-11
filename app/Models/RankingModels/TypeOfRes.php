@@ -76,4 +76,15 @@ class TypeOfRes extends BaseModel
             return false;
 
     }
+
+    public static function getPublicationTypesNotInRank($idRank){
+        $types =  DB::table('type_of_publication')
+            ->whereNotExists(function ($query) use ($idRank) {
+                $query
+                    ->from('publication_in_ranking')
+                    ->where([['type_of_publication.idTypePub', '=', 'publication_in_ranking.fk_type_pub'],['publication_in_ranking.fk_rank_type', '=', $idRank]]);
+            })
+            ->get();
+        return $types;
+    }
 }

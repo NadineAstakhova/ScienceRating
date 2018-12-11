@@ -86,7 +86,7 @@
                 {{ trans('messages.add_new_type')}} </a>
         </div>
         <div class="col-xs-4 col-sm-3 col-lg-3" id="listBtn">
-            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/addNewTypeOfEvent/".$ranking->getId())}}"
+            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/addExistedTypeOfPub/".$ranking->getId())}}"
                class="btn btn-outline-dark">
                 {{ trans('messages.add_existed')}} </a>
         </div>
