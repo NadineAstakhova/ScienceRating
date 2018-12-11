@@ -173,8 +173,9 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::get('/addNewTypeOfPub/{idRanking}','ProfileController@addNewTypeOfPub')->middleware('auth');
     Route::post('/createPubType/{idRanking}', 'ProfileController@createPubType')->middleware('auth');
     Route::get('/addExistedTypeOfPub/{idRanking}','ProfileController@addExistedTypeOfPub')->middleware('auth');
-
     Route::post('/addExistedTypes/{idRanking}', 'ProfileController@addExistedPubTypes')->middleware('auth');
+
+    Route::get('/addExistedTypeOfEvent/{idRanking}','ProfileController@addExistedTypeOfEvent')->middleware('auth');
 
     /**
      * Admin Panel

@@ -87,4 +87,8 @@ class TypeOfRes extends BaseModel
             ->get();
         return $types;
     }
+
+    public static function getAllResultTypes(){
+        return  DB::table('type_of_scient_event')->get();
+    }
 }

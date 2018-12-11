@@ -145,6 +145,26 @@ class DataInRanking extends BaseModel
             return false;
     }
 
+    public function addExistedTypeOfPub($arrTypes, $idRank, $arrMarks, $arrCodes){
+        $insert = false;
+        if (is_array($arrTypes)){
+            foreach ($arrTypes as $key=>$value){
+                $insert = DB::table('publication_in_ranking')->insert([
+                    ['fk_rank_type' => $idRank, 'fk_type_pub' => $arrTypes[$key], 'mark' => $arrMarks[$key], 'code' => $arrCodes[$key]]
+                ]);
+            }
+        }
+        else
+            $insert = DB::table('publication_in_ranking')->insert([
+                ['fk_rank_type' => $idRank, 'fk_type_pub' => $arrTypes, 'mark' => $arrMarks, 'code' => $arrCodes]
+            ]);
+
+        if ($insert)
+            return true;
+        else
+            return false;
+    }
+
 
 
 }

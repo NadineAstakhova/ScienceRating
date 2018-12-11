@@ -11,7 +11,15 @@
 @section('content')
     <div class="row">
         {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/addExistedTypes/'.$ranking->getId()], 'class'=>'form',  'style' => 'width:100%']) !!}
-
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @php
             if(Session::has('errorParse')){
                echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("errorParse")."</div>";
@@ -24,7 +32,7 @@
         <table class="table table-sm" id="ownerTable">
             <thead>
             <tr>
-                <th>{{ trans('messages.pub_name')}}</th>
+                <th> <input type="text" id="searchOne" placeholder="{{ trans('messages.pub_name')}}..." class='form-control'/></th>
                 <th>{{ trans('messages.mark')}}</th>
                 <th>Код</th>
                 <th>{{ trans('messages.add')}}</th>
@@ -35,9 +43,13 @@
                 @foreach($types as $type)
                     <tr>
 
-                        <td>{{$type->type}}</td>
-                        <td><input type="number" id="mark" class="form-control" name="mark" value=""></td>
-                        <td><input type="text" id="code" class="form-control" name="code" ></td>
+                        <td class="name">{{$type->type}}</td>
+                        <td>
+                            {!! Form::number('arrMark['.$i.']', '1', ['class' => 'form-control']) !!}
+                        </td>
+                        <td>
+                            {!! Form::text('arrCode['.$i.']', '', ['class' => 'form-control']) !!}
+                        </td>
                         <td>
                             {!! Form::checkbox('arrTypes['.$i.']', $type->idTypePub) !!}
                         </td>

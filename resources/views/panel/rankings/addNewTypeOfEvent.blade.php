@@ -12,7 +12,7 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/profile')}}>{{ trans('messages.main')}}</a></li>
+                <li class="breadcrumb-item"><a href={{ url()->to(App\Http\Middleware\LocaleMiddleware::getLocale().'/editRanking/'.$ranking->getId()) }}>Back</a></li>
                 <li class="breadcrumb-item active">{{ $ranking->getTitle()}}</li>
             </ol>
         </nav>

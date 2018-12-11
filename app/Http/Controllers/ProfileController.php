@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\LocaleMiddleware;
+use App\Http\Requests\AddTypeOfExistedPublication;
 use App\Models\RankingModels\AddOwnersForm;
 use App\Models\RankingModels\CertificatPdfParse;
 use App\Models\RankingModels\CreateEventType;
@@ -751,12 +752,25 @@ class ProfileController extends Controller
             ));
     }
 
-
-    public function addExistedPubTypes($idRanking, Request $request){
+    /**
+     * @param $idRanking
+     * @param AddTypeOfExistedPublication $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addExistedPubTypes($idRanking, AddTypeOfExistedPublication $request){
         $model = new CreateEventType();
-        if($model->addTypesOfPub($request->get('arrTypes'), $request->get('arrMarks'), $request->get('arrCodes'), $idRanking)){
+        if($model->addTypesOfPub($request->get('arrTypes'), $request->get('arrMark'), $request->get('arrCode'), $idRanking)){
             return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
         }
+    }
+
+    public function addExistedTypeOfEvent($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/addExistedTypeOfEvent',
+            array(
+                'ranking' => $ranking,
+                'types' => TypeOfRes::getAllResultTypes(),
+            ));
     }
 
 

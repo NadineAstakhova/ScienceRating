@@ -11,6 +11,7 @@ namespace App\Models\RankingModels;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * Class CreateEventType
@@ -47,6 +48,22 @@ class CreateEventType extends Model
 
     public function addTypesOfPub($arrTypes, $arrMarks, $arrCodes, $idRanking){
 
+        $arrM = array();
+        $arrC = array();
+
+        foreach ($arrMarks as $key=>$value){
+            if(array_key_exists($key, $arrTypes))
+                $arrM[$key] = $value;
+        }
+
+        foreach ($arrCodes as $key=>$value){
+            if(array_key_exists($key, $arrTypes))
+                $arrC[$key] = $value;
+        }
+
+        $addType = new DataInRanking($idRanking);
+
+        return $addType->addExistedTypeOfPub($arrTypes, $idRanking, $arrM, $arrC);
     }
 
 
