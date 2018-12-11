@@ -159,8 +159,19 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
     Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
 
+    /**
+     * Routes for rankings pages
+     */
     Route::get('/temps','ProfileController@tempsIndex')->middleware('auth');
     Route::get('/editRanking/{idRanking}','ProfileController@showRanking')->middleware('auth');
+
+    Route::get('/deleteEventAtRanking/{idRankEvent}','ProfileController@deleteEventAtRanking')->middleware('auth');
+    Route::get('/addNewTypeOfEvent/{idRanking}','ProfileController@addNewTypeOfEvent')->middleware('auth');
+    Route::post('/createEventType/{idRanking}', 'ProfileController@createEventType')->middleware('auth');
+
+    Route::get('/deletePubAtRanking/{idPubRank}','ProfileController@deletePubAtRanking')->middleware('auth');
+    Route::get('/addNewTypeOfPub/{idRanking}','ProfileController@addNewTypeOfPub')->middleware('auth');
+    Route::post('/createPubType/{idRanking}', 'ProfileController@createPubType')->middleware('auth');
 
     /**
      * Admin Panel

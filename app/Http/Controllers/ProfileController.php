@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\LocaleMiddleware;
 use App\Models\RankingModels\AddOwnersForm;
 use App\Models\RankingModels\CertificatPdfParse;
+use App\Models\RankingModels\CreateEventType;
 use App\Models\RankingModels\CreateResult;
 use App\Models\RankingModels\DataInRanking;
 use App\Models\RankingModels\EditResults;
@@ -633,6 +634,10 @@ class ProfileController extends Controller
             return "Ошибка записи";
     }
 
+    /**
+     * Show all rankings at the system
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
     public function tempsIndex(){
         return view('panel/rankings/index',
             array(
@@ -640,6 +645,11 @@ class ProfileController extends Controller
             ));
     }
 
+    /**
+     * Show data in ranking
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
     public function showRanking($idRanking){
         $ranking = new DataInRanking($idRanking);
         return view('panel/rankings/showRanking',
@@ -649,5 +659,85 @@ class ProfileController extends Controller
                 'publications' =>$ranking->getPublicationAtTemp()
             ));
     }
+
+    /**
+     * @param $idRankEvent
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteEventAtRanking($idRankEvent){
+        DataInRanking::deleteEventAtRanking($idRankEvent);
+        return redirect()->back();
+    }
+
+    /**
+     * @param $idRankEvent
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deletePubAtRanking($idRankEvent){
+        DataInRanking::deletePubAtRanking($idRankEvent);
+        return redirect()->back();
+    }
+
+    /**
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function addNewTypeOfEvent($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/addNewTypeOfEvent',
+            array(
+                'ranking' => $ranking,
+                'arrResults' => TypeOfRes::getResultTypes() ,
+            ));
+    }
+
+    /**
+     * @param $idRanking
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function createEventType($idRanking, Request $request){
+        $model = new CreateEventType();
+        $title = $request->get('title');
+        $idRes =  $request->get('typeResult');
+        $mark =  $request->get('mark');
+        $code =  $request->get('code');
+        if ($model->createNewEventType($title, $idRanking, $idRes, $mark, $code)){
+            return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
+        }
+        else
+            return redirect(LocaleMiddleware::getLocale().'/editRanking'.$idRanking)->with('errorParse', Lang::get('messages.err_writing'));
+    }
+
+    /**
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function addNewTypeOfPub($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/addNewTypeOfEvent',
+            array(
+                'ranking' => $ranking
+            ));
+    }
+
+    /**
+     * @param $idRanking
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function createPubType($idRanking, Request $request){
+        $model = new CreateEventType();
+        $title = $request->get('title');
+        $mark =  $request->get('mark');
+        $code =  $request->get('code');
+        if ($model->createNewPubType($title, $idRanking, $mark, $code)){
+            return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
+        }
+        else
+            return redirect(LocaleMiddleware::getLocale().'/editRanking'.$idRanking)->with('errorParse', Lang::get('messages.err_writing'));
+    }
+
+
 
 }

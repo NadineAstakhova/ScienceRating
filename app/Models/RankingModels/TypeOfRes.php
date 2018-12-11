@@ -54,4 +54,26 @@ class TypeOfRes extends BaseModel
         }
         return $arr;
     }
+
+    public function createEventType($title){
+        $insert = DB::table('type_of_scient_event')->insert([
+            ['type' => $title]
+        ]);
+        if($insert)
+            return true;
+        else
+            return false;
+
+    }
+
+    public function createPubType($title){
+        $insert = DB::table('type_of_publication')->insert([
+            ['type' => $title]
+        ]);
+        if($insert)
+            return true;
+        else
+            return false;
+
+    }
 }

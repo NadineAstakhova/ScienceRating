@@ -29,6 +29,13 @@ class DataInRanking extends BaseModel
     }
 
     /**
+     * @return mixed
+     */
+    public function getId(){
+        return $this->idTemp;
+    }
+
+    /**
      * Get types of publications in ranking
      * @return mixed
      */
@@ -74,6 +81,53 @@ class DataInRanking extends BaseModel
             ->first();
         return $rank->title;
     }
+
+    /**
+     * Delete event from ranking
+     * @param $idDelete
+     * @return mixed
+     */
+    public static function deleteEventAtRanking($idDelete){
+        $deleted =  DB::table('event_in_ranking')->where('idRankEvent','=',$idDelete)->delete();
+        return $deleted;
+    }
+
+    /**
+     * Delete publication from ranking
+     * @param $idDelete
+     * @return mixed
+     */
+    public static function deletePubAtRanking($idDelete){
+        $deleted =  DB::table('publication_in_ranking')->where('idPubRank','=',$idDelete)->delete();
+        return $deleted;
+    }
+
+    public function createNewEventTypeInRank($title, $idRank, $idRes, $mark, $code){
+        $newType = new TypeOfRes();
+        if($newType->createEventType($title)){
+            $last_id = DB::getPdo()->lastInsertId();
+            $insert = DB::table('event_in_ranking')->insert([
+                ['fk_rank_type' => $idRank, 'fk_event_type' => $last_id, 'fk_result_type' => $idRes, 'mark' => $mark, 'code' => $code]
+            ]);
+            return $insert;
+        }
+        else
+            return false;
+    }
+
+    public function createNewPubTypeInRank($title, $idRank, $mark, $code){
+        $newType = new TypeOfRes();
+        if($newType->createPubType($title)){
+            $last_id = DB::getPdo()->lastInsertId();
+            $insert = DB::table('publication_in_ranking')->insert([
+                ['fk_rank_type' => $idRank, 'fk_type_pub' => $last_id,  'mark' => $mark, 'code' => $code]
+            ]);
+            return $insert;
+        }
+        else
+            return false;
+    }
+
 
 
 }
