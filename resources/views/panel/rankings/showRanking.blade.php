@@ -10,6 +10,7 @@
 @section('title', 'Rankings')
 @section('header')
     <script src="{{asset('js/message_alert.js')}}"></script>
+    <script src="{{asset('js/editTypesAtRanking.js')}}"></script>
 @endsection
 @section('content')
     <script>
@@ -64,12 +65,13 @@
                 <tr>
                     <td>{{$event->type}}</td>
                     <td>{{$event->type_of_res}}</td>
-                    <td>{{$event->mark}}</td>
-                    <td>{{$event->code}}</td>
+                    <td> <div id={{"marks_".$event->idRankEvent}}>{{$event->mark}}</div></td>
+                    <td> <div id={{"codes_".$event->idRankEvent}}>{{$event->code}}</div></td>
                     <td>
-                        <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
-                             onclick="showInputProvider({{$i}})">
-                        <a href="{{ url(App\Http\Middleware\LocaleMiddleware::getLocale()."/editRanking/$event->idRankEvent")}}"><img src="{{asset('images/edit.png')}}" alt=" {{ trans('messages.update_profile')}}"  class="icons update_btn"></a>
+                        <div>
+                            <img id={{"change_".$event->idRankEvent}} src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub change-button"
+                                 onclick="showInputProvider('{{$event->idRankEvent}}', 'marks', 'codes', 'change', 'editMarkAndCodeEvent', 'event')">
+                        </div>
                         <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/deleteEventAtRanking/$event->idRankEvent")}}">
                             <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
                     </td>
@@ -113,10 +115,13 @@
             @foreach($publications as $publication)
                 <tr>
                     <td>{{$publication->type}}</td>
-                    <td>{{$publication->mark}}</td>
-                    <td>{{$publication->code}}</td>
+                    <td> <div id={{"marksPub_".$publication->idPubRank}}>{{$publication->mark}}</div></td>
+                    <td> <div id={{"codePubs_".$publication->idPubRank}}>{{$publication->code}}</div></td>
                     <td>
-                        <a href="{{ url(App\Http\Middleware\LocaleMiddleware::getLocale()."/editRanking/$publication->idPubRank")}}"><img src="{{asset('images/edit.png')}}" alt=" {{ trans('messages.update_profile')}}"  class="icons update_btn"></a>
+                        <div>
+                            <img id={{"changePub_".$publication->idPubRank}} src="{{asset('images/edit.png')}}" alt=" {{ trans('messages.update_profile')}}"
+                                 onclick="showInputProvider('{{$publication->idPubRank}}', 'marksPub', 'codePubs', 'changePub', 'editMarkAndCodePub', 'pub')"
+                                 class="icons update_btn change-button"></div>
                         <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/deletePubAtRanking/$publication->idPubRank")}}">
                             <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
                     </td>

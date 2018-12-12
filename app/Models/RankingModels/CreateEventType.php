@@ -89,43 +89,27 @@ class CreateEventType extends Model
 
     /**
      * @param $id
-     * @param $newValue
+     * @param $newValueMark
+     * @param $newValueCode
      * @return mixed
      */
-    public function editMarkOfEvent($id, $newValue){
-        $edit = DataInRanking::editMarkOfEvent($id, $newValue);
+    public function editMarkAndCodeEvent($id, $newValueMark, $newValueCode){
+        $edit = DataInRanking::editMarkAndCodeEvent($id, $newValueMark, $newValueCode);
         return $edit;
     }
 
     /**
      * @param $id
-     * @param $newValue
+     * @param $newValueMark
+     * @param $newValueCode
      * @return mixed
      */
-    public function editCodeOfEvent($id, $newValue){
-        $edit = DataInRanking::editCodeOfEvent($id, $newValue);
+    public function editMarkOfCodePub($id, $newValueMark, $newValueCode){
+        $edit = DataInRanking::editMarkOfCodePub($id, $newValueMark, $newValueCode);
         return $edit;
     }
 
-    /**
-     * @param $id
-     * @param $newValue
-     * @return mixed
-     */
-    public function editMarkOfPub($id, $newValue){
-        $edit = DataInRanking::editMarkOfPub($id, $newValue);
-        return $edit;
-    }
 
-    /**
-     * @param $id
-     * @param $newValue
-     * @return mixed
-     */
-    public function editCodeOfPub($id, $newValue){
-        $edit = DataInRanking::editCodeOfPub($id, $newValue);
-        return $edit;
-    }
 
 
 }

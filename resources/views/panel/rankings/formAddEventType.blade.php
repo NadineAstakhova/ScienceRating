@@ -22,7 +22,7 @@
         <div class="form-group row">
             {!! Form::label('mark', trans('messages.mark').':', array('class' => 'col-sm-2 col-form-label')) !!}
             <div class="col-sm-3">
-                <input type="number" id="mark" class="form-control" name="mark" value="" required>
+                <input type="number" id="mark" class="form-control" name="mark" value="" step="0.1" min="1" required>
             </div>
             <span id="pagesT" class="col-sm-10"></span>
         </div>

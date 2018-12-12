@@ -209,52 +209,28 @@ class DataInRanking extends BaseModel
 
     /**
      * @param $id
-     * @param $newValue
+     * @param $newMark
+     * @param $newCode
      * @return mixed
      */
-    public static function editMarkOfEvent($id, $newValue){
+    public static function editMarkAndCodeEvent($id, $newMark, $newCode){
         $update = DB::table('event_in_ranking')
             ->where('idRankEvent', $id)
-            ->update( ['mark' => $newValue]);
+            ->update( ['mark' => $newMark, 'code' => $newCode]);
         return $update;
     }
 
     /**
      * @param $id
-     * @param $newValue
+     * @param $newMark
+     * @param $newCode
      * @return mixed
      */
-    public static function editCodeOfEvent($id, $newValue){
-        $update = DB::table('event_in_ranking')
-            ->where('idRankEvent', $id)
-            ->update( ['code' => $newValue]);
-        return $update;
-    }
-
-    /**
-     * @param $id
-     * @param $newValue
-     * @return mixed
-     */
-    public static function editMarkOfPub($id, $newValue){
+    public static function editMarkOfCodePub($id, $newMark, $newCode){
         $update = DB::table('publication_in_ranking')
             ->where('idPubRank', $id)
-            ->update( ['mark' => $newValue]);
+            ->update( ['mark' => $newMark, 'code' => $newCode]);
         return $update;
     }
-
-    /**
-     * @param $id
-     * @param $newValue
-     * @return mixed
-     */
-    public static function editCodeOfPub($id, $newValue){
-        $update = DB::table('publication_in_ranking')
-            ->where('idPubRank', $id)
-            ->update( ['code' => $newValue]);
-        return $update;
-    }
-
-
 
 }

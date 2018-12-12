@@ -66,7 +66,8 @@ Route::post('/editPercent', 'ProfileController@editPercentToUser')->middleware('
 Route::post('/editResult', 'ProfileController@editResultToUser')->middleware('auth');
 Route::post('/editRole', 'ProfileController@editRoleToUser')->middleware('auth');
 
-Route::post('/editMarkEvent', 'ProfileController@editMarkEvent')->middleware('auth');
+Route::post('/editMarkAndCodeEvent', 'ProfileController@editMarkAndCodeEvent')->middleware('auth');
+Route::post('/editMarkAndCodePub', 'ProfileController@editMarkAndCodePub')->middleware('auth');
 
 /**
  * Routes for admin

@@ -43,10 +43,9 @@
             @php $i=0; @endphp
                 @foreach($types as $type)
                     <tr>
-
                         <td class="name">{{$type->type}}</td>
                         <td>
-                            {!! Form::number('arrMark['.$i.']', '1', ['class' => 'form-control']) !!}
+                            {!! Form::number('arrMark['.$i.']', '1', ['class' => 'form-control', 'step' => '0.1', 'min'=>0]) !!}
                         </td>
                         <td>
                             {!! Form::text('arrCode['.$i.']', '', ['class' => 'form-control']) !!}

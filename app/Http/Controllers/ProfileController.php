@@ -808,50 +808,25 @@ class ProfileController extends Controller
      * @param Request $request
      * @return mixed|string
      */
-    public function editMarkEvent(Request $request){
+    public function editMarkAndCodeEvent(Request $request){
         $modelEdit = new CreateEventType();
-        if($modelEdit->editMarkOfEvent( $request->get('idEventType'), $request->get('newValue')))
-           return $request->get('newValue');
+        if($modelEdit->editMarkAndCodeEvent( $request->get('idEventType'), $request->get('newValueMark'),  $request->get('newValueCode')))
+           return $request->get('newValueMark');
         else
             return "Ошибка записи";
     }
+
 
     /**
      * @param Request $request
      * @return mixed|string
      */
-    public function editCodeEvent(Request $request){
+    public function editMarkAndCodePub(Request $request){
         $modelEdit = new CreateEventType();
-        if($modelEdit->editCodeOfEvent( $request->get('idEventType'), $request->get('newValue')))
+        if($modelEdit->editMarkOfCodePub( $request->get('idEventType'), $request->get('newValueMark'), $request->get('newValueCode')))
             return $request->get('newValue');
         else
             return "Ошибка записи";
     }
-
-    /**
-     * @param Request $request
-     * @return mixed|string
-     */
-    public function editMarkPub(Request $request){
-        $modelEdit = new CreateEventType();
-        if($modelEdit->editMarkOfPub( $request->get('idEventType'), $request->get('newValue')))
-            return $request->get('newValue');
-        else
-            return "Ошибка записи";
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed|string
-     */
-    public function editCodePub(Request $request){
-        $modelEdit = new CreateEventType();
-        if($modelEdit->editCodeOfPub( $request->get('idEventType'), $request->get('newValue')))
-            return $request->get('newValue');
-        else
-            return "Ошибка записи";
-    }
-
-
-
+    
 }

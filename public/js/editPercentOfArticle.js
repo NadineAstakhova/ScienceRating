@@ -71,7 +71,7 @@ const blurLogic = (obj) =>{
             setValue(obj.id, data, 'percent',  'percentInput');
         })
         .fail(function( jqXHR, textStatus ) {
-            console.log( "Request failed: " + textStatus );
+            console.log( "Request failed: " + textStatus, jqXHR );
         });
 
 };

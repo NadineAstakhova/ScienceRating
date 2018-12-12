@@ -27,7 +27,6 @@
             @php $i=0; @endphp
             @foreach($types as $type)
                 <tr>
-
                     <td class="name">{{$type->type}}</td>
                     <td>
                         <div class="custom-control custom-radio">
