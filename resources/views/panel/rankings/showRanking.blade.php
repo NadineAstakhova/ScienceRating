@@ -67,6 +67,8 @@
                     <td>{{$event->mark}}</td>
                     <td>{{$event->code}}</td>
                     <td>
+                        <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
+                             onclick="showInputProvider({{$i}})">
                         <a href="{{ url(App\Http\Middleware\LocaleMiddleware::getLocale()."/editRanking/$event->idRankEvent")}}"><img src="{{asset('images/edit.png')}}" alt=" {{ trans('messages.update_profile')}}"  class="icons update_btn"></a>
                         <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/deleteEventAtRanking/$event->idRankEvent")}}">
                             <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>

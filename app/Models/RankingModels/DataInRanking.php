@@ -192,11 +192,67 @@ class DataInRanking extends BaseModel
         return $resultTypes;
     }
 
+    /**
+     * @param $idRanking
+     * @param $idType
+     * @param $mark
+     * @param $code
+     * @param $idRes
+     * @return mixed
+     */
     public function addExistedTypeOfEvent($idRanking, $idType, $mark, $code, $idRes){
         $insert = DB::table('event_in_ranking')->insert([
             ['fk_rank_type' => $idRanking, 'fk_event_type' => $idType, 'mark' => $mark, 'code' => $code, 'fk_result_type' => $idRes]
         ]);
         return $insert;
+    }
+
+    /**
+     * @param $id
+     * @param $newValue
+     * @return mixed
+     */
+    public static function editMarkOfEvent($id, $newValue){
+        $update = DB::table('event_in_ranking')
+            ->where('idRankEvent', $id)
+            ->update( ['mark' => $newValue]);
+        return $update;
+    }
+
+    /**
+     * @param $id
+     * @param $newValue
+     * @return mixed
+     */
+    public static function editCodeOfEvent($id, $newValue){
+        $update = DB::table('event_in_ranking')
+            ->where('idRankEvent', $id)
+            ->update( ['code' => $newValue]);
+        return $update;
+    }
+
+    /**
+     * @param $id
+     * @param $newValue
+     * @return mixed
+     */
+    public static function editMarkOfPub($id, $newValue){
+        $update = DB::table('publication_in_ranking')
+            ->where('idPubRank', $id)
+            ->update( ['mark' => $newValue]);
+        return $update;
+    }
+
+    /**
+     * @param $id
+     * @param $newValue
+     * @return mixed
+     */
+    public static function editCodeOfPub($id, $newValue){
+        $update = DB::table('publication_in_ranking')
+            ->where('idPubRank', $id)
+            ->update( ['code' => $newValue]);
+        return $update;
     }
 
 

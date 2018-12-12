@@ -791,11 +791,65 @@ class ProfileController extends Controller
             ));
     }
 
+    /**
+     * @param $idRanking
+     * @param $idType
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function addExistedEventTypes($idRanking, $idType, Request $request){
         $model = new CreateEventType();
         if($model->addTypesOfEvent($idRanking, $idType, $request->get('mark'), $request->get('code'), $request->get('typeResult'))){
             return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed|string
+     */
+    public function editMarkEvent(Request $request){
+        $modelEdit = new CreateEventType();
+        if($modelEdit->editMarkOfEvent( $request->get('idEventType'), $request->get('newValue')))
+           return $request->get('newValue');
+        else
+            return "Ошибка записи";
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed|string
+     */
+    public function editCodeEvent(Request $request){
+        $modelEdit = new CreateEventType();
+        if($modelEdit->editCodeOfEvent( $request->get('idEventType'), $request->get('newValue')))
+            return $request->get('newValue');
+        else
+            return "Ошибка записи";
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed|string
+     */
+    public function editMarkPub(Request $request){
+        $modelEdit = new CreateEventType();
+        if($modelEdit->editMarkOfPub( $request->get('idEventType'), $request->get('newValue')))
+            return $request->get('newValue');
+        else
+            return "Ошибка записи";
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed|string
+     */
+    public function editCodePub(Request $request){
+        $modelEdit = new CreateEventType();
+        if($modelEdit->editCodeOfPub( $request->get('idEventType'), $request->get('newValue')))
+            return $request->get('newValue');
+        else
+            return "Ошибка записи";
     }
 
 

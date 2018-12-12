@@ -73,10 +73,58 @@ class CreateEventType extends Model
         return $addType->addExistedTypeOfPub($arrTypes, $idRanking, $arrM, $arrC);
     }
 
+    /**
+     * @param $idRanking
+     * @param $idType
+     * @param $mark
+     * @param $code
+     * @param $idRes
+     * @return mixed
+     */
     public function addTypesOfEvent($idRanking, $idType, $mark, $code, $idRes){
         $addType = new DataInRanking($idRanking);
 
         return $addType->addExistedTypeOfEvent($idRanking, $idType, $mark, $code, $idRes);
+    }
+
+    /**
+     * @param $id
+     * @param $newValue
+     * @return mixed
+     */
+    public function editMarkOfEvent($id, $newValue){
+        $edit = DataInRanking::editMarkOfEvent($id, $newValue);
+        return $edit;
+    }
+
+    /**
+     * @param $id
+     * @param $newValue
+     * @return mixed
+     */
+    public function editCodeOfEvent($id, $newValue){
+        $edit = DataInRanking::editCodeOfEvent($id, $newValue);
+        return $edit;
+    }
+
+    /**
+     * @param $id
+     * @param $newValue
+     * @return mixed
+     */
+    public function editMarkOfPub($id, $newValue){
+        $edit = DataInRanking::editMarkOfPub($id, $newValue);
+        return $edit;
+    }
+
+    /**
+     * @param $id
+     * @param $newValue
+     * @return mixed
+     */
+    public function editCodeOfPub($id, $newValue){
+        $edit = DataInRanking::editCodeOfPub($id, $newValue);
+        return $edit;
     }
 
 
