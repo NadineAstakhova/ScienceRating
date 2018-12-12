@@ -7,6 +7,11 @@ use App\Http\Requests\MethodistCreatingValidation;
 use App\Http\Requests\ProfessorCreatingValidation;
 use App\Mail\VerifyMail;
 use App\Models\AdminPanel\CreateUserForm;
+use App\Models\RankingModels\Rankings;
+use App\Models\RankingModels\ScientificPublication;
+use App\Models\RankingModels\ScientificResult;
+use App\Models\UsersModels\Professor;
+use App\Models\UsersModels\Student;
 use App\Models\UsersOwners;
 use App\User;
 use Illuminate\Http\Request;
@@ -24,6 +29,12 @@ class AdminController extends Controller
                 'page' => 'profile',
                 'unconfirm_users' => User::getAllUnconfirmedUsers(),
                 'new_student' => User::getAllNewStudent(),
+                'groups' => Student::getCountOfGroup(),
+                'subjects' => Professor::getCountOfSubject(),
+                'rankings' => Rankings::getCountOfRankings(),
+                'new_pub' => count(ScientificResult::getAllNewPublications()),
+                'new_event' => count(ScientificResult::getAllNewEvents()),
+                'methodists' => User::all()->where('type', User::METHODIST),
             )
         );
     }

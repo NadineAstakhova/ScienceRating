@@ -33,5 +33,10 @@ class Rankings extends Model
         parent::__construct($attributes);
     }
 
+    public static function getCountOfRankings(){
+        $rankings = DB::table('res_template')->get();
+        return count($rankings);
+    }
+
 
 }
