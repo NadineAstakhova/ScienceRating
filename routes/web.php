@@ -176,6 +176,12 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
     Route::post('/addExistedTypes/{idRanking}', 'ProfileController@addExistedPubTypes')->middleware('auth');
 
     Route::get('/addExistedTypeOfEvent/{idRanking}','ProfileController@addExistedTypeOfEvent')->middleware('auth');
+    Route::get('/addingFormEventType/{idRanking}', function($idRanking) {
+        $action = "addingFormEventType";
+        return App::make('App\Http\Controllers\ProfileController')->$action($idRanking,Input::get('type_id'));
+    });
+    Route::post('/addExistedEventType/{idRanking}/{idType}', 'ProfileController@addExistedEventTypes')->middleware('auth');
+
 
     /**
      * Admin Panel

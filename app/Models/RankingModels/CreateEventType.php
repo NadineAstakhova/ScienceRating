@@ -46,6 +46,13 @@ class CreateEventType extends Model
         return $temp->createNewPubTypeInRank($title, $tempId, $mark, $code);
     }
 
+    /**
+     * @param $arrTypes
+     * @param $arrMarks
+     * @param $arrCodes
+     * @param $idRanking
+     * @return bool
+     */
     public function addTypesOfPub($arrTypes, $arrMarks, $arrCodes, $idRanking){
 
         $arrM = array();
@@ -64,6 +71,12 @@ class CreateEventType extends Model
         $addType = new DataInRanking($idRanking);
 
         return $addType->addExistedTypeOfPub($arrTypes, $idRanking, $arrM, $arrC);
+    }
+
+    public function addTypesOfEvent($idRanking, $idType, $mark, $code, $idRes){
+        $addType = new DataInRanking($idRanking);
+
+        return $addType->addExistedTypeOfEvent($idRanking, $idType, $mark, $code, $idRes);
     }
 
 

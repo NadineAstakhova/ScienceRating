@@ -11,6 +11,7 @@
 @section('content')
     <div class="row">
         {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/addExistedTypes/'.$ranking->getId()], 'class'=>'form',  'style' => 'width:100%']) !!}
+        {{csrf_field()}}
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -63,7 +64,7 @@
 
         {!! Form::submit( trans('messages.save'), ['class' => 'btn btn-outline-success btn-submit', 'id' => 'btn']) !!}
 
-        <a class="btn btn-outline-secondary btn-close" id="j">{{ trans('messages.cancel')}}</a>
+        <a href="{{ url()->to(App\Http\Middleware\LocaleMiddleware::getLocale().'/editRanking/'.$ranking->getId()) }}"class="btn btn-outline-secondary btn-close" id="j">{{ trans('messages.cancel')}}</a>
 
         {!! Form::close() !!}
 

@@ -27,6 +27,7 @@
         @else
             {!! Form::open(['url' => [App\Http\Middleware\LocaleMiddleware::getLocale().'/createPubType/'.$ranking->getId()], 'class'=>'form', 'files'=>'true']) !!}
         @endif
+        {{csrf_field()}}
         {!! Form::label('title', trans('messages.pub_name').':') !!}
 
         <input type="text" id="title" class="form-control" name="title" required>

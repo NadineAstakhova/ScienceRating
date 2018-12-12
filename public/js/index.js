@@ -16,6 +16,15 @@ $(document).ready(function(){
             return false;
         }
     });
+    $('#btn-t, #btn-t1').bind("click",function()
+    {
+        let imgVal = $('.types:checked').val();
+        if(imgVal === undefined)
+        {
+            $("#error-u").html("Выберите тип");
+            return false;
+        }
+    });
 });
 
 /**

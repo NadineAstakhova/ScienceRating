@@ -764,6 +764,10 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
     public function addExistedTypeOfEvent($idRanking){
         $ranking = new DataInRanking($idRanking);
         return view('panel/rankings/addExistedTypeOfEvent',
@@ -771,6 +775,27 @@ class ProfileController extends Controller
                 'ranking' => $ranking,
                 'types' => TypeOfRes::getAllResultTypes(),
             ));
+    }
+
+    public function addingFormEventType($idRanking, $idType){
+        //session()->put('idUserRes', $idUser);
+        $ranking = new DataInRanking($idRanking);
+        $eventType = new TypeOfRes();
+        $eventType = $eventType->identifyEventType($idType);
+        return view('panel/rankings/formAddEventType',
+            array('title' => 'formAddEventType','description' => '',
+                'page' => 'formAddEventType',
+                'ranking' => $ranking,
+                'eventType' => $eventType,
+                'arrResults' =>$ranking->getNotExistedResultTypeOfEventInTemp($idRanking, $idType) ,
+            ));
+    }
+
+    public function addExistedEventTypes($idRanking, $idType, Request $request){
+        $model = new CreateEventType();
+        if($model->addTypesOfEvent($idRanking, $idType, $request->get('mark'), $request->get('code'), $request->get('typeResult'))){
+            return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
+        }
     }
 
 

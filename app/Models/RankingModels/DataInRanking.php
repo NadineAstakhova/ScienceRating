@@ -145,6 +145,13 @@ class DataInRanking extends BaseModel
             return false;
     }
 
+    /**
+     * @param $arrTypes
+     * @param $idRank
+     * @param $arrMarks
+     * @param $arrCodes
+     * @return bool
+     */
     public function addExistedTypeOfPub($arrTypes, $idRank, $arrMarks, $arrCodes){
         $insert = false;
         if (is_array($arrTypes)){
@@ -163,6 +170,33 @@ class DataInRanking extends BaseModel
             return true;
         else
             return false;
+    }
+
+    public function getTypeOfEventWithResultInTemp($idTemp, $idType){
+        $events = DB::table('event_in_ranking')
+            ->join('type_of_scient_event', 'type_of_scient_event.idTypeEvents', '=', 'event_in_ranking.fk_event_type')
+            ->join('type_of_result', 'type_of_result.idTypeRes', '=', 'event_in_ranking.fk_result_type')
+            ->where([['fk_rank_type', '=', $idTemp], ['fk_event_type', '=', $idType]])
+            ->get();
+        return $events;
+    }
+
+    public function getNotExistedResultTypeOfEventInTemp($idTemp, $idType){
+        $resultTypes =  TypeOfRes::getResultTypes();
+        $events = $this->getTypeOfEventWithResultInTemp($idTemp, $idType);
+        foreach($events as $event){
+            if(array_key_exists($event->fk_result_type, $resultTypes)){
+                unset($resultTypes[$event->fk_result_type]);
+            }
+        }
+        return $resultTypes;
+    }
+
+    public function addExistedTypeOfEvent($idRanking, $idType, $mark, $code, $idRes){
+        $insert = DB::table('event_in_ranking')->insert([
+            ['fk_rank_type' => $idRanking, 'fk_event_type' => $idType, 'mark' => $mark, 'code' => $code, 'fk_result_type' => $idRes]
+        ]);
+        return $insert;
     }
 
 

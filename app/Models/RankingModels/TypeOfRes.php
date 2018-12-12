@@ -91,4 +91,12 @@ class TypeOfRes extends BaseModel
     public static function getAllResultTypes(){
         return  DB::table('type_of_scient_event')->get();
     }
+
+    public function identifyEventType($id){
+        $row = DB::table('type_of_scient_event')
+            ->where('idTypeEvents', '=', $id)
+            ->first();
+        return $row;
+    }
+
 }
