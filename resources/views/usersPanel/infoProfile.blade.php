@@ -138,7 +138,7 @@
                             <div class="col-lg-9">
                                 <input class="form-control" type="email" value="{{$user->email}}"
                                        name="email" oninvalid="this.setCustomValidity('Это неверный формат Email')"
-                                       oninput="setCustomValidity('')">
+                                       oninput="setCustomValidity('')" required>
                             </div>
                         </div>
                         <div class="form-group row">
