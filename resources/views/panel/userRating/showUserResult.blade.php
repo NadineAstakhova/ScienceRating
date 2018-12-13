@@ -85,7 +85,7 @@ use App\Models\RankingModels\TypeOfRes;
                 @foreach($arrEvents as $res)
                     <tr>
                         <td>
-                            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/event/$res->idScientEvent")}}">{{$res->titleEvent}}</a>
+                            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/event/$res->idScientEvent")}}" data-toggle="tooltip" title="{{ trans('messages.msg_update')}}">{{$res->titleEvent}}</a>
                         </td>
                         <td>{{$res->type}} </td>
                         <td>{{$res->date}}</td>
@@ -179,7 +179,7 @@ use App\Models\RankingModels\TypeOfRes;
                 @foreach($arrArticles as $article)
                     <tr class="all">
                         <td>
-                            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/publication/$article->idPublication")}}">{{$article->title}}</a>
+                            <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/publication/$article->idPublication")}}" data-toggle="tooltip" title="{{ trans('messages.msg_update')}}">{{$article->title}}</a>
                         </td>
                         <td class="type_pub">{{$article->type}} </td>
                         <td class="percent">
@@ -207,7 +207,7 @@ use App\Models\RankingModels\TypeOfRes;
                         </td>
                         <td class="no-print">
                             <img src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub"
-                                 onclick="showInputProvider({{$i}})">
+                                 onclick="showInputProvider({{$i}})" data-toggle="tooltip" title="{{ trans('messages.msg_update')}}">
                             @if(Auth::user()->type == '3')
                                 <a href="{{url("deleteAuthorPub/$article->idPubAuthor")}}">
                                     <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>

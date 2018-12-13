@@ -70,7 +70,8 @@
                     <td>
                         <div>
                             <img id={{"change_".$event->idRankEvent}} src="{{asset('images/edit.png')}}" alt=""  class="icons update_btn editIconPub change-button"
-                                 onclick="showInputProvider('{{$event->idRankEvent}}', 'marks', 'codes', 'change', 'editMarkAndCodeEvent', 'event')">
+                                 onclick="showInputProvider('{{$event->idRankEvent}}', 'marks', 'codes', 'change', 'editMarkAndCodeEvent', 'event')"
+                                 data-toggle="tooltip" title="{{ trans('messages.msg_update')}}">
                         </div>
                         <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/deleteEventAtRanking/$event->idRankEvent")}}">
                             <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
@@ -121,7 +122,7 @@
                         <div>
                             <img id={{"changePub_".$publication->idPubRank}} src="{{asset('images/edit.png')}}" alt=" {{ trans('messages.update_profile')}}"
                                  onclick="showInputProvider('{{$publication->idPubRank}}', 'marksPub', 'codePubs', 'changePub', 'editMarkAndCodePub', 'pub')"
-                                 class="icons update_btn change-button"></div>
+                                 class="icons update_btn change-button" data-toggle="tooltip" title="{{ trans('messages.msg_update')}}"></div>
                         <a href="{{url(App\Http\Middleware\LocaleMiddleware::getLocale()."/deletePubAtRanking/$publication->idPubRank")}}">
                             <img src="{{asset('images/delete.png')}}" alt="" class="icons delete_btn"></a>
                     </td>
