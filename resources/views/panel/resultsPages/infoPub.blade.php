@@ -12,7 +12,7 @@
     <div class="row">
         <nav aria-label="breadcrumb" style="width: 100%;">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={{ url()->previous() }}>Back</a></li>
+                <li class="breadcrumb-item"><a href={{ url(App\Http\Middleware\LocaleMiddleware::getLocale().'/showUserResult?owner_id='.Session::get('idUserRes')) }}>Back</a></li>
                 <li class="breadcrumb-item active">{{ trans('messages.update_scient_pub')}} {{$publication->title}}</li>
             </ol>
         </nav>
@@ -21,8 +21,13 @@
         <div class="col-xs-6 col-sm-8 col-lg-8">
             <h3>{{ trans('messages.info_scient_res')}} {{$publication->title}} </h3>
         </div>
-
     </div>
+    @php
+        if(Session::has('save'))
+           echo "<div class='alert alert-success' id='mesSuccessAdd'>".Session::get("save")."</div>";
+       if(Session::has('error'))
+           echo "<div class='alert alert-danger' id='mesSuccessAdd'>".Session::get("error")."</div>";
+    @endphp
     <div class="row my-2">
         <div class="col-lg-9">
             <ul class="nav nav-tabs">

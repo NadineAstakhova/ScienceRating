@@ -1,9 +1,17 @@
+﻿var DOMAIN;
 $(document).ready(function(){
+    console.log(window.location.host.includes("paramonov"));
+    if(window.location.host.includes("paramonov"))
+        DOMAIN = PROD;
+    else
+        DOMAIN = DEV;
     init();
 });
 
 const styleTextElem = "unic-text-percent";
 const styleInputElem = "form-control percentInputArr";
+const PROD = 'http://paramonov.info/srs/public/';
+const DEV = 'http://sciencerating/public/';
 
 const setElementVisible = (elId, display) => {
     // const elInput = document.getElementById('percentInput['+ elId +']');
@@ -48,19 +56,22 @@ const setValue = (id, newVal, field, fieldInput) => {
 
 const blurLogic = (obj) =>{
 
-    $.post('http://paramonov.info/srs/public/editPercent', {
+    $.post(DOMAIN + 'editPercent', {
+            crossDomain: true,
             idPublication: obj.idPublication,
             newValue: obj.newValue,
             _token: $('meta[name=csrf-token]').attr('content'),
-
-
+            headers: {
+                "accept": "application/json",
+                "Access-Control-Allow-Origin":"*"
+            }
         }
     )
-        .done(function(data) { //meow
+        .done(function(data) {
             setValue(obj.id, data, 'percent',  'percentInput');
         })
         .fail(function( jqXHR, textStatus ) {
-            console.log( "Request failed: " + textStatus );
+            console.log( "Request failed: " + textStatus, jqXHR );
         });
 
 };
@@ -94,12 +105,15 @@ const blurInputProviderRes= (id, idMember) => {
 };
 const blurLogicRes = (obj) =>{
 
-    $.post('http://paramonov.info/srs/public/editResult', {
+    $.post(DOMAIN + 'editResult', {
+            crossDomain: true,
             idMember: obj.idMember,
             newValue: obj.newValue,
             _token: $('meta[name=csrf-token]').attr('content'),
-
-
+            headers: {
+                "accept": "application/json",
+                "Access-Control-Allow-Origin":"*"
+            }
         }
     )
         .done(function(data) { //meow
@@ -134,10 +148,15 @@ const blurInputProviderRole= (id, idMember) => {
 };
 const blurLogicRole = (obj) =>{
 
-    $.post('http://paramonov.info/srs/public/editRole', {
+    $.post(DOMAIN + 'editRole', {
+            crossDomain: true,
             idMember: obj.idMember,
             newValue: obj.newValue,
             _token: $('meta[name=csrf-token]').attr('content'),
+            headers: {
+                "accept": "application/json",
+                "Access-Control-Allow-Origin":"*"
+            }
         }
     )
         .done(function(data) { //meow

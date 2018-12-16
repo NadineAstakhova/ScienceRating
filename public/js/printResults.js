@@ -1,4 +1,4 @@
-$(document).ready(function(){
+﻿$(document).ready(function(){
     $('.delete_btn').on('click', function () {
         return confirm('Вы уверены, что хотите удалить научный результат для пользователя?');
     });

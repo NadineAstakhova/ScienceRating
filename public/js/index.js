@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created by Nadine on 14.11.2017.
  */
 $(document).ready(function(){
@@ -13,6 +13,15 @@ $(document).ready(function(){
         if(imgVal === undefined)
         {
             $("#error-u").html("Выберите пользователя");
+            return false;
+        }
+    });
+    $('#btn-t, #btn-t1').bind("click",function()
+    {
+        let imgVal = $('.types:checked').val();
+        if(imgVal === undefined)
+        {
+            $("#error-u").html("Выберите тип");
             return false;
         }
     });

@@ -57,4 +57,9 @@ class Professor extends BaseModel
             return false;
     }
 
+    public static function getCountOfSubject(){
+        $subjects = DB::table('subject')->get();
+        return count($subjects);
+    }
+
 }

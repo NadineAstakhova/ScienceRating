@@ -21,11 +21,12 @@ if (! function_exists('getLangURI')) {
        //print_r($segments);
 
         //Если URL (где нажали на переключение языка) содержал корректную метку языка
-        if (in_array($segments[2], App\Http\Middleware\LocaleMiddleware::$languages)) {
-            unset($segments[2]); //удаляем метку
+        if (in_array($segments[3], App\Http\Middleware\LocaleMiddleware::$languages)) {
+            unset($segments[3]); //удаляем метку
         }
 
         unset($segments[1]);
+        unset($segments[2]);
         //Добавляем метку языка в URL (если выбран не язык по-умолчанию)
         // if ($lang != App\Http\Middleware\LocaleMiddleware::$mainLanguage){
         array_splice($segments, 1, 0, $lang);

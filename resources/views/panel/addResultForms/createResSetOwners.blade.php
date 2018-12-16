@@ -1,9 +1,14 @@
+<?php
+use App\Models\RankingModels\ScientificPublication;
+use App\Models\RankingModels\ScientificEvent;
+?>
 @extends('layouts.main')
 @section('title', 'Add Owners')
 @section('header')
     <script src="{{asset('js/validateOwners.js')}}"></script>
 @endsection
 @section('content')
+
     <div class="row">
 
         @if(strpos($_SERVER['REQUEST_URI'], 'editEventMembers') !== false)
@@ -91,7 +96,6 @@
                 if(Session::has('owners')){
                    $arr = Session::get("owners");
                 }
-
             @endphp
             @php $i=0; @endphp
             <tbody>
@@ -102,11 +106,17 @@
                     <td class="type">{{$user->type}}</td>
                     <td class="email">{{$user->email}}</td>
                     @if(isset($arrRoles))
+                        @php
+                            $resultUser = null;
+                            if(Session::has('owners') && in_array($user->idUsers, $arr) && strpos($_SERVER['REQUEST_URI'], 'editEventMembers') !== false)
+                                $resultUser = ScientificEvent::getRoleAndResultById($idResult, $user->idUsers);
+                        @endphp
                         <td>
-                            {!! Form::select('arrResults['.$i.']', $arrResults,  null, ['class' => 'form-old-select form-control']) !!}
+                            {!! Form::select('arrResults['.$i.']', $arrResults, !is_null($resultUser) ?
+                             $resultUser->fk_res : null, ['class' => 'form-old-select form-control']) !!}
                         </td>
                         <td>
-                            {!! Form::select('arrRole['.$i.']', $arrRoles,  null, ['class' => 'form-old-select form-control']) !!}
+                            {!! Form::select('arrRole['.$i.']', $arrRoles,  !is_null($resultUser) ? $resultUser->fk_role : null, ['class' => 'form-old-select form-control']) !!}
                         </td>
                         @if(!Session::has('fileNameAll'))
                             <td>
@@ -122,7 +132,10 @@
 
                     @else
                         <td>
-                            {!! Form::number('arrRole['.$i.']', '100', ['class' => 'form-control unic-input', 'onKeyUp'=>'getState()', 'onChange'=>'getState()', 'id' => 'arrRole['.$i.']', 'min'=>1,'max'=>100]) !!}
+                            {!! Form::number('arrRole['.$i.']',
+                            Session::has('owners') && in_array($user->idUsers, $arr) && strpos($_SERVER['REQUEST_URI'], 'editAuthorMembers') !== false ?
+                             ScientificPublication::getPercentOfAuthor($idResult, $user->idUsers) : '100',
+                            ['class' => 'form-control unic-input', 'onKeyUp'=>'getState()', 'onChange'=>'getState()', 'id' => 'arrRole['.$i.']', 'min'=>1,'max'=>100]) !!}
                         </td>
                         <td >
                             {!! Form::checkbox('arrOwners['.$i.']', $user->idUsers, Session::has('owners') && in_array($user->idUsers, $arr) ?

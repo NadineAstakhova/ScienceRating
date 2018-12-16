@@ -54,4 +54,49 @@ class TypeOfRes extends BaseModel
         }
         return $arr;
     }
+
+    public function createEventType($title){
+        $insert = DB::table('type_of_scient_event')->insert([
+            ['type' => $title]
+        ]);
+        if($insert)
+            return true;
+        else
+            return false;
+
+    }
+
+    public function createPubType($title){
+        $insert = DB::table('type_of_publication')->insert([
+            ['type' => $title]
+        ]);
+        if($insert)
+            return true;
+        else
+            return false;
+
+    }
+
+    public static function getPublicationTypesNotInRank($idRank){
+        $types =  DB::table('type_of_publication')
+            ->whereNotExists(function ($query) use ($idRank) {
+                $query
+                    ->from('publication_in_ranking')
+                    ->where([['type_of_publication.idTypePub', '=', 'publication_in_ranking.fk_type_pub'],['publication_in_ranking.fk_rank_type', '=', $idRank]]);
+            })
+            ->get();
+        return $types;
+    }
+
+    public static function getAllResultTypes(){
+        return  DB::table('type_of_scient_event')->get();
+    }
+
+    public function identifyEventType($id){
+        $row = DB::table('type_of_scient_event')
+            ->where('idTypeEvents', '=', $id)
+            ->first();
+        return $row;
+    }
+
 }

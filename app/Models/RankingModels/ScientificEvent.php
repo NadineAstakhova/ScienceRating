@@ -67,4 +67,11 @@ class ScientificEvent extends Model
         return $update;
     }
 
+    public static function getRoleAndResultById($idRes, $idMember){
+        $res = DB::table('members_of_event')
+            ->where([['members_of_event.fk_event', '=',  $idRes], ['members_of_event.fk_member', '=',  $idMember]] )
+            ->first();
+        return $res;
+    }
+
 }

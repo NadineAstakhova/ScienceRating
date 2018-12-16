@@ -1,15 +1,16 @@
-$(document).ready(function() {
-    $("#date").inputmask("dd-mm-yyyy");
+﻿$(document).ready(function() {
+    $("#date").inputmask("(9999)|(99-99-9999)");
+
     $('#allField').change(
         function(){
             const COLOR_AUTO_FILL = "#3A5FCD";
 
             if ($(this).is(':checked')) {
-                $("#nameT").html("Поле будет заполнено автоматически");
-                $("#dateT").html("Поле будет заполнено автоматически");
-                $("#typeT").html("Поле нужно будет заполнить самостоятельно");
+                $("#nameT").html("Поле буде заповнено автоматично");
+                $("#dateT").html("Поле буде заповнено автоматично");
+                $("#typeT").html("Поле потрібно буде заповнити самостійно");
                 $("#pagesT").html("Поле будет заполнено автоматически");
-                $("#publishingT").html("Поле нужно будет заполнить самостоятельно");
+                $("#publishingT").html("Поле потрібно буде заповнити самостійно");
                 $("#name").css("border-color", COLOR_AUTO_FILL);
                 $("#date").css("border-color", COLOR_AUTO_FILL);
                 $("#pages").css("border-color", COLOR_AUTO_FILL);
@@ -79,6 +80,11 @@ $(document).ready(function() {
         else if (data.length === 4 && res.getFullYear() > new Date().getFullYear()){
             $("#dateT").html("Год больше текущего. Вы из будущего?").
                 css("color", "red");
+            return false;
+        }
+        else if (data.length === 4 && res.getFullYear() < '1970'){
+            $("#dateT").html("Дата имеет слишком давний год").
+            css("color", "red");
             return false;
         }
         else if (data.length > 4 && res > new Date()){

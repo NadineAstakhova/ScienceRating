@@ -66,6 +66,9 @@ Route::post('/editPercent', 'ProfileController@editPercentToUser')->middleware('
 Route::post('/editResult', 'ProfileController@editResultToUser')->middleware('auth');
 Route::post('/editRole', 'ProfileController@editRoleToUser')->middleware('auth');
 
+Route::post('/editMarkAndCodeEvent', 'ProfileController@editMarkAndCodeEvent')->middleware('auth');
+Route::post('/editMarkAndCodePub', 'ProfileController@editMarkAndCodePub')->middleware('auth');
+
 /**
  * Routes for admin
  */
@@ -158,6 +161,30 @@ Route::prefix(LocaleMiddleware::getLocale())->group(function () {
 
     Route::post('/editProfInfo', 'ProfileController@updateUserInfoForm')->middleware('auth');
     Route::post('/editStudentInfo', 'ProfileController@updateStudentInfoForm')->middleware('auth');
+
+    /**
+     * Routes for rankings pages
+     */
+    Route::get('/temps','ProfileController@tempsIndex')->middleware('auth');
+    Route::get('/editRanking/{idRanking}','ProfileController@showRanking')->middleware('auth');
+
+    Route::get('/deleteEventAtRanking/{idRankEvent}','ProfileController@deleteEventAtRanking')->middleware('auth');
+    Route::get('/addNewTypeOfEvent/{idRanking}','ProfileController@addNewTypeOfEvent')->middleware('auth');
+    Route::post('/createEventType/{idRanking}', 'ProfileController@createEventType')->middleware('auth');
+
+    Route::get('/deletePubAtRanking/{idPubRank}','ProfileController@deletePubAtRanking')->middleware('auth');
+    Route::get('/addNewTypeOfPub/{idRanking}','ProfileController@addNewTypeOfPub')->middleware('auth');
+    Route::post('/createPubType/{idRanking}', 'ProfileController@createPubType')->middleware('auth');
+    Route::get('/addExistedTypeOfPub/{idRanking}','ProfileController@addExistedTypeOfPub')->middleware('auth');
+    Route::post('/addExistedTypes/{idRanking}', 'ProfileController@addExistedPubTypes')->middleware('auth');
+
+    Route::get('/addExistedTypeOfEvent/{idRanking}','ProfileController@addExistedTypeOfEvent')->middleware('auth');
+    Route::get('/addingFormEventType/{idRanking}', function($idRanking) {
+        $action = "addingFormEventType";
+        return App::make('App\Http\Controllers\ProfileController')->$action($idRanking,Input::get('type_id'));
+    });
+    Route::post('/addExistedEventType/{idRanking}/{idType}', 'ProfileController@addExistedEventTypes')->middleware('auth');
+
 
     /**
      * Admin Panel

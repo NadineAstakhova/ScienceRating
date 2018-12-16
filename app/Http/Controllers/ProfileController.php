@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\LocaleMiddleware;
+use App\Http\Requests\AddTypeOfExistedPublication;
 use App\Models\RankingModels\AddOwnersForm;
 use App\Models\RankingModels\CertificatPdfParse;
+use App\Models\RankingModels\CreateEventType;
 use App\Models\RankingModels\CreateResult;
+use App\Models\RankingModels\DataInRanking;
 use App\Models\RankingModels\EditResults;
+use App\Models\RankingModels\Rankings;
 use App\Models\RankingModels\ScientificEvent;
 use App\Models\RankingModels\ScientificPublication;
 use App\Models\RankingModels\ScientificResult;
@@ -32,6 +36,13 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 
+/* to C:\OSPanel\domains\ScienceRating\vendor\phpoffice\phpword\src\PhpWord\Writer\Word2007\Part\Settings.php
+ *  $this->settings['w:compat'] = array('@attributes' => array(
+                'w:name'    => 'compatibilityMode',
+                'w:uri'     => 'http://schemas.microsoft.com/office/word',
+                'w:val'     => $compatibility->getOoxmlVersion(),
+            ));
+ */
 
 class ProfileController extends Controller
 {
@@ -317,6 +328,7 @@ class ProfileController extends Controller
     }
 
     public function showUserResult($idUser){
+        session()->put('idUserRes', $idUser);
         return view('panel/userRating/showUserResult',
             array('title' => 'showUserResult','description' => '',
                 'page' => 'showUserResult',
@@ -504,12 +516,11 @@ class ProfileController extends Controller
     public  function editEventInfoForm($idEvent, Request $request){
         $model = new EditResults();
         if($model->editEventInfoForm($idEvent, $request->get('name'), $request->get('date'),$request->get('type'))
-
         ){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', Lang::get('messages.update_res_suc'));
+            return redirect()->back()->with('save', Lang::get('messages.update_res_suc'));
         }
         else
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', Lang::get('messages.err_writing'));
+            return redirect(LocaleMiddleware::getLocale().'/event/'.$idEvent)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function editEventMembersForm($idResult, AddOwnersFormRequest $request){
@@ -517,11 +528,11 @@ class ProfileController extends Controller
         $model->arrOwners = $request->get('arrOwners');
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
-        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, "edit")){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', Lang::get('messages.suc_added'));
+        if($model->addEventMembers($request->get('arrOwners'), $request->get('arrRole'), $request->get('arrResults'), $idResult, '', "edit")){
+            return redirect(LocaleMiddleware::getLocale().'/event/'.$idResult)->with('save', Lang::get('messages.suc_added'));
         }
-        else
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', Lang::get('messages.err_writing'));
+//        else
+//            return redirect(LocaleMiddleware::getLocale().'/event/'.$idResult)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function showInfoAboutPublication($idPublication){
@@ -550,10 +561,10 @@ class ProfileController extends Controller
             $request->get('type'), $request->get('publishing'), $request->get('pages'))
 
         ){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', Lang::get('messages.update_pub_suc'));
+            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idPublication)->with('save', Lang::get('messages.update_pub_suc'));
         }
         else
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', Lang::get('messages.err_writing'));
+            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idPublication)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function editPubAuthorsForm($idResult, AddOwnersFormRequest $request){
@@ -562,10 +573,10 @@ class ProfileController extends Controller
         $model->arrRole = $request->get('arrRole');
         $model->idResult = $idResult;
         if($model->addPublicationAuthor($request->get('arrOwners'), $request->get('arrRole'), $idResult, "edit")){
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('save', Lang::get('messages.update_pub_suc'));
+            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idResult)->with('save', Lang::get('messages.update_pub_suc'));
         }
-        else
-            return redirect(LocaleMiddleware::getLocale().'/profile')->with('error', Lang::get('messages.err_writing'));
+//        else
+//            return redirect(LocaleMiddleware::getLocale().'/publication/'.$idResult)->with('error', Lang::get('messages.err_writing'));
     }
 
     public function showRankingsPage(){
@@ -624,6 +635,198 @@ class ProfileController extends Controller
             return "Ошибка записи";
     }
 
+    /**
+     * Show all rankings at the system
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function tempsIndex(){
+        return view('panel/rankings/index',
+            array(
+                'rankings' => Rankings::all(),
+            ));
+    }
+
+    /**
+     * Show data in ranking
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function showRanking($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/showRanking',
+            array(
+                'ranking' => $ranking,
+                'events' => $ranking->getEventsAtTemp(),
+                'publications' =>$ranking->getPublicationAtTemp()
+            ));
+    }
+
+    /**
+     * @param $idRankEvent
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteEventAtRanking($idRankEvent){
+        DataInRanking::deleteEventAtRanking($idRankEvent);
+        return redirect()->back();
+    }
+
+    /**
+     * @param $idRankEvent
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deletePubAtRanking($idRankEvent){
+        DataInRanking::deletePubAtRanking($idRankEvent);
+        return redirect()->back();
+    }
+
+    /**
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function addNewTypeOfEvent($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/addNewTypeOfEvent',
+            array(
+                'ranking' => $ranking,
+                'arrResults' => TypeOfRes::getResultTypes() ,
+            ));
+    }
+
+    /**
+     * @param $idRanking
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function createEventType($idRanking, Request $request){
+        $model = new CreateEventType();
+        $title = $request->get('title');
+        $idRes =  $request->get('typeResult');
+        $mark =  $request->get('mark');
+        $code =  $request->get('code');
+        if ($model->createNewEventType($title, $idRanking, $idRes, $mark, $code)){
+            return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
+        }
+        else
+            return redirect(LocaleMiddleware::getLocale().'/editRanking'.$idRanking)->with('errorParse', Lang::get('messages.err_writing'));
+    }
+
+    /**
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function addNewTypeOfPub($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/addNewTypeOfEvent',
+            array(
+                'ranking' => $ranking
+            ));
+    }
+
+    /**
+     * @param $idRanking
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function createPubType($idRanking, Request $request){
+        $model = new CreateEventType();
+        $title = $request->get('title');
+        $mark =  $request->get('mark');
+        $code =  $request->get('code');
+        if ($model->createNewPubType($title, $idRanking, $mark, $code)){
+            return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
+        }
+        else
+            return redirect(LocaleMiddleware::getLocale().'/editRanking'.$idRanking)->with('errorParse', Lang::get('messages.err_writing'));
+    }
+
+    /**
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function addExistedTypeOfPub($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/addExistedTypeOfPub',
+            array(
+                'ranking' => $ranking,
+                'types' => TypeOfRes::getPublicationTypesNotInRank($idRanking),
+            ));
+    }
+
+    /**
+     * @param $idRanking
+     * @param AddTypeOfExistedPublication $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addExistedPubTypes($idRanking, AddTypeOfExistedPublication $request){
+        $model = new CreateEventType();
+        if($model->addTypesOfPub($request->get('arrTypes'), $request->get('arrMark'), $request->get('arrCode'), $idRanking)){
+            return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
+        }
+    }
+
+    /**
+     * @param $idRanking
+     * @return \Illuminate\Contracts\View\Factory|View
+     */
+    public function addExistedTypeOfEvent($idRanking){
+        $ranking = new DataInRanking($idRanking);
+        return view('panel/rankings/addExistedTypeOfEvent',
+            array(
+                'ranking' => $ranking,
+                'types' => TypeOfRes::getAllResultTypes(),
+            ));
+    }
+
+    public function addingFormEventType($idRanking, $idType){
+        //session()->put('idUserRes', $idUser);
+        $ranking = new DataInRanking($idRanking);
+        $eventType = new TypeOfRes();
+        $eventType = $eventType->identifyEventType($idType);
+        return view('panel/rankings/formAddEventType',
+            array('title' => 'formAddEventType','description' => '',
+                'page' => 'formAddEventType',
+                'ranking' => $ranking,
+                'eventType' => $eventType,
+                'arrResults' =>$ranking->getNotExistedResultTypeOfEventInTemp($idRanking, $idType) ,
+            ));
+    }
+
+    /**
+     * @param $idRanking
+     * @param $idType
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addExistedEventTypes($idRanking, $idType, Request $request){
+        $model = new CreateEventType();
+        if($model->addTypesOfEvent($idRanking, $idType, $request->get('mark'), $request->get('code'), $request->get('typeResult'))){
+            return redirect(LocaleMiddleware::getLocale().'/editRanking/'.$idRanking)->with('save', Lang::get('messages.data_changed_succ'));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed|string
+     */
+    public function editMarkAndCodeEvent(Request $request){
+        $modelEdit = new CreateEventType();
+        if($modelEdit->editMarkAndCodeEvent( $request->get('idEventType'), $request->get('newValueMark'),  $request->get('newValueCode')))
+           return $request->get('newValueMark');
+        else
+            return "Ошибка записи";
+    }
 
 
+    /**
+     * @param Request $request
+     * @return mixed|string
+     */
+    public function editMarkAndCodePub(Request $request){
+        $modelEdit = new CreateEventType();
+        if($modelEdit->editMarkOfCodePub( $request->get('idEventType'), $request->get('newValueMark'), $request->get('newValueCode')))
+            return $request->get('newValue');
+        else
+            return "Ошибка записи";
+    }
+    
 }

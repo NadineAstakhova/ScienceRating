@@ -33,4 +33,9 @@ class Student extends Model
         else
             return false;
     }
+
+    public static function getCountOfGroup(){
+        $groups = DB::table('group')->get();
+        return count($groups);
+    }
 }
